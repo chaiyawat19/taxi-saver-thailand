@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface MapPickerModalProps {
   onClose: () => void;
-  onSelect: (address: string) => void;
+  onSelect: (address: string, lat?: number, lng?: number) => void;
   title: string;
 }
 
@@ -204,7 +204,7 @@ export default function MapPickerModal({ onClose, onSelect, title }: MapPickerMo
   };
 
   const handleConfirm = () => {
-    onSelect(selectedAddress);
+    onSelect(selectedAddress, coordsRef.current.lat, coordsRef.current.lng);
     onClose();
   };
 

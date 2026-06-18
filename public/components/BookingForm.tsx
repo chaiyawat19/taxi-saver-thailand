@@ -23,8 +23,10 @@ interface FormData {
   pickupRegion: PickupKey | null;
   pickupUpcountryCity: UpcountryCity | null;
   pickupHotelName: string;
+  pickupMapUrl?: string;
   dropoffRegion: DropoffKey | null;
   dropoffAddress: string;
+  dropoffMapUrl?: string;
   vehicleType: VehicleType;
   driverType: DriverType;
   additionalDetails: string;
@@ -127,8 +129,10 @@ const DEFAULT_FORM: FormData = {
   pickupRegion: null,
   pickupUpcountryCity: null,
   pickupHotelName: "",
+  pickupMapUrl: "",
   dropoffRegion: null,
   dropoffAddress: "",
+  dropoffMapUrl: "",
   vehicleType: "sedan",
   driverType: "general",
   additionalDetails: "",
@@ -218,7 +222,6 @@ export default function BookingForm() {
   });
 
 
-
   // Single field updater
   const set = <K extends keyof FormData>(key: K, value: FormData[K]) => {
     setForm(prev => ({ ...prev, [key]: value }));
@@ -283,8 +286,8 @@ export default function BookingForm() {
 📅 Date: ${form.travelDate || "Not specified"}
 ⏰ Time: ${form.travelTime || "Not specified"}
 
-📍 Pick-up: ${pickupLabel}
-🏁 Drop-off: ${dropoffLabel}`;
+📍 Pick-up: ${pickupLabel}${form.pickupMapUrl ? `\n🗺️ Map: ${form.pickupMapUrl}` : ""}
+🏁 Drop-off: ${dropoffLabel}${form.dropoffMapUrl ? `\n🗺️ Map: ${form.dropoffMapUrl}` : ""}`;
 
     if (form.flightNumber) {
       msg += `\n✈️ Flight: ${form.flightNumber}`;
@@ -603,7 +606,7 @@ export default function BookingForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {PICKUP_OPTIONS.map(opt => (
           <button key={opt.id} type="button"
-            onClick={() => setMany({ pickupRegion: opt.id, pickupUpcountryCity: null, pickupHotelName: "", dropoffRegion: null, dropoffAddress: "" })}
+            onClick={() => setMany({ pickupRegion: opt.id, pickupUpcountryCity: null, pickupHotelName: "", pickupMapUrl: "", dropoffRegion: null, dropoffAddress: "", dropoffMapUrl: "" })}
             className={cardCls(form.pickupRegion === opt.id)}>
             <div className="w-full sm:w-20 h-28 sm:h-14 rounded-xl overflow-hidden flex-shrink-0 relative">
               <img src={opt.image} alt={opt.name} className="w-full h-full object-cover" />
@@ -668,7 +671,7 @@ export default function BookingForm() {
               const opt = DROPOFF_OPTIONS[key];
               return (
                 <button key={key} type="button"
-                  onClick={() => setMany({ dropoffRegion: key, dropoffAddress: "" })}
+                  onClick={() => setMany({ dropoffRegion: key, dropoffAddress: "", dropoffMapUrl: "" })}
                   className={cardCls(form.dropoffRegion === key)}>
                   <div className="w-full sm:w-20 h-28 sm:h-14 rounded-xl overflow-hidden flex-shrink-0 relative">
                     <img src={opt.image} alt={opt.name} className="w-full h-full object-cover" />
