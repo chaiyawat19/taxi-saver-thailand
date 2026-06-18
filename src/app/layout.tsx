@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./style.css";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const generalSans = localFont({
   src: [
@@ -81,7 +85,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={generalSans.variable}>
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={generalSans.className}>{children}</body>
     </html>
   );

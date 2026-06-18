@@ -4,6 +4,9 @@ import Navbar from "../../public/components/Navbar";
 import { motion } from "framer-motion";
 import BlurText from "../../public/utility/BlurText";
 import WhyTaxiSection from "../../public/components/WhyTaxiSection";
+import ServicesSection from "../../public/components/ServicesSection";
+import VehiclesSection from "../../public/components/VehiclesSection";
+import ContactSection from "../../public/components/ContactSection";
 import Footer from "../../public/components/Footer";
 
 export default function Home() {
@@ -202,6 +205,15 @@ export default function Home() {
 
       {/* Section 3: Why Taxi Saver? */}
       <WhyTaxiSection />
+
+      {/* Section 4: Our Services */}
+      <ServicesSection />
+
+      {/* Section 5: Vehicles Type */}
+      <VehiclesSection />
+
+      {/* Section 6: Contact */}
+      <ContactSection />
 
       {/* Footer */}
       <Footer />
