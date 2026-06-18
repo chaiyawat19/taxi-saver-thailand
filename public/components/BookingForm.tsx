@@ -349,6 +349,77 @@ export default function BookingForm() {
 
   const getGmailUrl   = () => `https://mail.google.com/mail/?view=cm&fs=1&to=${CONTACT_EMAIL}&su=${encodeURIComponent(`Taxi Booking – ${form.customerName}`)}&body=${encodeURIComponent(compileMessage())}`;
   const getOutlookUrl = () => `https://outlook.live.com/default.aspx?rru=compose&to=${CONTACT_EMAIL}&subject=${encodeURIComponent(`Taxi Booking – ${form.customerName}`)}&body=${encodeURIComponent(compileMessage())}`;
+  const getMailtoUrl  = () => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Taxi Booking – ${form.customerName}`)}&body=${encodeURIComponent(compileMessage())}`;
+
+  const handleGmailClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowEmailModal(false);
+
+    const subject = `Taxi Booking – ${form.customerName}`;
+    const body = compileMessage();
+    const webUrl = getGmailUrl();
+
+    if (typeof window !== "undefined" && typeof navigator !== "undefined") {
+      const ua = navigator.userAgent.toLowerCase();
+      const isAndroid = /android/.test(ua);
+      const isIOS = /ipad|iphone|ipod/.test(ua);
+
+      if (isIOS) {
+        // Try Gmail app scheme on iOS
+        const appUrl = `googlegmail:///co?to=${CONTACT_EMAIL}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = appUrl;
+
+        // Fallback to Web Gmail after 1.5 seconds if app doesn't open
+        const start = Date.now();
+        setTimeout(() => {
+          if (Date.now() - start < 2000) {
+            window.open(webUrl, "_blank");
+          }
+        }, 1500);
+      } else if (isAndroid) {
+        // Intent to target Gmail specifically on Android
+        const intentUrl = `intent:#Intent;action=android.intent.action.SENDTO;data=mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)};package=com.google.android.gm;end`;
+        window.location.href = intentUrl;
+      } else {
+        window.open(webUrl, "_blank");
+      }
+    }
+  };
+
+  const handleOutlookClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowEmailModal(false);
+
+    const subject = `Taxi Booking – ${form.customerName}`;
+    const body = compileMessage();
+    const webUrl = getOutlookUrl();
+
+    if (typeof window !== "undefined" && typeof navigator !== "undefined") {
+      const ua = navigator.userAgent.toLowerCase();
+      const isAndroid = /android/.test(ua);
+      const isIOS = /ipad|iphone|ipod/.test(ua);
+
+      if (isIOS) {
+        // Try Outlook app scheme on iOS
+        const appUrl = `ms-outlook://compose?to=${CONTACT_EMAIL}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = appUrl;
+
+        // Fallback to Outlook Web after 1.5 seconds if app doesn't open
+        const start = Date.now();
+        setTimeout(() => {
+          if (Date.now() - start < 2000) {
+            window.open(webUrl, "_blank");
+          }
+        }, 1500);
+      } else if (isAndroid) {
+        // Intent to target Outlook specifically on Android
+        const intentUrl = `intent:#Intent;action=android.intent.action.SENDTO;data=mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)};package=com.microsoft.office.outlook;end`;
+        window.location.href = intentUrl;
+      } else {
+        window.open(webUrl, "_blank");
+      }
+    }
+  };
 
   // ── Email modal ──────────────────────────────────────────────────────────
   const EmailModal = () => (
@@ -380,12 +451,31 @@ export default function BookingForm() {
             <p className="text-white/50 text-sm text-center mb-7">Choose your email client to send the booking details.</p>
 
             <div className="space-y-3">
+              {/* Default Mail App */}
               <a
-                href={getGmailUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={getMailtoUrl()}
                 onClick={() => setShowEmailModal(false)}
                 className="flex items-center gap-4 w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer group"
+              >
+                <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                  </svg>
+                </div>
+                <div className="text-left">
+                  <div className="font-bold text-base">Mail App (Default)</div>
+                  <div className="text-xs text-white/45">Recommended for Mobile</div>
+                </div>
+                <svg className="w-4 h-4 text-white/30 group-hover:text-white/60 ml-auto transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </a>
+
+              {/* Gmail */}
+              <button
+                type="button"
+                onClick={handleGmailClick}
+                className="flex items-center gap-4 w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer group text-left"
               >
                 <div className="w-10 h-10 rounded-xl bg-[#EA4335] flex items-center justify-center flex-shrink-0">
                   <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
@@ -394,19 +484,18 @@ export default function BookingForm() {
                 </div>
                 <div className="text-left">
                   <div className="font-bold text-base">Gmail</div>
-                  <div className="text-xs text-white/45">Open in Gmail web</div>
+                  <div className="text-xs text-white/45">Open in Gmail app or web</div>
                 </div>
                 <svg className="w-4 h-4 text-white/30 group-hover:text-white/60 ml-auto transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
-              </a>
+              </button>
 
-              <a
-                href={getOutlookUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setShowEmailModal(false)}
-                className="flex items-center gap-4 w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer group"
+              {/* Outlook */}
+              <button
+                type="button"
+                onClick={handleOutlookClick}
+                className="flex items-center gap-4 w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer group text-left"
               >
                 <div className="w-10 h-10 rounded-xl bg-[#0078d4] flex items-center justify-center flex-shrink-0">
                   <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
@@ -414,13 +503,13 @@ export default function BookingForm() {
                   </svg>
                 </div>
                 <div className="text-left">
-                  <div className="font-bold text-base">Outlook Web</div>
-                  <div className="text-xs text-white/45">Open in Outlook web</div>
+                  <div className="font-bold text-base">Outlook</div>
+                  <div className="text-xs text-white/45">Open in Outlook app or web</div>
                 </div>
                 <svg className="w-4 h-4 text-white/30 group-hover:text-white/60 ml-auto transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
-              </a>
+              </button>
             </div>
 
             <button
