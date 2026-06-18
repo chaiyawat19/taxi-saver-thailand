@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import MapPickerModal from "./MapPickerModal";
 
 // ── Config ──────────────────────────────────────────────────────────────────
 const CONTACT_WHATSAPP = "66900000000";
@@ -46,11 +45,11 @@ interface FormData {
 }
 
 // ── Static data ──────────────────────────────────────────────────────────────
-const PICKUP_OPTIONS: { id: PickupKey; name: string; desc: string; emoji: string }[] = [
-  { id: "don_mueang",   name: "Don Mueang Airport",  desc: "International Airport (DMK)",         emoji: "✈️" },
-  { id: "suvarnabhumi", name: "Suvarnabhumi Airport", desc: "International Airport (BKK)",         emoji: "🛫" },
-  { id: "upcountry",    name: "Upcountry",            desc: "Pattaya · Hua Hin · Rayong",          emoji: "🏖️" },
-  { id: "hotel_bkk",    name: "Hotel in Bangkok",     desc: "Any hotel or location in Bangkok",    emoji: "🏨" },
+const PICKUP_OPTIONS: { id: PickupKey; name: string; desc: string; image: string }[] = [
+  { id: "don_mueang",   name: "Don Mueang Airport",  desc: "International Airport (DMK)",         image: "/images/book-card/don-mueang.webp" },
+  { id: "suvarnabhumi", name: "Suvarnabhumi Airport", desc: "International Airport (BKK)",         image: "/images/book-card/suvarnabhumi.jpg" },
+  { id: "upcountry",    name: "Upcountry",            desc: "Pattaya · Hua Hin · Rayong",          image: "/images/book-card/upcountry.png" },
+  { id: "hotel_bkk",    name: "Hotel in Bangkok",     desc: "Any hotel or location in Bangkok",    image: "/images/book-card/hotel-bkk.png" },
 ];
 
 const UPCOUNTRY_CITIES: { id: UpcountryCity; name: string; emoji: string }[] = [
@@ -59,16 +58,16 @@ const UPCOUNTRY_CITIES: { id: UpcountryCity; name: string; emoji: string }[] = [
   { id: "rayong",   name: "Rayong",   emoji: "🏝️" },
 ];
 
-type DropoffOption = { name: string; desc: string; emoji: string; needsAddress: boolean; addressLabel: string };
+type DropoffOption = { name: string; desc: string; image: string; needsAddress: boolean; addressLabel: string };
 
 const DROPOFF_OPTIONS: Record<DropoffKey, DropoffOption> = {
-  don_mueang:   { name: "Don Mueang Airport",  desc: "DMK International Airport",            emoji: "✈️",  needsAddress: false, addressLabel: "" },
-  suvarnabhumi: { name: "Suvarnabhumi Airport", desc: "BKK International Airport",            emoji: "🛫", needsAddress: false, addressLabel: "" },
-  hotel_bkk:    { name: "Hotel in Bangkok",     desc: "Specify hotel name or address",        emoji: "🏨", needsAddress: true,  addressLabel: "Hotel name or address in Bangkok" },
-  bkk_area:     { name: "Bangkok Area",         desc: "Hotel or area in Bangkok",             emoji: "🏙️", needsAddress: true,  addressLabel: "Hotel name or address in Bangkok" },
-  pattaya:      { name: "Pattaya",              desc: "Hotel or address in Pattaya",          emoji: "🏖️", needsAddress: true,  addressLabel: "Hotel name or address in Pattaya" },
-  hua_hin:      { name: "Hua Hin",              desc: "Hotel or address in Hua Hin",          emoji: "🌊", needsAddress: true,  addressLabel: "Hotel name or address in Hua Hin" },
-  rayong:       { name: "Rayong",               desc: "Hotel or address in Rayong",           emoji: "🏝️", needsAddress: true,  addressLabel: "Hotel name or address in Rayong" },
+  don_mueang:   { name: "Don Mueang Airport",  desc: "DMK International Airport",            image: "/images/book-card/don-mueang.webp",  needsAddress: false, addressLabel: "" },
+  suvarnabhumi: { name: "Suvarnabhumi Airport", desc: "BKK International Airport",            image: "/images/book-card/suvarnabhumi.jpg", needsAddress: false, addressLabel: "" },
+  hotel_bkk:    { name: "Hotel in Bangkok",     desc: "Specify hotel name or address",        image: "/images/book-card/hotel-bkk.png", needsAddress: true,  addressLabel: "Hotel name or address in Bangkok" },
+  bkk_area:     { name: "Bangkok Area",         desc: "Hotel or area in Bangkok",             image: "/images/book-card/bkk-area.png", needsAddress: true,  addressLabel: "Hotel name or address in Bangkok" },
+  pattaya:      { name: "Pattaya",              desc: "Hotel or address in Pattaya",          image: "/images/book-card/pattaya.png", needsAddress: true,  addressLabel: "Hotel name or address in Pattaya" },
+  hua_hin:      { name: "Hua Hin",              desc: "Hotel or address in Hua Hin",          image: "/images/book-card/hua-hin.png", needsAddress: true,  addressLabel: "Hotel name or address in Hua Hin" },
+  rayong:       { name: "Rayong",               desc: "Hotel or address in Rayong",           image: "/images/book-card/rayong.png", needsAddress: true,  addressLabel: "Hotel name or address in Rayong" },
 };
 
 const DROPOFF_MAP: Record<PickupKey, DropoffKey[]> = {
@@ -110,7 +109,7 @@ const inputCls = (err?: string) =>
   `w-full bg-black/20 border ${err ? "border-red-400/70" : "border-white/10"} text-white rounded-xl px-4 py-3 placeholder:text-white/30 focus:outline-none focus:border-[#3668FF] focus:ring-1 focus:ring-[#3668FF]/30 transition-all text-sm`;
 
 const cardCls = (selected: boolean) =>
-  `flex items-center gap-3 p-4 rounded-2xl border text-left transition-all duration-300 cursor-pointer ${
+  `flex flex-col sm:flex-row items-stretch sm:items-center gap-4 p-3 rounded-2xl border text-left transition-all duration-300 cursor-pointer overflow-hidden ${
     selected
       ? "bg-[#3668FF] border-[#3668FF] shadow-lg shadow-blue-500/20 text-white"
       : "bg-black/20 border-white/10 text-white/75 hover:border-white/25 hover:bg-black/30"
@@ -157,7 +156,6 @@ export default function BookingForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState<FormData>(DEFAULT_FORM);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [mapTarget, setMapTarget] = useState<"pickup" | "dropoff" | null>(null);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -219,14 +217,7 @@ export default function BookingForm() {
     return form[key] !== DEFAULT_FORM[key];
   });
 
-  const handleSelectAddress = (address: string) => {
-    if (mapTarget === "pickup") {
-      set("pickupHotelName", address);
-    } else if (mapTarget === "dropoff") {
-      set("dropoffAddress", address);
-    }
-    setMapTarget(null);
-  };
+
 
   // Single field updater
   const set = <K extends keyof FormData>(key: K, value: FormData[K]) => {
@@ -614,8 +605,10 @@ export default function BookingForm() {
           <button key={opt.id} type="button"
             onClick={() => setMany({ pickupRegion: opt.id, pickupUpcountryCity: null, pickupHotelName: "", dropoffRegion: null, dropoffAddress: "" })}
             className={cardCls(form.pickupRegion === opt.id)}>
-            <span className="text-2xl flex-shrink-0">{opt.emoji}</span>
-            <div>
+            <div className="w-full sm:w-20 h-28 sm:h-14 rounded-xl overflow-hidden flex-shrink-0 relative">
+              <img src={opt.image} alt={opt.name} className="w-full h-full object-cover" />
+            </div>
+            <div className="flex flex-col justify-center py-1 sm:py-0">
               <div className="font-bold text-base">{opt.name}</div>
               <div className="text-xs opacity-70 mt-0.5">{opt.desc}</div>
             </div>
@@ -649,18 +642,9 @@ export default function BookingForm() {
       {/* Hotel Bangkok name input */}
       {form.pickupRegion === "hotel_bkk" && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="pt-1">
-          <div className="flex items-center justify-between mb-2">
-            <label className="block text-base font-semibold text-white/90">
-              Hotel Name or Address <span className="text-red-400">*</span>
-            </label>
-            <button
-              type="button"
-              onClick={() => setMapTarget("pickup")}
-              className="text-xs text-[#3668FF] hover:text-[#2a56e0] font-bold transition-colors cursor-pointer flex items-center gap-1.5"
-            >
-              🗺️ Pick on Map
-            </button>
-          </div>
+          <label className="block text-base font-semibold text-white/90 mb-2">
+            Hotel Name or Address <span className="text-red-400">*</span>
+          </label>
           <input type="text" value={form.pickupHotelName} onChange={e => set("pickupHotelName", e.target.value)}
             placeholder="e.g., Marriott Sukhumvit, near Siam Paragon..." className={inputCls(errors.pickupHotelName)} />
           {errors.pickupHotelName && <p className="mt-1 text-sm text-red-300">{errors.pickupHotelName}</p>}
@@ -686,8 +670,10 @@ export default function BookingForm() {
                 <button key={key} type="button"
                   onClick={() => setMany({ dropoffRegion: key, dropoffAddress: "" })}
                   className={cardCls(form.dropoffRegion === key)}>
-                  <span className="text-2xl flex-shrink-0">{opt.emoji}</span>
-                  <div>
+                  <div className="w-full sm:w-20 h-28 sm:h-14 rounded-xl overflow-hidden flex-shrink-0 relative">
+                    <img src={opt.image} alt={opt.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex flex-col justify-center py-1 sm:py-0">
                     <div className="font-bold text-base">{opt.name}</div>
                     <div className="text-xs opacity-70 mt-0.5">{opt.desc}</div>
                   </div>
@@ -700,18 +686,9 @@ export default function BookingForm() {
           {/* Address input for hotel / city destinations */}
           {currentDropoff?.needsAddress && (
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="pt-1">
-              <div className="flex items-center justify-between mb-2">
-                <label className="block text-base font-semibold text-white/90">
-                  {currentDropoff.addressLabel} <span className="text-red-400">*</span>
-                </label>
-                <button
-                  type="button"
-                  onClick={() => setMapTarget("dropoff")}
-                  className="text-xs text-[#3668FF] hover:text-[#2a56e0] font-bold transition-colors cursor-pointer flex items-center gap-1.5"
-                >
-                  🗺️ Pick on Map
-                </button>
-              </div>
+              <label className="block text-base font-semibold text-white/90 mb-2">
+                {currentDropoff.addressLabel} <span className="text-red-400">*</span>
+              </label>
               <input type="text" value={form.dropoffAddress} onChange={e => set("dropoffAddress", e.target.value)}
                 placeholder="e.g., Avani Pattaya Resort, 300 Beach Road..."
                 className={inputCls(errors.dropoffAddress)} />
@@ -1138,15 +1115,7 @@ export default function BookingForm() {
         </div>
       </div>
       <EmailModal />
-      <AnimatePresence>
-        {mapTarget && (
-          <MapPickerModal
-            title={mapTarget === "pickup" ? "Select Pick-up Location" : "Select Drop-off Location"}
-            onClose={() => setMapTarget(null)}
-            onSelect={handleSelectAddress}
-          />
-        )}
-      </AnimatePresence>
+
     </section>
   );
 }
