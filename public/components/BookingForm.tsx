@@ -24,8 +24,10 @@ interface FormData {
   pickupRegion: PickupKey | null;
   pickupUpcountryCity: UpcountryCity | null;
   pickupHotelName: string;
+  pickupMapUrl?: string;
   dropoffRegion: DropoffKey | null;
   dropoffAddress: string;
+  dropoffMapUrl?: string;
   vehicleType: VehicleType;
   driverType: DriverType;
   additionalDetails: string;
@@ -128,8 +130,10 @@ const DEFAULT_FORM: FormData = {
   pickupRegion: null,
   pickupUpcountryCity: null,
   pickupHotelName: "",
+  pickupMapUrl: "",
   dropoffRegion: null,
   dropoffAddress: "",
+  dropoffMapUrl: "",
   vehicleType: "sedan",
   driverType: "general",
   additionalDetails: "",
@@ -219,11 +223,18 @@ export default function BookingForm() {
     return form[key] !== DEFAULT_FORM[key];
   });
 
-  const handleSelectAddress = (address: string) => {
+  const handleSelectAddress = (address: string, lat?: number, lng?: number) => {
+    const mapUrl = lat && lng ? `https://www.google.com/maps/search/?api=1&query=${lat},${lng}` : "";
     if (mapTarget === "pickup") {
-      set("pickupHotelName", address);
+      setMany({
+        pickupHotelName: address,
+        pickupMapUrl: mapUrl,
+      });
     } else if (mapTarget === "dropoff") {
-      set("dropoffAddress", address);
+      setMany({
+        dropoffAddress: address,
+        dropoffMapUrl: mapUrl,
+      });
     }
     setMapTarget(null);
   };
@@ -292,8 +303,8 @@ export default function BookingForm() {
 📅 Date: ${form.travelDate || "Not specified"}
 ⏰ Time: ${form.travelTime || "Not specified"}
 
-📍 Pick-up: ${pickupLabel}
-🏁 Drop-off: ${dropoffLabel}`;
+📍 Pick-up: ${pickupLabel}${form.pickupMapUrl ? `\n🗺️ Map: ${form.pickupMapUrl}` : ""}
+🏁 Drop-off: ${dropoffLabel}${form.dropoffMapUrl ? `\n🗺️ Map: ${form.dropoffMapUrl}` : ""}`;
 
     if (form.flightNumber) {
       msg += `\n✈️ Flight: ${form.flightNumber}`;
@@ -612,7 +623,7 @@ export default function BookingForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {PICKUP_OPTIONS.map(opt => (
           <button key={opt.id} type="button"
-            onClick={() => setMany({ pickupRegion: opt.id, pickupUpcountryCity: null, pickupHotelName: "", dropoffRegion: null, dropoffAddress: "" })}
+            onClick={() => setMany({ pickupRegion: opt.id, pickupUpcountryCity: null, pickupHotelName: "", pickupMapUrl: "", dropoffRegion: null, dropoffAddress: "", dropoffMapUrl: "" })}
             className={cardCls(form.pickupRegion === opt.id)}>
             <span className="text-2xl flex-shrink-0">{opt.emoji}</span>
             <div>
@@ -661,7 +672,7 @@ export default function BookingForm() {
               🗺️ Pick on Map
             </button>
           </div>
-          <input type="text" value={form.pickupHotelName} onChange={e => set("pickupHotelName", e.target.value)}
+          <input type="text" value={form.pickupHotelName} onChange={e => setMany({ pickupHotelName: e.target.value, pickupMapUrl: "" })}
             placeholder="e.g., Marriott Sukhumvit, near Siam Paragon..." className={inputCls(errors.pickupHotelName)} />
           {errors.pickupHotelName && <p className="mt-1 text-sm text-red-300">{errors.pickupHotelName}</p>}
         </motion.div>
@@ -684,7 +695,7 @@ export default function BookingForm() {
               const opt = DROPOFF_OPTIONS[key];
               return (
                 <button key={key} type="button"
-                  onClick={() => setMany({ dropoffRegion: key, dropoffAddress: "" })}
+                  onClick={() => setMany({ dropoffRegion: key, dropoffAddress: "", dropoffMapUrl: "" })}
                   className={cardCls(form.dropoffRegion === key)}>
                   <span className="text-2xl flex-shrink-0">{opt.emoji}</span>
                   <div>
@@ -712,7 +723,7 @@ export default function BookingForm() {
                   🗺️ Pick on Map
                 </button>
               </div>
-              <input type="text" value={form.dropoffAddress} onChange={e => set("dropoffAddress", e.target.value)}
+              <input type="text" value={form.dropoffAddress} onChange={e => setMany({ dropoffAddress: e.target.value, dropoffMapUrl: "" })}
                 placeholder="e.g., Avani Pattaya Resort, 300 Beach Road..."
                 className={inputCls(errors.dropoffAddress)} />
               {errors.dropoffAddress && <p className="mt-1 text-sm text-red-300">{errors.dropoffAddress}</p>}
