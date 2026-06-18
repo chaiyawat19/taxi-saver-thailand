@@ -351,72 +351,101 @@ export default function BookingForm() {
   const getOutlookUrl = () => `https://outlook.live.com/default.aspx?rru=compose&to=${CONTACT_EMAIL}&subject=${encodeURIComponent(`Taxi Booking – ${form.customerName}`)}&body=${encodeURIComponent(compileMessage())}`;
   const getMailtoUrl  = () => `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Taxi Booking – ${form.customerName}`)}&body=${encodeURIComponent(compileMessage())}`;
 
-  const handleGmailClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setShowEmailModal(false);
+  const getGmailHref = () => {
+    const webUrl = getGmailUrl();
+    if (!isLoaded || typeof window === "undefined" || typeof navigator === "undefined") {
+      return webUrl;
+    }
+    const ua = navigator.userAgent.toLowerCase();
+    const isAndroid = /android/.test(ua);
+    const isIOS = /ipad|iphone|ipod/.test(ua);
 
     const subject = `Taxi Booking – ${form.customerName}`;
     const body = compileMessage();
-    const webUrl = getGmailUrl();
+
+    if (isIOS) {
+      return `googlegmail:///co?to=${CONTACT_EMAIL}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    } else if (isAndroid) {
+      return `intent://compose?to=${CONTACT_EMAIL}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}#Intent;scheme=mailto;package=com.google.android.gm;end`;
+    }
+    return webUrl;
+  };
+
+  const getOutlookHref = () => {
+    const webUrl = getOutlookUrl();
+    if (!isLoaded || typeof window === "undefined" || typeof navigator === "undefined") {
+      return webUrl;
+    }
+    const ua = navigator.userAgent.toLowerCase();
+    const isAndroid = /android/.test(ua);
+    const isIOS = /ipad|iphone|ipod/.test(ua);
+
+    const subject = `Taxi Booking – ${form.customerName}`;
+    const body = compileMessage();
+
+    if (isIOS) {
+      return `ms-outlook://compose?to=${CONTACT_EMAIL}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    } else if (isAndroid) {
+      return `intent://compose?to=${CONTACT_EMAIL}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}#Intent;scheme=mailto;package=com.microsoft.office.outlook;end`;
+    }
+    return webUrl;
+  };
+
+  const getEmailLinkProps = (type: "gmail" | "outlook") => {
+    const webUrl = type === "gmail" ? getGmailUrl() : getOutlookUrl();
+    if (!isLoaded || typeof window === "undefined" || typeof navigator === "undefined") {
+      return {
+        href: webUrl,
+        target: "_blank",
+        rel: "noopener noreferrer",
+      };
+    }
+    const ua = navigator.userAgent.toLowerCase();
+    const isMobile = /android|ipad|iphone|ipod/.test(ua);
+
+    return {
+      href: type === "gmail" ? getGmailHref() : getOutlookHref(),
+      target: isMobile ? undefined : "_blank",
+      rel: isMobile ? undefined : "noopener noreferrer",
+    };
+  };
+
+  const handleGmailClick = () => {
+    setShowEmailModal(false);
 
     if (typeof window !== "undefined" && typeof navigator !== "undefined") {
       const ua = navigator.userAgent.toLowerCase();
-      const isAndroid = /android/.test(ua);
       const isIOS = /ipad|iphone|ipod/.test(ua);
 
       if (isIOS) {
-        // Try Gmail app scheme on iOS
-        const appUrl = `googlegmail:///co?to=${CONTACT_EMAIL}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = appUrl;
-
         // Fallback to Web Gmail after 1.5 seconds if app doesn't open
         const start = Date.now();
+        const webUrl = getGmailUrl();
         setTimeout(() => {
           if (Date.now() - start < 2000) {
             window.open(webUrl, "_blank");
           }
         }, 1500);
-      } else if (isAndroid) {
-        // Intent to target Gmail specifically on Android
-        const intentUrl = `intent:#Intent;action=android.intent.action.SENDTO;data=mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)};package=com.google.android.gm;end`;
-        window.location.href = intentUrl;
-      } else {
-        window.open(webUrl, "_blank");
       }
     }
   };
 
-  const handleOutlookClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleOutlookClick = () => {
     setShowEmailModal(false);
-
-    const subject = `Taxi Booking – ${form.customerName}`;
-    const body = compileMessage();
-    const webUrl = getOutlookUrl();
 
     if (typeof window !== "undefined" && typeof navigator !== "undefined") {
       const ua = navigator.userAgent.toLowerCase();
-      const isAndroid = /android/.test(ua);
       const isIOS = /ipad|iphone|ipod/.test(ua);
 
       if (isIOS) {
-        // Try Outlook app scheme on iOS
-        const appUrl = `ms-outlook://compose?to=${CONTACT_EMAIL}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = appUrl;
-
         // Fallback to Outlook Web after 1.5 seconds if app doesn't open
         const start = Date.now();
+        const webUrl = getOutlookUrl();
         setTimeout(() => {
           if (Date.now() - start < 2000) {
             window.open(webUrl, "_blank");
           }
         }, 1500);
-      } else if (isAndroid) {
-        // Intent to target Outlook specifically on Android
-        const intentUrl = `intent:#Intent;action=android.intent.action.SENDTO;data=mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)};package=com.microsoft.office.outlook;end`;
-        window.location.href = intentUrl;
-      } else {
-        window.open(webUrl, "_blank");
       }
     }
   };
@@ -472,8 +501,8 @@ export default function BookingForm() {
               </a>
 
               {/* Gmail */}
-              <button
-                type="button"
+              <a
+                {...getEmailLinkProps("gmail")}
                 onClick={handleGmailClick}
                 className="flex items-center gap-4 w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer group text-left"
               >
@@ -489,11 +518,11 @@ export default function BookingForm() {
                 <svg className="w-4 h-4 text-white/30 group-hover:text-white/60 ml-auto transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
-              </button>
+              </a>
 
               {/* Outlook */}
-              <button
-                type="button"
+              <a
+                {...getEmailLinkProps("outlook")}
                 onClick={handleOutlookClick}
                 className="flex items-center gap-4 w-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white rounded-2xl px-5 py-4 transition-all duration-200 cursor-pointer group text-left"
               >
@@ -509,7 +538,7 @@ export default function BookingForm() {
                 <svg className="w-4 h-4 text-white/30 group-hover:text-white/60 ml-auto transition-colors" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
-              </button>
+              </a>
             </div>
 
             <button
