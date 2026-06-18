@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import "./style.css";
 
 const generalSans = localFont({
   src: [
