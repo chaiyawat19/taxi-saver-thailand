@@ -48,7 +48,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative w-full bg-[#1DA58C] overflow-hidden select-none">
+    <footer className="relative w-full bg-[#3668FF] overflow-hidden select-none">
 
       {/* Subtle dot texture */}
       <div

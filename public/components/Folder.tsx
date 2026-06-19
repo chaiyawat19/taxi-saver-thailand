@@ -123,13 +123,19 @@ const Folder: React.FC<FolderProps> = ({ color = '#5227FF', size = 1, items = []
                 key={i}
                 onMouseMove={e => handlePaperMouseMove(e, i)}
                 onMouseLeave={e => handlePaperMouseLeave(e, i)}
+                onClick={e => {
+                  if (open) {
+                    e.stopPropagation();
+                  }
+                }}
                 className={`absolute z-20 bottom-[10%] left-1/2 transition-all duration-300 ease-in-out ${
                   !open ? 'transform -translate-x-1/2 translate-y-[10%] group-hover:translate-y-0' : 'hover:scale-110'
                 } ${sizeClasses}`}
                 style={{
                   ...(!open ? {} : { transform: transformStyle }),
                   backgroundColor: i === 0 ? paper1 : i === 1 ? paper2 : paper3,
-                  borderRadius: '10px'
+                  borderRadius: '10px',
+                  pointerEvents: open ? 'auto' : 'none'
                 }}
               >
                 {item}

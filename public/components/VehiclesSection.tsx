@@ -2,76 +2,71 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import StickerPeel from "./StickerPeel";
 
-// ── Vehicle data ──────────────────────────────────────────────────────────────
-const vehicles = [
-  {
-    id: "sedan",
-    name: "Sedan",
-    capacity: "1 – 3 Passengers",
-    description: "Solo travelers, couples, or small groups with light luggage.",
-    image: "/images/vehicle-type/seden.png",
-    scale: 1.0,
-  },
-  {
-    id: "suv",
-    name: "SUV",
-    capacity: "1 – 3 Passengers",
-    description: "Solo travelers, couples, or small groups with light luggage.",
-    image: "/images/vehicle-type/suv.png",
-    scale: .8,
-  },
-  {
-    id: "van",
-    name: "Van",
-    capacity: "4 – 9 Passengers",
-    description: "Larger groups or families with extra luggage and comfort needs.",
-    image: "/images/vehicle-type/van.png",
-    scale: 1.5,
-  },
-];
+interface VehicleDetail {
+  name: string;
+  passengers: number;
+  luggage: number;
+  desc: string;
+  color: string;
+  image: string;
+  features: string[];
+}
 
-const wrap = (idx: number) => ((idx % vehicles.length) + vehicles.length) % vehicles.length;
+const SEDAN_POS = { x: -240, y: 10 };
+const SUV_POS = { x: 0, y: 10 };
+const VAN_POS = { x: 240, y: 10 };
 
 export default function VehiclesSection() {
-  const [current, setCurrent] = useState(1); // start on SUV
-  const [direction, setDirection] = useState(0);
+  const [selectedVehicle, setSelectedVehicle] = useState<string>("suv");
 
-  const go = (next: number) => {
-    setDirection(next > current || (current === vehicles.length - 1 && next === 0) ? 1 : -1);
-    setCurrent(wrap(next));
-  };
-
-  const goNext = () => go(wrap(current + 1));
-  const goPrev = () => go(wrap(current - 1));
-
-  const prev = vehicles[wrap(current - 1)];
-  const curr = vehicles[current];
-  const next = vehicles[wrap(current + 1)];
-
-  const vehicleScale = curr.scale ?? 1.0;
-  const imageVariants = {
-    enter: (d: number) => ({ x: d >= 0 ? 150 : -150, opacity: 0, scale: 0.82 * vehicleScale }),
-    center: {
-      x: 0,
-      opacity: 1,
-      scale: vehicleScale,
-      transition: {
-        type: "spring" as const,
-        stiffness: 120,
-        damping: 14,
-        mass: 0.9,
-      }
+  const vehicleDetails: Record<string, VehicleDetail> = {
+    sedan: {
+      name: "Sedan (Toyota Camry / Altis or equivalent)",
+      passengers: 3,
+      luggage: 2,
+      desc: "Perfect for solo travellers, couples, or business trips. Comfortable, clean, and budget-friendly.",
+      color: "from-blue-500 to-indigo-600",
+      image: "/images/vehicle-type/seden.png",
+      features: [
+        "✦ Best for 1-3 passengers",
+        "✦ Standard Air Conditioning",
+        "✦ Fits 2 large luggage bags",
+        "✦ Fuel, toll, and driver included",
+        "✦ GPS real-time navigation"
+      ]
     },
-    exit: (d: number) => ({
-      x: d >= 0 ? -150 : 150,
-      opacity: 0,
-      scale: 0.82 * vehicleScale,
-      transition: {
-        duration: 0.25,
-        ease: "easeInOut" as const
-      }
-    }),
+    suv: {
+      name: "SUV (Toyota Fortuner or equivalent)",
+      passengers: 4,
+      luggage: 4,
+      desc: "Ideal for small families or passengers with extra luggage. Provides a commanding view and robust comfort.",
+      color: "from-emerald-500 to-teal-600",
+      image: "/images/vehicle-type/suv.png",
+      features: [
+        "✦ Best for 3-4 passengers",
+        "✦ Dual Zone Air Conditioning",
+        "✦ Fits 4 large luggage bags",
+        "✦ High chassis for safe upcountry travel",
+        "✦ Fuel, toll, and driver included"
+      ]
+    },
+    van: {
+      name: "VIP Van (Toyota Commuter or equivalent)",
+      passengers: 9,
+      luggage: 5,
+      desc: "Excellent for large groups, families, golf tours, or corporate travel. Spacious interior with premium VIP seating.",
+      color: "from-purple-500 to-pink-600",
+      image: "/images/vehicle-type/van.png",
+      features: [
+        "✦ Best for 5-9 passengers",
+        "✦ Front & rear dual AC vents",
+        "✦ Fits 5-6 large luggage bags",
+        "✦ Plenty of legroom & VIP seats",
+        "✦ Recommended for golf & group tours"
+      ]
+    }
   };
 
   return (
@@ -82,158 +77,145 @@ export default function VehiclesSection() {
         style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "32px 32px" }}
       />
 
-      {/* Radial glow behind centre car */}
+      {/* Radial glow behind center card */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 60% 60% at 50% 52%, rgba(0,0,0,0.15) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 60% 60% at 50% 52%, rgba(0,0,0,0.1) 0%, transparent 70%)" }}
       />
-      <AnimatePresence>
-        <motion.div
-          key={curr.id}
-          initial={{ opacity: 0, scale: 0.7 }}
-          animate={{ opacity: 0.8, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.25 }}
-          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 50% 50% at 50% 52%, rgba(255,255,255,0.16) 0%, transparent 65%)" }}
-        />
-      </AnimatePresence>
 
-      <div className="relative max-w-[1400px] mx-auto px-0 py-16 md:py-20 xl:py-24">
-
-        {/* ── Section title ── */}
-        <motion.h2
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center text-white text-3xl sm:text-4xl md:text-5xl font-bold mb-8 md:mb-12 px-6"
-        >
-          Vehicles Type
-        </motion.h2>
-
-        {/* ── Carousel row ── */}
-        <div className="relative flex items-center justify-center select-none" style={{ minHeight: "340px" }}>
-
-          {/* ── LEFT peek (prev vehicle) ── */}
-          <button
-            onClick={goPrev}
-            aria-label="Previous vehicle"
-            className="absolute left-0 z-20 flex items-center h-full cursor-pointer group"
-            style={{ width: "22%" }}
+      <div className="relative max-w-[1400px] mx-auto px-6 py-16 md:py-20 xl:py-24 flex flex-col items-center gap-12 w-full">
+        
+        {/* Section title */}
+        <div className="text-center w-full">
+          <motion.h2
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-white text-3xl sm:text-4xl md:text-5xl font-bold mb-3"
           >
-            {/* Peeking car image */}
-            <div className="relative w-full h-full flex items-center justify-end pr-2 overflow-hidden">
-              <img
-                src={prev.image}
-                alt={prev.name}
-                className="w-[90%] max-w-[280px] object-contain opacity-45 origin-right transition-all duration-300 group-hover:opacity-70 group-hover:translate-x-2"
-                style={{ filter: "brightness(0.7)", transform: `scale(${(prev.scale ?? 1) * 0.75})` }}
-              />
-            </div>
-            {/* Arrow circle */}
-            <div className="absolute left-4 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/25 hover:bg-white/45 backdrop-blur-sm flex items-center justify-center text-white transition-all duration-200 hover:scale-110 shadow-lg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5 sm:w-6 sm:h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 18l-6-6 6-6" />
-              </svg>
-            </div>
-          </button>
+            Our Fleet
+          </motion.h2>
+          <p className="text-white/80 text-sm max-w-sm mx-auto">
+            Drag stickers around or click to view specs on the side panel.
+          </p>
+        </div>
 
-          {/* ── CENTRE: current vehicle ── */}
-          <div className="relative z-10 flex items-center justify-center" style={{ width: "56%" }}>
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.img
-                key={curr.id}
-                src={curr.image}
-                alt={curr.name}
-                custom={direction}
-                variants={imageVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                whileHover={{ y: -12, scale: vehicleScale * 1.04 }}
-                className="w-full max-w-[520px] md:max-w-[600px] xl:max-w-[680px] object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.35)] cursor-pointer"
-              />
+        {/* ── Split Layout: 70% Draggable Area | 30% Details Panel ── */}
+        <div className="flex flex-col lg:flex-row gap-6 w-full items-stretch min-h-[500px]">
+          
+          {/* LEFT: 60% Draggable Area */}
+          <div className="lg:w-[60%] w-full h-[55vh] min-h-[560px] border border-white/15 rounded-3xl bg-black/25 overflow-hidden relative select-none shadow-inner flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <p className="text-white/5 font-extrabold uppercase tracking-widest text-xl">Drag & Arrange stickers</p>
+            </div>
+
+            <StickerPeel
+              imageSrc="/images/vehicle-type/seden.png"
+              width={250}
+              rotate={-10}
+              peelBackHoverPct={30}
+              peelBackActivePct={20}
+              shadowIntensity={0.5}
+              lightingIntensity={0.5}
+              initialPosition={SEDAN_POS}
+              peelDirection={0}
+              onClick={() => setSelectedVehicle("sedan")}
+            />
+            <StickerPeel
+              imageSrc="/images/vehicle-type/suv.png"
+              width={250}
+              rotate={0}
+              peelBackHoverPct={20}
+              peelBackActivePct={15}
+              shadowIntensity={0.5}
+              lightingIntensity={0.5}
+              initialPosition={SUV_POS}
+              peelDirection={0}
+              onClick={() => setSelectedVehicle("suv")}
+            />
+            <StickerPeel
+              imageSrc="/images/vehicle-type/van.png"
+              width={360}
+              rotate={10}
+              peelBackHoverPct={20}
+              peelBackActivePct={15}
+              shadowIntensity={0.5}
+              lightingIntensity={0.5}
+              initialPosition={VAN_POS}
+              peelDirection={0}
+              onClick={() => setSelectedVehicle("van")}
+            />
+
+            {/* Floating info tip */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10 pointer-events-none select-none flex items-center gap-2 z-30">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+              <span className="text-[10px] sm:text-xs text-white/80 font-bold uppercase tracking-wider">
+                Click on any sticker to view details
+              </span>
+            </div>
+          </div>
+
+          {/* RIGHT: 40% Info Panel */}
+          <div className="lg:w-[40%] w-full bg-slate-900 border border-white/10 rounded-3xl p-6 flex flex-col justify-between text-white shadow-2xl relative overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedVehicle}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col h-full justify-between"
+              >
+                <div>
+                 
+                  <h3 className="text-2xl font-bold mt-2.5 mb-4 leading-tight">{vehicleDetails[selectedVehicle].name}</h3>
+                  
+                  {/* Miniature Image */}
+                  <div className="w-full h-[120px] bg-slate-950/40 rounded-xl border border-white/5 overflow-hidden flex items-center justify-center mb-4">
+                    <img
+                      src={vehicleDetails[selectedVehicle].image}
+                      alt={vehicleDetails[selectedVehicle].name}
+                      className="max-h-[90px] w-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.3)]"
+                    />
+                  </div>
+
+                  <p className="text-slate-300 text-sm leading-relaxed mb-4">
+                    {vehicleDetails[selectedVehicle].desc}
+                  </p>
+
+                  <div className="flex items-center justify-around bg-white/5 border border-white/10 rounded-xl p-3 mb-4 text-center">
+                    <div className="flex-1">
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Passengers</p>
+                      <p className="text-base font-extrabold text-white mt-0.5">{vehicleDetails[selectedVehicle].passengers} Max</p>
+                    </div>
+                    <div className="border-l border-white/15 h-8 self-center" />
+                    <div className="flex-1">
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Luggage</p>
+                      <p className="text-base font-extrabold text-white mt-0.5">{vehicleDetails[selectedVehicle].luggage} Bags</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5 mb-6">
+                    {vehicleDetails[selectedVehicle].features.map((feat, idx) => (
+                      <p key={idx} className="text-slate-300 text-xs font-medium">{feat}</p>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="border-t border-white/10 pt-4 mt-auto">
+                  <a
+                    href="/booking"
+                    className="w-full flex items-center justify-center bg-[#3668FF] hover:bg-[#2555e5] text-white font-bold text-sm py-3 rounded-xl transition-all shadow-lg shadow-blue-500/20"
+                  >
+                    Book This Vehicle
+                  </a>
+                </div>
+              </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* ── RIGHT peek (next vehicle) ── */}
-          <button
-            onClick={goNext}
-            aria-label="Next vehicle"
-            className="absolute right-0 z-20 flex items-center h-full cursor-pointer group"
-            style={{ width: "22%" }}
-          >
-            {/* Peeking car image */}
-            <div className="relative w-full h-full flex items-center justify-start pl-2 overflow-hidden">
-              <img
-                src={next.image}
-                alt={next.name}
-                className="w-[90%] max-w-[280px] object-contain opacity-45 origin-left transition-all duration-300 group-hover:opacity-70 group-hover:-translate-x-2"
-                style={{ filter: "brightness(0.7)", transform: `scale(${(next.scale ?? 1) * 0.75})` }}
-              />
-            </div>
-            {/* Arrow circle */}
-            <div className="absolute right-4 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/25 hover:bg-white/45 backdrop-blur-sm flex items-center justify-center text-white transition-all duration-200 hover:scale-110 shadow-lg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5 sm:w-6 sm:h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
-              </svg>
-            </div>
-          </button>
         </div>
-
-        {/* ── Vehicle info ── */}
-        <div className="text-center mt-6 md:mt-8 px-6">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={curr.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ type: "spring", stiffness: 120, damping: 14 }}
-            >
-              <h3 className="text-white text-4xl sm:text-5xl font-bold mb-2">{curr.name}</h3>
-              <p className="text-white/80 text-base sm:text-lg font-medium mb-1">{curr.capacity}</p>
-              <p className="text-white/65 text-sm sm:text-base max-w-sm mx-auto">{curr.description}</p>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Dot indicators */}
-          <div className="flex items-center justify-center gap-2.5 mt-6">
-            {vehicles.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => go(i)}
-                aria-label={`Go to ${vehicles[i].name}`}
-                className={`rounded-full transition-all duration-300 cursor-pointer ${
-                  i === current
-                    ? "bg-white w-6 h-2.5"
-                    : "bg-white/35 w-2.5 h-2.5 hover:bg-white/60"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* ── CTA ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex justify-center mt-10 px-6"
-        >
-          <a
-            href="/booking"
-            className="inline-flex items-center gap-2.5 bg-white hover:bg-gray-50 text-[#1DA58C] font-bold px-8 py-3.5 rounded-xl transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] shadow-xl text-base"
-          >
-            Book This Vehicle
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5 h-5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-            </svg>
-          </a>
-        </motion.div>
-
       </div>
     </section>
   );

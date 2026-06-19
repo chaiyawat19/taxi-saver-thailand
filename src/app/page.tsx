@@ -1,17 +1,46 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Navbar from "../../public/components/Navbar";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import Preloader from "../../public/components/Preloader";
 import BlurText from "../../public/utility/BlurText";
 import WhyTaxiSection from "../../public/components/WhyTaxiSection";
 import ServicesSection from "../../public/components/ServicesSection";
+import CurvedLoop from "../../public/components/CurvedLoop";
 import VehiclesSection from "../../public/components/VehiclesSection";
 import ContactSection from "../../public/components/ContactSection";
 import Footer from "../../public/components/Footer";
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
+  const [showContent, setShowContent] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 1023px)");
+    const listener = () => setIsMobile(media.matches);
+    setIsMobile(media.matches);
+    if (media.addEventListener) {
+      media.addEventListener("change", listener);
+      return () => media.removeEventListener("change", listener);
+    } else {
+      media.addListener(listener);
+      return () => media.removeListener(listener);
+    }
+  }, []);
+
   return (
-    <main id="homepage" className="relative min-h-screen bg-[#1DA58C] overflow-hidden">
+    <>
+      {showLoader && (
+        <Preloader 
+          onExitStart={() => setShowContent(true)} 
+          onComplete={() => setShowLoader(false)} 
+        />
+      )}
+
+      {showContent && (
+        <main id="homepage" className="relative min-h-screen bg-[#1DA58C] overflow-hidden">
       {/* Navbar overlay */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -29,6 +58,7 @@ export default function Home() {
           src="/images/hero/BG.png"
           alt="Suvarnabhumi Airport Terminal BG"
           className="absolute inset-0 w-full h-full object-cover z-0 opacity-100"
+          draggable={false}
         />
 
         {/* Layer 5: Gradient overlays */}
@@ -71,7 +101,7 @@ export default function Home() {
           initial={{ x: -80, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
-          className="absolute bottom-[-10%] left-[-6%] h-[68%] sm:h-[60%] sm:left-[-12%] md:h-[65%] md:left-[-15%] lg:h-[70%] lg:left-[-14%] xl:h-[93%] xl:left-[-20%] w-auto object-contain object-left-bottom z-30 pointer-events-none select-none"
+          className="absolute bottom-[-15%] left-[-10%] h-[100%] w-auto object-contain object-left-bottom z-30 pointer-events-none select-none "
         />
 
         <motion.img
@@ -80,14 +110,14 @@ export default function Home() {
           initial={{ x: -80, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
-          className="absolute bottom-[-8%] left-[-11%] h-[35%] sm:h-[38%] sm:left-[-16%] md:h-[40%] md:left-[-18%] lg:h-[45%] lg:left-[-16%] xl:h-[55%] xl:left-[-11%] w-auto object-contain object-left-bottom z-30 pointer-events-none select-none"
+          className="absolute bottom-[-8%] left-[-11%] h-[50%] w-auto object-contain object-left-bottom z-30 pointer-events-none select-none"
         />
 
         {/* Airplane (top-left) */}
         <motion.img
           src="/images/hero/Air-plane.png"
           alt="Airplane"
-          initial={{ x: -120, y: -60, opacity: 0 }}
+          initial={{ x: -140, y: -60, opacity: 0 }}
           animate={{ x: 0, y: 0, opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
           className="absolute top-[6%] left-[7%] w-[14%] max-w-[150px] min-w-[90px] z-10 pointer-events-none select-none"
@@ -122,11 +152,13 @@ export default function Home() {
         >
           <a
             href="/booking"
-            className="bg-[#3668FF] hover:bg-[#2555e5] text-white px-7 py-3.5 rounded-xl font-bold flex items-center gap-2.5 transition-all transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-500/30 text-sm sm:text-base border border-blue-400/20"
+            className="relative overflow-hidden bg-[#3668FF] text-white px-7 py-3.5 rounded-xl font-bold flex items-center gap-2.5 shadow-xl shadow-blue-600/30 border border-blue-400/30 group transition-all duration-300 hover:shadow-blue-500/50 hover:shadow-2xl active:scale-95"
           >
-            Book a ride
+            {/* Shimmer effect */}
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+            <span className="relative">Book a ride</span>
             <svg
-              className="w-5 h-5"
+              className="w-5 h-5 relative"
               fill="none"
               stroke="currentColor"
               strokeWidth="2.2"
@@ -143,9 +175,11 @@ export default function Home() {
 
           <a
             href="#explore"
-            className="bg-white/95 hover:bg-white text-gray-800 px-7 py-3.5 rounded-xl font-bold transition-all transform hover:scale-105 active:scale-95 shadow-xl text-sm sm:text-base border border-white/20 backdrop-blur-sm"
+            className="relative overflow-hidden bg-white/95 text-gray-800 px-7 py-3.5 rounded-xl font-bold border border-white/20 backdrop-blur-sm group transition-all duration-300 hover:shadow-white/20 hover:shadow-2xl shadow-xl active:scale-95"
           >
-            Explore more
+            {/* Shimmer effect */}
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+            <span className="relative">Explore more</span>
           </a>
         </motion.div>
       </div>
@@ -184,10 +218,11 @@ export default function Home() {
 
           {/* Right: Car image */}
           <motion.div
-            initial={{ opacity: 1, x: 600 }}
+            key={isMobile ? "mobile-car" : "desktop-car"}
+            initial={{ opacity: 1, x: isMobile ? 80 : 600 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, margin: isMobile ? "-40px" : "-80px" }}
+            transition={{ duration: isMobile ? 2.5 : 6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="relative mx-auto w-fit z-20 flex justify-center px-4 mt-12 lg:absolute lg:left-0 lg:right-0 lg:bottom-30 lg:mt-0"
           >
             {/* Glow / shadow under car */}
@@ -206,6 +241,16 @@ export default function Home() {
       {/* Section 3: Why Taxi Saver? */}
       <WhyTaxiSection />
 
+      <CurvedLoop 
+        marqueeText="✦ Taxi Saver Thailand ✦ Safe & Reliable ✦ No Deposit Required ✦ Book Your Ride ✦ ✦ Taxi Saver Thailand ✦ Safe & Reliable ✦ No Deposit Required ✦ Book Your Ride ✦"
+        speed={0.8}
+        curveAmount={130}
+        direction="left"
+        interactive={true}
+        className="text-white/10 font-black uppercase tracking-wider"
+        containerClassName="h-[120px] md:h-[160px] bg-[#1DA58C] flex items-center justify-center w-full overflow-hidden select-none pointer-events-none"
+      />
+
       {/* Section 4: Our Services */}
       <ServicesSection />
 
@@ -217,7 +262,9 @@ export default function Home() {
 
       {/* Footer */}
       <Footer />
-    </main>
+        </main>
+      )}
+    </>
   );
 }
 
