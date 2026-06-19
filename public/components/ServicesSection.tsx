@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import GlareHover from "./GlareHover";
+import ScrollFloat from "./ScrollFloat";
 
 // ── Airport card slides ───────────────────────────────────────────────────────
 const airportSlides = [
@@ -22,14 +24,12 @@ interface ServiceCardProps {
   tag: string;
   title: string;
   slides: { src: string; label: string }[];
-  headerBg: string;       // e.g. "#3668FF" or "white"
-  headerTextColor: string;
-  titleColor: string;
 }
 
-function ServiceCard({ tag, title, slides, headerBg, headerTextColor, titleColor }: ServiceCardProps) {
+function ServiceCard({ tag, title, slides }: ServiceCardProps) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
 
   const go = (idx: number) => {
     setDirection(idx > current ? 1 : -1);
@@ -38,14 +38,39 @@ function ServiceCard({ tag, title, slides, headerBg, headerTextColor, titleColor
   const goNext = () => go((current + 1) % slides.length);
   const goPrev = () => go((current - 1 + slides.length) % slides.length);
 
+  const headerBg = isHovered ? "#3668FF" : "#ffffff";
+  const headerTextColor = isHovered ? "#ffffff" : "#1a1a1a";
+  const titleColor = isHovered ? "#ffffff" : "#1a1a1a";
+
   return (
-    <div className="flex-1 min-w-0 rounded-2xl overflow-hidden shadow-2xl flex flex-col group" style={{ background: "#fff" }}>
+    <GlareHover
+      width="100%"
+      height="100%"
+      background="#fff"
+      borderRadius="1rem"
+      borderColor="transparent"
+      glareColor="#ffffff"
+      glareOpacity={0.25}
+      className="flex-1 min-w-0 shadow-2xl flex flex-col group cursor-default!"
+      style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* ── Header area ── */}
-      <div className="px-6 pt-5 pb-4" style={{ backgroundColor: headerBg }}>
-        <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: headerTextColor, opacity: 0.75 }}>
+      <div 
+        className="px-6 pt-5 pb-4 transition-colors duration-300 ease-out" 
+        style={{ backgroundColor: headerBg }}
+      >
+        <p 
+          className="text-xs font-semibold uppercase tracking-widest mb-1 transition-colors duration-300 ease-out" 
+          style={{ color: headerTextColor, opacity: isHovered ? 0.75 : 0.6 }}
+        >
           {tag}
         </p>
-        <h3 className="text-2xl sm:text-3xl font-bold leading-tight" style={{ color: titleColor }}>
+        <h3 
+          className="text-2xl sm:text-3xl min-h-[4rem] sm:min-h-[5rem] font-bold leading-tight transition-colors duration-300 ease-out" 
+          style={{ color: titleColor }}
+        >
           {title}
         </h3>
       </div>
@@ -123,7 +148,7 @@ function ServiceCard({ tag, title, slides, headerBg, headerTextColor, titleColor
           ))}
         </div>
       </div>
-    </div>
+    </GlareHover>
   );
 }
 
@@ -140,25 +165,30 @@ export default function ServicesSection() {
       <div className="relative max-w-[1400px] mx-auto px-6 md:px-12 xl:px-16 py-16 md:py-20 xl:py-24">
 
         {/* ── Section header ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-10"
-        >
-          <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight mb-4">
+        <div className="mb-10">
+          <ScrollFloat
+            animationDuration={1}
+            ease="back.inOut(2)"
+            stagger={0.03}
+            textClassName="text-white text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight mb-4"
+          >
             Our Services
-          </h2>
-          <div className="border-l-4 border-white/50 pl-4 max-w-md">
+          </ScrollFloat>
+          <motion.div
+            initial={{ opacity: 0, x: -15 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            className="border-l-4 border-white/50 pl-4 max-w-md"
+          >
             <p className="text-white/80 text-sm sm:text-base leading-relaxed">
               Experience safe, high-quality, and cost-effective transport with our
               specialized transfer services. From reliable airport pickups at BKK and
               DMK to seamless city-to-city rides between Bangkok, Pattaya, Rayong,
-              and Hua Hin, we deliver top-tier comfort that perfectly fits your budget.
+              and Hua Hin, We deliver reliable comfort at a price that makes sense.
             </p>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
         {/* ── Two service cards ── */}
         <div className="flex flex-col md:flex-row gap-5 lg:gap-6">
@@ -174,9 +204,6 @@ export default function ServicesSection() {
               tag="Airport Transfers"
               title="Airport Pickups & Drop-offs"
               slides={airportSlides}
-              headerBg="#3668FF"
-              headerTextColor="#ffffff"
-              titleColor="#ffffff"
             />
           </motion.div>
 
@@ -192,9 +219,6 @@ export default function ServicesSection() {
               tag="City-to-City Transfers"
               title="Intercity Rides"
               slides={upcountrySlides}
-              headerBg="#ffffff"
-              headerTextColor="#1a1a1a"
-              titleColor="#1a1a1a"
             />
           </motion.div>
         </div>
@@ -207,7 +231,7 @@ export default function ServicesSection() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-6 text-white/60 text-sm"
         >
-          Please note: Pricing varies based on vehicle type and distance.
+          Please note: Pricing varies based on Fleet Type and distance.
         </motion.p>
 
       </div>

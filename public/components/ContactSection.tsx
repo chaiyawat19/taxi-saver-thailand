@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Folder from "./Folder";
 import Grainient from "./Grainient";
+import ScrollFloat from "./ScrollFloat";
 
 // ── Paper content (tiny cards inside the folder) ──────────────────────────────
 const WhatsAppPaper = (
@@ -119,27 +120,44 @@ export default function ContactSection() {
           centerY={0}
           zoom={0.9}
         />
+        {/* Smooth top fade blending from flat green Fleet section */}
+        <div className="absolute top-0 left-0 right-0 h-[240px] bg-gradient-to-b from-[#1DA58C] to-transparent z-[1] pointer-events-none" />
+        {/* Smooth bottom fade blending to flat blue Footer section */}
+        <div className="absolute bottom-0 left-0 right-0 h-[240px] bg-gradient-to-t from-[#3668FF] to-transparent z-[1] pointer-events-none" />
       </div>
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 xl:px-16 py-16 md:py-24">
 
         {/* ── Layout: Centered Heading + Folder ── */}
-        <div className="flex flex-col items-center justify-center text-center w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-center flex flex-col items-center"
-          >
-            <p className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-3">Get in touch</p>
-            <h2 className="text-white text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] mb-4">
+        <div className="flex flex-col items-center justify-center text-center gap-8 w-full">
+          <div className="text-center flex flex-col items-center">
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-3"
+            >
+              Get in touch
+            </motion.p>
+            <ScrollFloat
+              animationDuration={1}
+              ease="back.inOut(2)"
+              stagger={0.03}
+              textClassName="text-white text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] mb-4"
+            >
               We&apos;re Here to Help
-            </h2>
-            <p className="text-white/70 text-base sm:text-lg max-w-lg leading-relaxed">
+            </ScrollFloat>
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              className="text-white/70 text-base sm:text-lg max-w-lg leading-relaxed"
+            >
               Reach us anytime via WhatsApp, Facebook, or phone. We reply fast — usually within minutes.
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
 
           {/* Folder + hint */}
           <motion.div
@@ -150,7 +168,7 @@ export default function ContactSection() {
             className="flex flex-col items-center gap-6"
           >
             {/* Folder needs vertical space to fan out upward */}
-            <div style={{ height: "400px", display: "flex", alignItems: "flex-end", justifyContent: "center" }}>
+            <div className="h-[250px] sm:h-[480px] flex items-end justify-center w-full">
               <Folder
                 size={3.2}
                 color="#22d8b7"

@@ -15,6 +15,8 @@ interface GlareHoverProps {
   playOnce?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const GlareHover: React.FC<GlareHoverProps> = ({
@@ -31,7 +33,9 @@ const GlareHover: React.FC<GlareHoverProps> = ({
   transitionDuration = 650,
   playOnce = false,
   className = '',
-  style = {}
+  style = {},
+  onMouseEnter,
+  onMouseLeave
 }) => {
   const hex = glareColor.replace('#', '');
   let rgba = glareColor;
@@ -49,27 +53,38 @@ const GlareHover: React.FC<GlareHoverProps> = ({
 
   const overlayRef = useRef<HTMLDivElement | null>(null);
 
-  const animateIn = () => {
+  const animateIn = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = overlayRef.current;
     if (!el) return;
 
     el.style.transition = 'none';
+    el.style.opacity = '0';
     el.style.backgroundPosition = '-100% -100%, 0 0';
-    el.style.transition = `${transitionDuration}ms ease`;
+    
+    // Force reflow
+    el.offsetHeight;
+
+    el.style.transition = `background-position ${transitionDuration}ms ease, opacity 200ms ease`;
+    el.style.opacity = '1';
     el.style.backgroundPosition = '100% 100%, 0 0';
+
+    onMouseEnter?.(e);
   };
 
-  const animateOut = () => {
+  const animateOut = (e: React.MouseEvent<HTMLDivElement>) => {
     const el = overlayRef.current;
     if (!el) return;
 
     if (playOnce) {
       el.style.transition = 'none';
+      el.style.opacity = '0';
       el.style.backgroundPosition = '-100% -100%, 0 0';
     } else {
-      el.style.transition = `${transitionDuration}ms ease`;
-      el.style.backgroundPosition = '-100% -100%, 0 0';
+      el.style.transition = `opacity 300ms ease`;
+      el.style.opacity = '0';
     }
+
+    onMouseLeave?.(e);
   };
 
   const overlayStyle: React.CSSProperties = {
@@ -82,7 +97,9 @@ const GlareHover: React.FC<GlareHoverProps> = ({
     backgroundSize: `${glareSize}% ${glareSize}%, 100% 100%`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: '-100% -100%, 0 0',
-    pointerEvents: 'none'
+    opacity: 0,
+    pointerEvents: 'none',
+    zIndex: 30
   };
 
   return (
@@ -99,8 +116,8 @@ const GlareHover: React.FC<GlareHoverProps> = ({
       onMouseEnter={animateIn}
       onMouseLeave={animateOut}
     >
-      <div ref={overlayRef} style={overlayStyle} />
       {children}
+      <div ref={overlayRef} style={overlayStyle} />
     </div>
   );
 };

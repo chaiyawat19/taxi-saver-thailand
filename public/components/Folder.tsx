@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface FolderProps {
   color?: string;
@@ -33,9 +33,19 @@ const Folder: React.FC<FolderProps> = ({ color = '#5227FF', size = 1, items = []
   }
 
   const [open, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [paperOffsets, setPaperOffsets] = useState<{ x: number; y: number }[]>(
     Array.from({ length: maxItems }, () => ({ x: 0, y: 0 }))
   );
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const folderBackColor = darkenColor(color, 0.08);
   const paper1 = darkenColor('#ffffff', 0.1);
@@ -54,8 +64,8 @@ const Folder: React.FC<FolderProps> = ({ color = '#5227FF', size = 1, items = []
     const rect = e.currentTarget.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    const offsetX = (e.clientX - centerX) * 0.15;
-    const offsetY = (e.clientY - centerY) * 0.15;
+    const offsetX = (e.clientX - centerX) * 0.12;
+    const offsetY = (e.clientY - centerY) * 0.12;
     setPaperOffsets(prev => {
       const newOffsets = [...prev];
       newOffsets[index] = { x: offsetX, y: offsetY };
@@ -79,7 +89,12 @@ const Folder: React.FC<FolderProps> = ({ color = '#5227FF', size = 1, items = []
     '--paper-3': paper3
   } as React.CSSProperties;
 
-  const scaleStyle = { transform: `scale(${size})` };
+  const currentSize = isMobile ? size * 0.6 : size;
+  const scaleStyle = { 
+    transform: `scale(${currentSize})`,
+    transformOrigin: 'bottom',
+    transition: 'transform 0.3s ease-out'
+  };
 
   const getOpenTransform = (index: number) => {
     if (index === 0) return 'translate(-120%, -70%) rotate(-15deg)';
@@ -114,9 +129,8 @@ const Folder: React.FC<FolderProps> = ({ color = '#5227FF', size = 1, items = []
             if (i === 1) sizeClasses = open ? 'w-[80%] h-[80%]' : 'w-[80%] h-[70%]';
             if (i === 2) sizeClasses = open ? 'w-[90%] h-[80%]' : 'w-[90%] h-[60%]';
 
-            const transformStyle = open
-              ? `${getOpenTransform(i)} translate(${paperOffsets[i].x}px, ${paperOffsets[i].y}px)`
-              : undefined;
+            const wrapperTransform = open ? getOpenTransform(i) : undefined;
+            const innerTransform = open ? `translate(${paperOffsets[i].x}px, ${paperOffsets[i].y}px)` : undefined;
 
             return (
               <div
@@ -132,13 +146,23 @@ const Folder: React.FC<FolderProps> = ({ color = '#5227FF', size = 1, items = []
                   !open ? 'transform -translate-x-1/2 translate-y-[10%] group-hover:translate-y-0' : 'hover:scale-110'
                 } ${sizeClasses}`}
                 style={{
-                  ...(!open ? {} : { transform: transformStyle }),
-                  backgroundColor: i === 0 ? paper1 : i === 1 ? paper2 : paper3,
-                  borderRadius: '10px',
+                  ...(!open ? {} : { transform: wrapperTransform }),
                   pointerEvents: open ? 'auto' : 'none'
                 }}
               >
-                {item}
+                <div
+                  className="w-full h-full"
+                  style={{
+                    transform: innerTransform,
+                    transition: 'transform 0.15s ease-out',
+                    backgroundColor: i === 0 ? paper1 : i === 1 ? paper2 : paper3,
+                    borderRadius: '10px',
+                    height: '100%',
+                    width: '100%'
+                  }}
+                >
+                  {item}
+                </div>
               </div>
             );
           })}

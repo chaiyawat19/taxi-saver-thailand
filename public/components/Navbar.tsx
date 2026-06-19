@@ -17,8 +17,9 @@ export default function Navbar() {
 
   const links = [
     { label: "Homepage", href: "/#homepage" },
+    { label: "About Us", href: "/#about-us"},
     { label: "Services", href: "/#services" },
-    { label: "Vehicles", href: "/#vehicles" },
+    { label: "Fleet", href: "/#fleet" },
     { label: "Contact", href: "/#contact" },
   ];
 
@@ -59,13 +60,13 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex justify-center flex-1">
+        <div className="hidden lg:flex justify-center flex-1">
           <ul className="flex items-center gap-1">
             {links.map((link) => (
               <li key={link.label}>
                 <a
                   href={link.href}
-                  className="text-white/80 hover:text-white px-4 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 font-medium text-sm tracking-wide"
+                  className="text-white/80 hover:text-white px-4 lg:px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 font-medium text-sm tracking-wide"
                 >
                   {link.label}
                 </a>
@@ -79,22 +80,27 @@ export default function Navbar() {
           {/* Book now CTA */}
           <a
             href="/booking"
-            className="relative overflow-hidden bg-[#3668FF] text-white px-4 py-2 md:px-5 md:py-2.5 rounded-xl font-semibold flex items-center gap-1.5 md:gap-2 text-xs md:text-sm shadow-lg shadow-blue-600/30 border border-blue-400/30 group transition-all duration-300 hover:shadow-blue-500/50 hover:shadow-xl"
+            className="relative overflow-hidden bg-[#3668FF] text-white px-4 py-2 lg:px-4 lg:py-2.5 rounded-xl font-semibold flex items-center gap-1.5 lg:gap-2 text-xs lg:text-sm shadow-lg shadow-blue-600/30 border border-blue-400/30 group transition-all duration-300 hover:shadow-blue-500/50 hover:shadow-xl"
           >
             {/* Shimmer effect */}
             <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-            <span className="relative">Book now</span>
+            <span className="relative">Book a ride</span>
             <svg
-              className="w-3.5 h-3.5 md:w-4 md:h-4 relative"
+              className="w-3.5 h-3.5 lg:w-4 lg:h-4"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2.2"
+              strokeWidth="2"
               viewBox="0 0 24 24"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M9 6.75V15m6-6v8.25m.503 3.446l-6.002-3.001a1.125 1.125 0 00-1.006-.002L3.89 19.467A1.125 1.125 0 012.25 18.44V6.752c0-.503.333-.94.817-1.068l5.485-1.446a1.125 1.125 0 011.006.002l6.002 3.001a1.125 1.125 0 001.006.002l5.093-1.341c.484-.128.817.309.817.812v11.688c0 .503-.333.94-.817 1.068l-5.485 1.446a1.125 1.125 0 01-1.006-.002z"
+                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
               />
             </svg>
           </a>
@@ -102,7 +108,7 @@ export default function Navbar() {
           {/* Hamburger Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-white focus:outline-none transition-all duration-200 active:scale-95"
+            className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-white focus:outline-none transition-all duration-200 active:scale-95"
             aria-label="Toggle menu"
           >
             <motion.div
@@ -112,7 +118,7 @@ export default function Navbar() {
               <motion.span
                 variants={{
                   closed: { rotate: 0, y: 0 },
-                  open: { rotate: 45, y: 9 },
+                  open: { rotate: 45, y: 7 },
                 }}
                 transition={{ duration: 0.3 }}
                 className="w-5 h-0.5 bg-white rounded-full origin-center block"
@@ -128,7 +134,7 @@ export default function Navbar() {
               <motion.span
                 variants={{
                   closed: { rotate: 0, y: 0 },
-                  open: { rotate: -45, y: -9 },
+                  open: { rotate: -45, y: -7 },
                 }}
                 transition={{ duration: 0.3 }}
                 className="w-5 h-0.5 bg-white rounded-full origin-center block"
@@ -146,53 +152,44 @@ export default function Navbar() {
         {isOpen && (
           <motion.div
             key="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden absolute top-full left-0 w-full overflow-hidden z-40 bg-black/75 backdrop-blur-2xl border-b border-white/10"
+            initial={{ opacity: 0, y: -15, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -15, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:hidden absolute top-full left-0 right-0 mx-4 mt-2.5 overflow-hidden z-40 bg-slate-950/85 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
           >
             <motion.ul
               variants={containerVariants}
               initial="closed"
               animate="open"
               exit="closed"
-              className="flex flex-col px-4 pb-6 pt-3"
+              className="flex flex-col px-5 pb-6 pt-5 gap-1.5"
             >
               {links.map((link, i) => (
                 <motion.li key={link.label} variants={linkVariants}>
                   <a
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between text-white/85 hover:text-white px-4 py-4 rounded-xl hover:bg-white/8 active:bg-white/15 transition-all duration-200 border-b border-white/8 last:border-0 group"
+                    className="flex items-center justify-between text-white/80 hover:text-[#4adebc] px-4 py-3 rounded-xl hover:bg-white/5 active:bg-white/10 transition-all duration-200 group"
                   >
-                    <span className="font-semibold text-base tracking-wide">{link.label}</span>
+                    <div className="flex items-center gap-3.5">
+                      <span className="text-[10px] text-[#4adebc]/80 tracking-wider">0{i + 1}</span>
+                      <span className="font-bold text-base tracking-wide">{link.label}</span>
+                    </div>
                     <svg
-                      className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200"
+                      className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-[#4adebc]"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2.5"
                       viewBox="0 0 24 24"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                     </svg>
                   </a>
                 </motion.li>
               ))}
 
-              {/* Mobile CTA */}
-              <motion.li variants={linkVariants} className="mt-4">
-                <a
-                  href="/booking"
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-center gap-2 w-full bg-[#3668FF] hover:bg-[#2555e5] text-white py-3.5 rounded-xl font-bold text-base shadow-lg shadow-blue-600/30 active:scale-98 transition-all duration-200"
-                >
-                  Book a ride
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
-                </a>
-              </motion.li>
+            
             </motion.ul>
           </motion.div>
         )}

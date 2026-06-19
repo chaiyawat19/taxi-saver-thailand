@@ -16,6 +16,16 @@ export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   const [showContent, setShowContent] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+    const hasLoadedBefore = sessionStorage.getItem("hasLoadedBefore");
+    if (hasLoadedBefore === "true") {
+      setShowLoader(false);
+      setShowContent(true);
+    }
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 1023px)");
@@ -30,11 +40,19 @@ export default function Home() {
     }
   }, []);
 
+  if (!isHydrated) {
+    return <div className="min-h-screen bg-[#1DA58C]" />;
+  }
+
   return (
     <>
+      <link rel="preload" href="/images/hero/BG.webp" as="image" fetchPriority="high" />
       {showLoader && (
         <Preloader 
-          onExitStart={() => setShowContent(true)} 
+          onExitStart={() => {
+            sessionStorage.setItem("hasLoadedBefore", "true");
+            setShowContent(true);
+          }} 
           onComplete={() => setShowLoader(false)} 
         />
       )}
@@ -52,10 +70,10 @@ export default function Home() {
       </motion.div>
 
       {/* Hero Section Container */}
-      <div className="relative w-full h-[95vh] min-h-[700px] max-h-[950px] overflow-hidden select-none bg-black">
+      <div className="relative w-full h-[95vh] min-h-[700px] max-h-[950px] overflow-hidden select-none bg-[#1DA58C]">
         {/* Layer 0: Background Image */}
         <img
-          src="/images/hero/BG.png"
+          src="/images/hero/BG.webp"
           alt="Suvarnabhumi Airport Terminal BG"
           className="absolute inset-0 w-full h-full object-cover z-0 opacity-100"
           draggable={false}
@@ -66,27 +84,27 @@ export default function Home() {
         <div className="absolute top-0 left-0 w-full h-[250px] bg-gradient-to-b from-black/50 to-transparent z-[5] pointer-events-none" />
         
         {/* Bottom gradient fade blending into the page color */}
-        <div className="absolute bottom-0 left-0 w-full h-[200px] bg-gradient-to-t from-[#1DA58C] via-[#1DA58C]/50 to-transparent z-[15] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-full h-[400px] xl:h-[100px]: bg-gradient-to-t from-[#1DA58C] via-[#1DA58C]/50 to-transparent z-[40] pointer-events-none" />
 
         
 
         {/* Layer 20: Title and Subtitle positioned behind foreground objects */}
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-center z-20 pointer-events-none px-4">
+        <div className="absolute inset-0 flex flex-col justify-top mt-20 items-center text-center pointer-events-none px-4 md:mt-30 lg:mt-20">
           <motion.h1
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-white font-semibold leading-none select-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] flex flex-col" 
+            className="text-white font-semibold leading-none select-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] flex flex-col z-30" 
           >
-            <span className="text-[11vw] sm:text-[10vw] lg:text-[9rem] xl:text-[10rem] 2xl:text-[11rem]">Taxi Saver</span>
-            <span className="text-[11vw] sm:text-[10vw] lg:text-[9rem] xl:text-[10rem] 2xl:text-[11rem] mt-[-10px] lg:mt-[-25px]">Thailand</span>
+            <span className="text-[15vw] sm:text-[14vw] md:text-[12vw] lg:text-[9rem] xl:text-[9rem] 2xl:text-[11rem]">Taxi Saver</span>
+            <span className="text-[15vw] sm:text-[14vw] md:text-[12vw] lg:text-[9rem] xl:text-[9rem] 2xl:text-[11rem] mt-[-10px] lg:mt-[-25px]">Thailand</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
-            className="text-white/95 mb-45 text-base sm:text-lg lg:text-xl xl:text-2xl mt-4 font-semibold tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]"
+            className="text-white/95 text-base sm:text-lg lg:text-xl xl:text-2xl mt-4 font-semibold tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] z-40"
           >
             You can book service without deposit
           </motion.p>
@@ -96,51 +114,51 @@ export default function Home() {
         
         {/* Coconut tree (bottom left) */}
         <motion.img
-          src="/images/hero/Coconut-tree.png"
+          src="/images/hero/Coconut-tree.webp"
           alt="Coconut Tree"
           initial={{ x: -80, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
-          className="absolute bottom-[-15%] left-[-10%] h-[100%] w-auto object-contain object-left-bottom z-30 pointer-events-none select-none "
+          className="absolute hidden sm:block  sm:bottom-0 sm:left-[-12%] sm:bottom-[50%] sm:h-[40%] md:block  md:h-[70%] md:left-[-23%] md:bottom-[10%] lg:h-[80%] lg:bottom-[-2%] lg:left-[-18%] xl:h-[90%] xl:left-[-5%] xl:bottom-[-8%] w-auto object-contain object-left-bottom z-30 pointer-events-none select-none "
         />
 
         <motion.img
-          src="/images/hero/Coconut-tree.png"
+          src="/images/hero/Coconut-tree.webp"
           alt="Coconut Tree"
           initial={{ x: -80, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
-          className="absolute bottom-[-8%] left-[-11%] h-[50%] w-auto object-contain object-left-bottom z-30 pointer-events-none select-none"
+          className="absolute hidden sm:block sm:h-[40%] sm:left-[-12%] sm:bottom-[30%] md:h-[60%] md:block md:left-[-30%] md:bottom-[-10%] lg:h-[60%] lg:left-[-22%] lg:bottom-[-13%] xl:h-[60%] xl:left-[-10%] xl:bottom-[-10%] w-auto object-contain object-left-bottom z-30 pointer-events-none select-none"
         />
 
         {/* Airplane (top-left) */}
         <motion.img
-          src="/images/hero/Air-plane.png"
+          src="/images/hero/Air-plane.webp"
           alt="Airplane"
           initial={{ x: -140, y: -60, opacity: 0 }}
           animate={{ x: 0, y: 0, opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
-          className="absolute top-[6%] left-[7%] w-[14%] max-w-[150px] min-w-[90px] z-10 pointer-events-none select-none"
+          className="absolute  top-[6%] left-[-8%] md:top-[8%] md:left-[10%]  w-[14%] max-w-[150px] min-w-[90px] z-10 pointer-events-none select-none"
         />
 
         {/* Person with Luggage (bottom center-left) */}
         <motion.img
-          src="/images/hero/Person-with-luggage.png"
+          src="/images/hero/Person-with-luggage.webp"
           alt="Person with Luggage"
           initial={{ y: 80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1.2, delay: 0.7, ease: "easeOut" }}
-          className="absolute bottom-[-15%] left-[27%] sm:left-[32%] md:left-[34%] lg:left-[30%] h-[38%] sm:h-[45%] md:h-[50%] lg:h-[54%] w-auto object-contain object-bottom z-[12] pointer-events-none select-none"
+          className="absolute h-[50%] bottom-[15%] left-[-12%] sm:left-[16%] sm:bottom-[10%] md:left-[22%] md:bottom-[2%] lg:left-[30%] h-[38%] sm:h-[45%] md:h-[50%] lg:h-[54%] xl:bottom-[-17%] w-auto object-contain object-bottom z-[12] pointer-events-none select-none"
         />
 
         {/* SUV Car (bottom center-right) */}
         <motion.img
-          src="/images/hero/SUV-car.png"
+          src="/images/hero/SUV-car.webp"
           alt="SUV Car"
           initial={{ x: 500, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
-          className="absolute bottom-[-2%] left-[38%] sm:left-[40%] md:left-[42%] lg:left-[42%] h-[20%] sm:h-[48%] md:h-[54%] lg:h-[45%] w-auto object-contain object-bottom z-[10] pointer-events-none select-none"
+          className="absolute bottom-[26%] left-[20%] h-[100%] sm:h-[42%] sm:left-[45%] sm:bottom-[9%] md:left-[42%] lg:left-[42%] h-[20%] md:h-[40%] lg:h-[45%] xl:h-[45%] xl:left-[50%] xl:bottom-[-2%] w-auto object-contain object-bottom z-[10] pointer-events-none select-none"
         />
 
         {/* Layer 40: Call to Action buttons overlay */}
@@ -148,11 +166,11 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.0, ease: "easeOut" }}
-          className="absolute bottom-[9%] left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-4 z-40 w-full px-4"
+          className="absolute bottom-[20%] xl:bottom-[10%]  left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-4 z-40 w-full px-4"
         >
           <a
             href="/booking"
-            className="relative overflow-hidden bg-[#3668FF] text-white px-7 py-3.5 rounded-xl font-bold flex items-center gap-2.5 shadow-xl shadow-blue-600/30 border border-blue-400/30 group transition-all duration-300 hover:shadow-blue-500/50 hover:shadow-2xl active:scale-95"
+            className="relative overflow-hidden bg-[#3668FF] text-white px-6 py-3.5 rounded-xl font-bold flex items-center gap-1.5 shadow-xl shadow-blue-600/30 border border-blue-400/30 group transition-all duration-300 hover:shadow-blue-500/50 hover:shadow-2xl active:scale-95"
           >
             {/* Shimmer effect */}
             <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
@@ -210,7 +228,7 @@ export default function Home() {
               animateBy="letters"
               direction="bottom"
               stepDuration={0.4}
-              className="text-white font-medium leading-[1.1] text-[2.6rem] sm:text-[3.2rem] md:text-[3.8rem] lg:text-[4rem] xl:text-[4.8rem]"
+              className="text-white font-medium leading-[1.1] text-[2.6rem] sm:text-[3.2rem] md:text-[3.6rem] lg:text-[4.4rem] xl:text-[4.8rem]"
             />
 
             
@@ -223,7 +241,7 @@ export default function Home() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: isMobile ? "-40px" : "-80px" }}
             transition={{ duration: isMobile ? 2.5 : 6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="relative mx-auto w-fit z-20 flex justify-center px-4 mt-12 lg:absolute lg:left-0 lg:right-0 lg:bottom-30 lg:mt-0"
+            className="relative mx-auto w-fit z-20 flex justify-center px-4 mt-12 lg:absolute lg:left-0 lg:right-0 lg:bottom-20 lg:mt-0"
           >
             {/* Glow / shadow under car */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[70%] h-[30px] bg-black/25 blur-2xl rounded-full pointer-events-none" />

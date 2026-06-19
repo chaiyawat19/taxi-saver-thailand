@@ -43,7 +43,6 @@ const BlurText: React.FC<BlurTextProps> = ({
   onAnimationComplete,
   stepDuration = 0.35
 }) => {
-  const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLParagraphElement>(null);
 
@@ -87,11 +86,17 @@ const BlurText: React.FC<BlurTextProps> = ({
   const totalDuration = stepDuration * (stepCount - 1);
   const times = Array.from({ length: stepCount }, (_, i) => (stepCount === 1 ? 0 : i / (stepCount - 1)));
 
-  return (
-    <p ref={ref} className={`blur-text ${className} flex flex-wrap`}>
-      {elements.map((segment, index) => {
-        const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
+  const words = useMemo(() => text.split(' '), [text]);
 
+  const totalElementsCount = useMemo(() => {
+    if (animateBy === 'words') return words.length;
+    return words.reduce((acc, word) => acc + word.length, 0);
+  }, [words, animateBy]);
+
+  const renderContent = () => {
+    if (animateBy === 'words') {
+      return words.map((word, index) => {
+        const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
         const spanTransition: Transition = {
           duration: totalDuration,
           times,
@@ -105,17 +110,68 @@ const BlurText: React.FC<BlurTextProps> = ({
             initial={fromSnapshot}
             animate={inView ? animateKeyframes : fromSnapshot}
             transition={spanTransition}
-            onAnimationComplete={index === elements.length - 1 ? onAnimationComplete : undefined}
+            onAnimationComplete={index === words.length - 1 ? onAnimationComplete : undefined}
             style={{
               display: 'inline-block',
               willChange: 'transform, filter, opacity'
             }}
           >
-            {segment === ' ' ? '\u00A0' : segment}
-            {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
+            {word}
+            {index < words.length - 1 && '\u00A0'}
           </motion.span>
         );
-      })}
+      });
+    } else {
+      let globalLetterIndex = 0;
+      return words.map((word, wordIndex) => {
+        const letters = word.split('');
+        
+        return (
+          <span 
+            key={wordIndex} 
+            style={{ 
+              display: 'inline-block', 
+              whiteSpace: 'nowrap' 
+            }}
+          >
+            {letters.map((char, charIndex) => {
+              const currentGlobalIndex = globalLetterIndex++;
+              const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
+              const spanTransition: Transition = {
+                duration: totalDuration,
+                times,
+                delay: (currentGlobalIndex * delay) / 1000,
+                ease: easing
+              };
+
+              const isLast = currentGlobalIndex === totalElementsCount - 1;
+
+              return (
+                <motion.span
+                  key={charIndex}
+                  initial={fromSnapshot}
+                  animate={inView ? animateKeyframes : fromSnapshot}
+                  transition={spanTransition}
+                  onAnimationComplete={isLast ? onAnimationComplete : undefined}
+                  style={{
+                    display: 'inline-block',
+                    willChange: 'transform, filter, opacity'
+                  }}
+                >
+                  {char}
+                </motion.span>
+              );
+            })}
+            {wordIndex < words.length - 1 && <span style={{ display: 'inline-block' }}>{'\u00A0'}</span>}
+          </span>
+        );
+      });
+    }
+  };
+
+  return (
+    <p ref={ref} className={`blur-text ${className} flex flex-wrap`}>
+      {renderContent()}
     </p>
   );
 };

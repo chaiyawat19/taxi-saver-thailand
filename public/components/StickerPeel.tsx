@@ -274,7 +274,7 @@ const StickerPeel: React.FC<StickerPeelProps> = ({
 
   return (
     <div
-      className={`absolute cursor-grab active:cursor-grabbing transform-gpu ${className}`}
+      className={`absolute cursor-grab active:cursor-grabbing transform-gpu touch-none ${className}`}
       ref={dragTargetRef}
       style={cssVars}
       onPointerDown={handlePointerDown}

@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import ScrollFloat from "./ScrollFloat";
 
 const links = [
   { label: "Home",      href: "/#homepage" },
   { label: "Services",  href: "/#services"  },
-  { label: "Vehicles",  href: "/#vehicles"  },
+  { label: "Fleet",  href: "/#fleet"  },
   { label: "Book a Ride", href: "/booking"  },
 ];
 
@@ -62,31 +63,40 @@ export default function Footer() {
       <div className="relative max-w-[1400px] mx-auto px-6 md:px-12 xl:px-16">
 
         {/* ── CTA Banner ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-14 pb-10 border-b border-white/15"
-        >
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-14 pb-10 border-b border-white/15">
           <div>
-            <p className="text-white/60 text-sm font-semibold uppercase tracking-widest mb-2">
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="text-white/60 text-sm font-semibold uppercase tracking-widest mb-2"
+            >
               24/7 Advance Booking
-            </p>
-            <h2 className="text-white text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05]">
-              Ready to Hit<br />the Road?
-            </h2>
+            </motion.p>
+            <ScrollFloat
+              animationDuration={1}
+              ease="back.inOut(2)"
+              stagger={0.03}
+              textClassName="text-white text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05]"
+            >
+              Ready to Hit the Road?
+            </ScrollFloat>
           </div>
-          <a
+          <motion.a
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
             href="/booking"
-            className="inline-flex items-center gap-2.5 bg-white hover:bg-gray-50 text-[#1DA58C] font-bold px-8 py-4 rounded-xl transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] shadow-xl text-base shrink-0 self-start md:self-auto"
+            className="inline-flex items-center gap-2.5 bg-white hover:bg-gray-50 text-[#3668FF] font-bold px-8 py-4 rounded-xl transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] shadow-xl text-base shrink-0 self-start md:self-auto"
           >
             Book Now
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
-          </a>
-        </motion.div>
+          </motion.a>
+        </div>
 
         {/* ── Three-column grid ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 py-12">
@@ -134,7 +144,7 @@ export default function Footer() {
                   />
                   <button
                     type="submit"
-                    className="bg-white text-[#1DA58C] font-bold text-sm px-4 py-2.5 rounded-lg hover:bg-gray-100 transition-all duration-200 shrink-0 hover:scale-[1.03] active:scale-[0.97]"
+                    className="bg-white text-[#3668FF] font-bold text-sm px-4 py-2.5 rounded-lg hover:bg-gray-100 transition-all duration-200 shrink-0 hover:scale-[1.03] active:scale-[0.97]"
                   >
                     Send
                   </button>
