@@ -23,9 +23,10 @@ interface ServiceCardProps {
   tag: string;
   title: string;
   slides: { src: string; label: string }[];
+  isActive?: boolean;
 }
 
-function ServiceCard({ tag, title, slides }: ServiceCardProps) {
+function ServiceCard({ tag, title, slides, isActive }: ServiceCardProps) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
 
@@ -50,15 +51,27 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
     >
       {/* ── Header area ── */}
       <div 
-        className="px-6 pt-5 pb-4 bg-white group-hover:bg-[#3668FF] transition-colors duration-300 ease-out" 
+        className={`px-6 pt-5 pb-4 transition-colors duration-300 ease-out ${
+          isActive 
+            ? "bg-[#3668FF]" 
+            : "bg-white group-hover:bg-[#3668FF]"
+        }`} 
       >
         <p 
-          className="text-xs font-semibold uppercase tracking-widest mb-1 text-[#1a1a1a]/60 group-hover:text-white/75 transition-colors duration-300 ease-out" 
+          className={`text-xs font-semibold uppercase tracking-widest mb-1 transition-colors duration-300 ease-out ${
+            isActive 
+              ? "text-white/75" 
+              : "text-[#1a1a1a]/60 group-hover:text-white/75"
+          }`} 
         >
           {tag}
         </p>
         <h3 
-          className="text-2xl sm:text-3xl min-h-[4rem] sm:min-h-[5rem] font-bold leading-tight text-[#1a1a1a] group-hover:text-white transition-colors duration-300 ease-out" 
+          className={`text-2xl sm:text-3xl min-h-[4rem] sm:min-h-[5rem] font-bold leading-tight transition-colors duration-300 ease-out ${
+            isActive 
+              ? "text-white" 
+              : "text-[#1a1a1a] group-hover:text-white"
+          }`} 
         >
           {title}
         </h3>
@@ -85,7 +98,9 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
             <img
               src={slides[current].src}
               alt={slides[current].label}
-              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 will-change-transform"
+              className={`w-full h-full object-cover transition-transform duration-700 ease-out will-change-transform ${
+                isActive ? "scale-105" : "group-hover:scale-105"
+              }`}
             />
             {/* Bottom gradient + location label */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
@@ -98,7 +113,10 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
         {/* Prev arrow */}
         {slides.length > 1 && (
           <button
-            onClick={goPrev}
+            onClick={(e) => {
+              e.stopPropagation();
+              goPrev();
+            }}
             className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm flex items-center justify-center text-white transition-all duration-200"
             aria-label="Previous"
           >
@@ -111,7 +129,10 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
         {/* Next arrow */}
         {slides.length > 1 && (
           <button
-            onClick={goNext}
+            onClick={(e) => {
+              e.stopPropagation();
+              goNext();
+            }}
             className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm flex items-center justify-center text-white transition-all duration-200"
             aria-label="Next"
           >
@@ -126,7 +147,10 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
           {slides.map((_, i) => (
             <button
               key={i}
-              onClick={() => go(i)}
+              onClick={(e) => {
+                e.stopPropagation();
+                go(i);
+              }}
               className={`rounded-full transition-all duration-300 cursor-pointer ${
                 i === current
                   ? "bg-[#3668FF] w-5 h-2.5"
@@ -143,6 +167,8 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
 
 // ── Main Section ──────────────────────────────────────────────────────────────
 export default function ServicesSection() {
+  const [activeCard, setActiveCard] = useState<string | null>(null);
+
   return (
     <section id="services" className="relative w-full bg-[#1DA58C] overflow-hidden">
       {/* Dot texture */}
@@ -171,20 +197,28 @@ export default function ServicesSection() {
         {/* ── Two service cards ── */}
         <div className="flex flex-col md:flex-row gap-5 lg:gap-6">
           {/* Airport card */}
-          <div className="flex-1 min-w-0">
+          <div 
+            className="flex-1 min-w-0"
+            onClick={() => setActiveCard(activeCard === "airport" ? null : "airport")}
+          >
             <ServiceCard
               tag="Airport Transfers"
               title="Airport Pickups & Drop-offs"
               slides={airportSlides}
+              isActive={activeCard === "airport"}
             />
           </div>
 
           {/* Upcountry / intercity card */}
-          <div className="flex-1 min-w-0">
+          <div 
+            className="flex-1 min-w-0"
+            onClick={() => setActiveCard(activeCard === "city" ? null : "city")}
+          >
             <ServiceCard
               tag="City-to-City Transfers"
               title="Intercity Rides"
               slides={upcountrySlides}
+              isActive={activeCard === "city"}
             />
           </div>
         </div>
