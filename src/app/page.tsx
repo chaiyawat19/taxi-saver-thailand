@@ -62,14 +62,14 @@ export default function Home() {
       "absolute inset-0 flex flex-col justify-top mt-30 items-center text-center pointer-events-none px-4",
       "sm:mt-50",
       "md:mt-30",
-      "lg:mt-20",
-      "xl:mt-20",
-      "2xl:mt-20"
+      "lg:mt-35",
+      "xl:mt-35",
+      "2xl:mt-35"
     ].join(" "),
 
     // Hero title text (Taxi Saver Thailand)
     titleText: [
-      "text-[15vw] sm:text-[14vw] md:text-[12vw] lg:text-[9rem] xl:text-[11rem] 2xl:text-[11rem]",
+      "text-[15vw] sm:text-[14vw] md:text-[12vw] lg:text-[9rem] xl:text-[9rem] 2xl:text-[8.2rem]",
     ].join(" "),
 
     // Subtitle paragraph (You can book service without deposit)
@@ -94,8 +94,9 @@ export default function Home() {
 
     // Airplane (Top left flying)
     airplane: [
-      "absolute top-[6%] left-[-8%] z-10 pointer-events-none select-none w-[14%] max-w-[150px] min-w-[90px]",
-      "xl:left-[5%]"
+      "absolute top-[6%] left-[40%] z-10 pointer-events-none select-none w-[14%] max-w-[150px] min-w-[90px]",
+      "2xl:left-[45%]"
+      
       
     ].join(" "),
 
@@ -107,7 +108,7 @@ export default function Home() {
       "md:left-[7%] md:bottom-[2%] md:h-[50%]",
       "lg:left-[8%] lg:bottom-[-5%] lg:h-[54%]",
       "xl:bottom-[-17%] xl:left-[22%]",
-      "2xl:left-[22%] 2xl:bottom-[-16%] 2xl:h-[60%]",
+      "2xl:left-[30%] 2xl:bottom-[-16%] 2xl:h-[60%]",
     ].join(" "),
 
     // SUV car

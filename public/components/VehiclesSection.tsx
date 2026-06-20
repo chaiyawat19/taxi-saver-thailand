@@ -118,46 +118,24 @@ export default function VehiclesSection() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -15 }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="relative w-full h-full flex items-center justify-center cursor-pointer group"
+                className="relative w-full h-full flex items-center justify-center group"
               >
-                {/* Floating wrapper trigger */}
-                <motion.div
-                  className="relative w-full h-full flex items-center justify-center"
-                  whileHover="hover"
-                >
-                  {/* Dynamic Shadow underneath the car */}
-                  <motion.div 
-                    className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[75%] h-[30px] bg-black/40 blur-2xl rounded-full pointer-events-none origin-center"
-                    variants={{
-                      hover: {
-                        scaleX: 0.8,
-                        scaleY: 0.9,
-                        opacity: 0.5,
-                        y: 8,
-                        transition: { duration: 0.4, ease: "easeOut" }
-                      }
-                    }}
-                  />
+                {/* Static wrapper container */}
+                <div className="relative w-full h-full flex items-center justify-center">
+                  {/* Shadow underneath the car */}
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[75%] h-[30px] bg-black/40 blur-2xl rounded-full pointer-events-none origin-center" />
                   
-                  {/* Car Image with float lift & tilt */}
-                  <motion.img
+                  {/* Car Image */}
+                  <img
                     src={vehicleDetails[selectedVehicle].image}
                     alt={vehicleDetails[selectedVehicle].name}
                     className={`w-full h-auto object-contain z-10 pointer-events-none drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-all duration-300 ${
                       selectedVehicle === "van"
-                        ? "max-w-[480px] sm:max-w-[550px] lg:max-w-[620px] scale-[1.18]"
-                        : "max-w-[420px] sm:max-w-[480px] lg:max-w-[540px]"
+                        ? "max-w-[480px] sm:max-w-[550px] lg:max-w-[620px] scale-[1.35] sm:scale-[1.25]"
+                        : "max-w-[420px] sm:max-w-[480px] lg:max-w-[540px] "
                     }`}
-                    variants={{
-                      hover: {
-                        y: -14,
-                        scale: selectedVehicle === "van" ? 1.23 : 1.05,
-                        rotate: selectedVehicle === "sedan" ? -1.5 : selectedVehicle === "suv" ? 1.5 : 1,
-                        transition: { duration: 0.4, ease: "easeOut" }
-                      }
-                    }}
                   />
-                </motion.div>
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
