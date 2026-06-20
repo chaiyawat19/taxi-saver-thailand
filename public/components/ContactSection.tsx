@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Folder from "./Folder";
 import Grainient from "./Grainient";
-import ScrollFloat from "./ScrollFloat";
 
 // ── Paper content (tiny cards inside the folder) ──────────────────────────────
 const WhatsAppPaper = (
@@ -131,23 +130,10 @@ export default function ContactSection() {
         {/* ── Layout: Centered Heading + Folder ── */}
         <div className="flex flex-col items-center justify-center text-center gap-8 w-full">
           <div className="text-center flex flex-col items-center">
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-3"
-            >
-              Get in touch
-            </motion.p>
-            <ScrollFloat
-              animationDuration={1}
-              ease="back.inOut(2)"
-              stagger={0.03}
-              textClassName="text-white text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] mb-4"
-            >
-              We&apos;re Here to Help
-            </ScrollFloat>
+           
+            <h2 className="text-white text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] mb-4">
+              Need a Ride?
+            </h2>
             <motion.p
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -155,7 +141,8 @@ export default function ContactSection() {
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
               className="text-white/70 text-base sm:text-lg max-w-lg leading-relaxed"
             >
-              Reach us anytime via WhatsApp, Facebook, or phone. We reply fast — usually within minutes.
+              Contact Our Thailand Taxi Support Team 
+              <br /> Reach us anytime via WhatsApp, Facebook, or phone. We reply fast — usually within minutes.
             </motion.p>
           </div>
 

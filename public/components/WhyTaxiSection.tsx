@@ -4,7 +4,6 @@ import React from "react";
 import ScrollStack, { ScrollStackItem } from "./ScrollStack";
 import { ShieldCheck, CircleDollarSign, Clock, Languages } from "lucide-react";
 import { motion } from "framer-motion";
-import ScrollFloat from "./ScrollFloat";
 
 export default function WhyTaxiSection() {
   const cardsData = [
@@ -96,14 +95,9 @@ export default function WhyTaxiSection() {
           {/* Section Title */}
           {/* Section Title */}
           <div className="text-center w-full px-6 mb-12">
-            <ScrollFloat
-              animationDuration={1}
-              ease="back.inOut(2)"
-              stagger={0.03}
-              textClassName="text-white text-4xl sm:text-5xl font-bold tracking-tight mb-4"
-            >
+            <h2 className="text-white text-2xl sm:text-5xl md:text-4xl font-bold tracking-tight mb-4">
               Why Choose Taxi Saver?
-            </ScrollFloat>
+            </h2>
             <motion.div
               initial={{ opacity: 0, scaleX: 0 }}
               whileInView={{ opacity: 1, scaleX: 1 }}

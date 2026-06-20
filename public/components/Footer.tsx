@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import ScrollFloat from "./ScrollFloat";
 
 const links = [
   { label: "Home",      href: "/#homepage" },
+  { label: "About Us",  href: "/#about-us"  },
   { label: "Services",  href: "/#services"  },
   { label: "Fleet",  href: "/#fleet"  },
   { label: "Book a Ride", href: "/booking"  },
@@ -74,14 +74,9 @@ export default function Footer() {
             >
               24/7 Advance Booking
             </motion.p>
-            <ScrollFloat
-              animationDuration={1}
-              ease="back.inOut(2)"
-              stagger={0.03}
-              textClassName="text-white text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05]"
-            >
+            <h2 className="text-white text-2xl sm:text-5xl md:text-6xl font-bold leading-[1.05]">
               Ready to Hit the Road?
-            </ScrollFloat>
+            </h2>
           </div>
           <motion.a
             initial={{ opacity: 0, scale: 0.95 }}
@@ -140,10 +135,12 @@ export default function Footer() {
                     onChange={e => setEmail(e.target.value)}
                     placeholder="Your email address"
                     required
+                    suppressHydrationWarning
                     className="flex-1 bg-white/10 border border-white/20 text-white placeholder-white/40 text-sm rounded-lg px-3 py-2.5 outline-none focus:border-white/50 focus:bg-white/15 transition-all duration-200 min-w-0"
                   />
                   <button
                     type="submit"
+                    suppressHydrationWarning
                     className="bg-white text-[#3668FF] font-bold text-sm px-4 py-2.5 rounded-lg hover:bg-gray-100 transition-all duration-200 shrink-0 hover:scale-[1.03] active:scale-[0.97]"
                   >
                     Send

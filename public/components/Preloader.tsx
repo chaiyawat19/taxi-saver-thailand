@@ -16,18 +16,15 @@ export default function Preloader({ onExitStart, onComplete }: PreloaderProps) {
 
   useEffect(() => {
     const imagesToPreload = [
-      "/images/hero/BG.png",
-      "/images/hero/Coconut-tree.png",
-      "/images/hero/Air-plane.png",
-      "/images/hero/Person-with-luggage.png",
-      "/images/hero/SUV-car.png",
-      "/images/section2/seden-car.png",
-      "/images/vehicle-type/seden.png",
-      "/images/vehicle-type/suv.png",
-      "/images/vehicle-type/van.png",
-      "/images/section3/slide1.png",
-      "/images/section3/slide2.png",
-      "/images/section3/slide3.png"
+      "/images/hero/bkk.webp",
+      "/images/hero/Coconut-tree.webp",
+      "/images/hero/Air-plane.webp",
+      "/images/hero/Person-with-luggage.webp",
+      "/images/hero/SUV-car.webp",
+      "/images/section2/seden-car.webp",
+      "/images/vehicle-type/sedan.webp",
+      "/images/vehicle-type/suv.webp",
+      "/images/vehicle-type/van.webp"
     ];
 
     let loadedCount = 0;

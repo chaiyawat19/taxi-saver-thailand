@@ -3,20 +3,19 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GlareHover from "./GlareHover";
-import ScrollFloat from "./ScrollFloat";
 
 // ── Airport card slides ───────────────────────────────────────────────────────
 const airportSlides = [
-  { src: "/images/service-card/airport/airport.jpg",   label: "Suvarnabhumi Airport" },
+  { src: "/images/service-card/airport/airport.webp",   label: "Suvarnabhumi Airport" },
   { src: "/images/service-card/airport/don-mueang.webp", label: "Don Mueang Airport" },
 ];
 
 // ── Upcountry card slides ─────────────────────────────────────────────────────
 const upcountrySlides = [
-  { src: "/images/service-card/upcountry/Bangkok.jpg",  label: "Bangkok" },
-  { src: "/images/service-card/upcountry/Pattaya.jpg",  label: "Pattaya" },
-  { src: "/images/service-card/upcountry/hua-hin.jpg",  label: "Hua Hin" },
-  { src: "/images/service-card/upcountry/rayong.jpg",   label: "Rayong" },
+  { src: "/images/service-card/upcountry/Bangkok.webp",  label: "Bangkok" },
+  { src: "/images/service-card/upcountry/Pattaya.webp",  label: "Pattaya" },
+  { src: "/images/service-card/upcountry/hua-hin.webp",  label: "Hua Hin" },
+  { src: "/images/service-card/upcountry/rayong.webp",   label: "Rayong" },
 ];
 
 // ── Reusable Carousel Card ────────────────────────────────────────────────────
@@ -29,7 +28,6 @@ interface ServiceCardProps {
 function ServiceCard({ tag, title, slides }: ServiceCardProps) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
-  const [isHovered, setIsHovered] = useState(false);
 
   const go = (idx: number) => {
     setDirection(idx > current ? 1 : -1);
@@ -37,10 +35,6 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
   };
   const goNext = () => go((current + 1) % slides.length);
   const goPrev = () => go((current - 1 + slides.length) % slides.length);
-
-  const headerBg = isHovered ? "#3668FF" : "#ffffff";
-  const headerTextColor = isHovered ? "#ffffff" : "#1a1a1a";
-  const titleColor = isHovered ? "#ffffff" : "#1a1a1a";
 
   return (
     <GlareHover
@@ -53,23 +47,18 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
       glareOpacity={0.25}
       className="flex-1 min-w-0 shadow-2xl flex flex-col group cursor-default!"
       style={{ display: "flex", flexDirection: "column", alignItems: "stretch" }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* ── Header area ── */}
       <div 
-        className="px-6 pt-5 pb-4 transition-colors duration-300 ease-out" 
-        style={{ backgroundColor: headerBg }}
+        className="px-6 pt-5 pb-4 bg-white group-hover:bg-[#3668FF] transition-colors duration-300 ease-out" 
       >
         <p 
-          className="text-xs font-semibold uppercase tracking-widest mb-1 transition-colors duration-300 ease-out" 
-          style={{ color: headerTextColor, opacity: isHovered ? 0.75 : 0.6 }}
+          className="text-xs font-semibold uppercase tracking-widest mb-1 text-[#1a1a1a]/60 group-hover:text-white/75 transition-colors duration-300 ease-out" 
         >
           {tag}
         </p>
         <h3 
-          className="text-2xl sm:text-3xl min-h-[4rem] sm:min-h-[5rem] font-bold leading-tight transition-colors duration-300 ease-out" 
-          style={{ color: titleColor }}
+          className="text-2xl sm:text-3xl min-h-[4rem] sm:min-h-[5rem] font-bold leading-tight text-[#1a1a1a] group-hover:text-white transition-colors duration-300 ease-out" 
         >
           {title}
         </h3>
@@ -78,7 +67,7 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
       {/* ── Image carousel ── */}
       <div className="relative flex-1 aspect-[4/3] bg-black overflow-hidden">
         {/* Slides */}
-        <AnimatePresence initial={false} custom={direction} mode="wait">
+        <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={current}
             custom={direction}
@@ -91,12 +80,12 @@ function ServiceCard({ tag, title, slides }: ServiceCardProps) {
             animate="center"
             exit="exit"
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0"
+            className="absolute inset-0 will-change-transform"
           >
             <img
               src={slides[current].src}
               alt={slides[current].label}
-              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 will-change-transform"
             />
             {/* Bottom gradient + location label */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
@@ -166,73 +155,44 @@ export default function ServicesSection() {
 
         {/* ── Section header ── */}
         <div className="mb-10">
-          <ScrollFloat
-            animationDuration={1}
-            ease="back.inOut(2)"
-            stagger={0.03}
-            textClassName="text-white text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight mb-4"
-          >
+          <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight mb-4">
             Our Services
-          </ScrollFloat>
-          <motion.div
-            initial={{ opacity: 0, x: -15 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-            className="border-l-4 border-white/50 pl-4 max-w-md"
-          >
+          </h2>
+          <div className="border-l-4 border-white/50 pl-4 max-w-md">
             <p className="text-white/80 text-sm sm:text-base leading-relaxed">
               Experience safe, high-quality, and cost-effective transport with our
               specialized transfer services. From reliable airport pickups at BKK and
               DMK to seamless city-to-city rides between Bangkok, Pattaya, Rayong,
               and Hua Hin, We deliver reliable comfort at a price that makes sense.
             </p>
-          </motion.div>
+          </div>
         </div>
 
         {/* ── Two service cards ── */}
         <div className="flex flex-col md:flex-row gap-5 lg:gap-6">
           {/* Airport card */}
-          <motion.div
-            className="flex-1 min-w-0"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <div className="flex-1 min-w-0">
             <ServiceCard
               tag="Airport Transfers"
               title="Airport Pickups & Drop-offs"
               slides={airportSlides}
             />
-          </motion.div>
+          </div>
 
           {/* Upcountry / intercity card */}
-          <motion.div
-            className="flex-1 min-w-0"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <div className="flex-1 min-w-0">
             <ServiceCard
               tag="City-to-City Transfers"
               title="Intercity Rides"
               slides={upcountrySlides}
             />
-          </motion.div>
+          </div>
         </div>
 
         {/* ── Footnote ── */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-6 text-white/60 text-sm"
-        >
+        <p className="mt-6 text-white/60 text-sm">
           Please note: Pricing varies based on Fleet Type and distance.
-        </motion.p>
+        </p>
 
       </div>
     </section>

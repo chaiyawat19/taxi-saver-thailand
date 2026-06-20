@@ -59,14 +59,16 @@ const GlareHover: React.FC<GlareHoverProps> = ({
 
     el.style.transition = 'none';
     el.style.opacity = '0';
-    el.style.backgroundPosition = '-100% -100%, 0 0';
+    el.style.transform = 'translateX(-50%)';
     
-    // Force reflow
-    el.offsetHeight;
-
-    el.style.transition = `background-position ${transitionDuration}ms ease, opacity 200ms ease`;
-    el.style.opacity = '1';
-    el.style.backgroundPosition = '100% 100%, 0 0';
+    // Use requestAnimationFrame to reset and then transition, avoiding layout thrashing
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.style.transition = `transform ${transitionDuration}ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease`;
+        el.style.opacity = '1';
+        el.style.transform = 'translateX(50%)';
+      });
+    });
 
     onMouseEnter?.(e);
   };
@@ -78,7 +80,7 @@ const GlareHover: React.FC<GlareHoverProps> = ({
     if (playOnce) {
       el.style.transition = 'none';
       el.style.opacity = '0';
-      el.style.backgroundPosition = '-100% -100%, 0 0';
+      el.style.transform = 'translateX(-50%)';
     } else {
       el.style.transition = `opacity 300ms ease`;
       el.style.opacity = '0';
@@ -89,17 +91,19 @@ const GlareHover: React.FC<GlareHoverProps> = ({
 
   const overlayStyle: React.CSSProperties = {
     position: 'absolute',
-    inset: 0,
+    top: 0,
+    bottom: 0,
+    left: '-50%',
+    width: '200%',
     background: `linear-gradient(${glareAngle}deg,
-        hsla(0,0%,0%,0) 60%,
-        ${rgba} 70%,
-        hsla(0,0%,0%,0) 100%)`,
-    backgroundSize: `${glareSize}% ${glareSize}%, 100% 100%`,
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: '-100% -100%, 0 0',
+        rgba(255, 255, 255, 0) 35%,
+        ${rgba} 50%,
+        rgba(255, 255, 255, 0) 65%)`,
     opacity: 0,
     pointerEvents: 'none',
-    zIndex: 30
+    zIndex: 30,
+    transform: 'translateX(-50%)',
+    willChange: 'transform, opacity'
   };
 
   return (

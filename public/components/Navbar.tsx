@@ -59,14 +59,13 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* Desktop Navigation */}
         <div className="hidden lg:flex justify-center flex-1">
-          <ul className="flex items-center gap-1">
+          <ul className="flex items-center gap-5">
             {links.map((link) => (
               <li key={link.label}>
                 <a
                   href={link.href}
-                  className="text-white/80 hover:text-white px-4 lg:px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 font-medium text-sm tracking-wide"
+                  className="text-white/80 hover:text-white px-4 lg:px-3.5 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 font-medium text-sm tracking-wide"
                 >
                   {link.label}
                 </a>

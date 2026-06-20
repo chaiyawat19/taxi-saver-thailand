@@ -52,9 +52,9 @@ interface FormData {
 // ── Static data ──────────────────────────────────────────────────────────────
 const PICKUP_OPTIONS: { id: PickupKey; name: string; desc: string; image: string }[] = [
   { id: "don_mueang",   name: "Don Mueang Airport",  desc: "International Airport (DMK)",         image: "/images/book-card/don-mueang.webp" },
-  { id: "suvarnabhumi", name: "Suvarnabhumi Airport", desc: "International Airport (BKK)",         image: "/images/book-card/suvarnabhumi.jpg" },
-  { id: "upcountry",    name: "Upcountry",            desc: "Pattaya · Hua Hin · Rayong",          image: "/images/book-card/upcountry.png" },
-  // { id: "hotel_bkk",    name: "Hotel in Bangkok",     desc: "Any hotel or location in Bangkok",    image: "/images/book-card/hotel-bkk.png" },
+  { id: "suvarnabhumi", name: "Suvarnabhumi Airport", desc: "International Airport (BKK)",         image: "/images/book-card/suvarnabhumi.webp" },
+  { id: "upcountry",    name: "Upcountry",            desc: "Pattaya · Hua Hin · Rayong",          image: "/images/book-card/upcountry.webp" },
+  // { id: "hotel_bkk",    name: "Hotel in Bangkok",     desc: "Any hotel or location in Bangkok",    image: "/images/book-card/hotel-bkk.webp" },
 ];
 
 const UPCOUNTRY_CITIES: { id: UpcountryCity; name: string }[] = [
@@ -67,12 +67,12 @@ type DropoffOption = { name: string; desc: string; image: string; needsAddress: 
 
 const DROPOFF_OPTIONS: Record<DropoffKey, DropoffOption> = {
   don_mueang:   { name: "Don Mueang Airport",  desc: "DMK International Airport",            image: "/images/book-card/don-mueang.webp",  needsAddress: false, addressLabel: "" },
-  suvarnabhumi: { name: "Suvarnabhumi Airport", desc: "BKK International Airport",            image: "/images/book-card/suvarnabhumi.jpg", needsAddress: false, addressLabel: "" },
-  hotel_bkk:    { name: "Hotel in Bangkok",     desc: "Specify hotel name or address",        image: "/images/book-card/hotel-bkk.png", needsAddress: true,  addressLabel: "Hotel name or address in Bangkok" },
-  bkk_area:     { name: "Bangkok Area",         desc: "Hotel or area in Bangkok",             image: "/images/book-card/bkk-area.png", needsAddress: true,  addressLabel: "Hotel name or address in Bangkok" },
-  pattaya:      { name: "Pattaya",              desc: "Hotel or address in Pattaya",          image: "/images/book-card/pattaya.png", needsAddress: true,  addressLabel: "Hotel name or address in Pattaya" },
-  hua_hin:      { name: "Hua Hin",              desc: "Hotel or address in Hua Hin",          image: "/images/book-card/hua-hin.png", needsAddress: true,  addressLabel: "Hotel name or address in Hua Hin" },
-  rayong:       { name: "Rayong",               desc: "Hotel or address in Rayong",           image: "/images/book-card/rayong.png", needsAddress: true,  addressLabel: "Hotel name or address in Rayong" },
+  suvarnabhumi: { name: "Suvarnabhumi Airport", desc: "BKK International Airport",            image: "/images/book-card/suvarnabhumi.webp", needsAddress: false, addressLabel: "" },
+  hotel_bkk:    { name: "Hotel in Bangkok",     desc: "Specify hotel name or address",        image: "/images/book-card/hotel-bkk.webp", needsAddress: true,  addressLabel: "Hotel name or address in Bangkok" },
+  bkk_area:     { name: "Bangkok Area",         desc: "Hotel or area in Bangkok",             image: "/images/book-card/bkk-area.webp", needsAddress: true,  addressLabel: "Hotel name or address in Bangkok" },
+  pattaya:      { name: "Pattaya",              desc: "Hotel or address in Pattaya",          image: "/images/book-card/pattaya.webp", needsAddress: true,  addressLabel: "Hotel name or address in Pattaya" },
+  hua_hin:      { name: "Hua Hin",              desc: "Hotel or address in Hua Hin",          image: "/images/book-card/hua-hin.webp", needsAddress: true,  addressLabel: "Hotel name or address in Hua Hin" },
+  rayong:       { name: "Rayong",               desc: "Hotel or address in Rayong",           image: "/images/book-card/rayong.webp", needsAddress: true,  addressLabel: "Hotel name or address in Rayong" },
 };
 
 const DROPOFF_MAP: Record<PickupKey, DropoffKey[]> = {
@@ -84,7 +84,7 @@ const DROPOFF_MAP: Record<PickupKey, DropoffKey[]> = {
 
 const VEHICLE_TYPES = [
   { id: "sedan" as VehicleType, name: "Sedan",  capacity: "1–3 passengers" },
-  { id: "suv"   as VehicleType, name: "SUV",    capacity: "1–3 passengers" },
+  { id: "suv"   as VehicleType, name: "SUV",    capacity: "1–4 passengers" },
   { id: "van"   as VehicleType, name: "Van",    capacity: "5-9 passengers" },
 ];
 
@@ -161,6 +161,7 @@ export default function BookingForm() {
   const [direction, setDirection] = useState(1);
   const [submitType, setSubmitType] = useState<"whatsapp" | null>(null);
   const [showEmailModal, setShowEmailModal] = useState(false);
+  const [showClearModal, setShowClearModal] = useState(false);
   const [bookingStatus, setBookingStatus] = useState<"filling" | "success">("filling");
   const [copied, setCopied] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -169,6 +170,20 @@ export default function BookingForm() {
   const [todayStr, setTodayStr] = useState("");
   const [isCustomCc, setIsCustomCc] = useState(false);
   const receiptRef = useRef<HTMLDivElement>(null);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+
+  const showToast = (message: string, type: "success" | "error" | "info" = "success") => {
+    setToast({ message, type });
+  };
+
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        setToast(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -226,18 +241,78 @@ export default function BookingForm() {
 
   // Clear/Reset all details
   const handleReset = () => {
-    if (window.confirm("Are you sure you want to clear all entered booking details?")) {
-      try {
-        localStorage.removeItem(STORAGE_KEY_FORM);
-        localStorage.removeItem(STORAGE_KEY_STEP);
-      } catch (e) {
-        console.error("Failed to clear localStorage", e);
-      }
-      setForm(DEFAULT_FORM);
-      setStep(0);
-      setErrors({});
-    }
+    setShowClearModal(true);
   };
+
+  const confirmReset = () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY_FORM);
+      localStorage.removeItem(STORAGE_KEY_STEP);
+    } catch (e) {
+      console.error("Failed to clear localStorage", e);
+    }
+    setForm(DEFAULT_FORM);
+    setStep(0);
+    setErrors({});
+    setShowClearModal(false);
+    showToast("Booking details cleared successfully!", "success");
+  };
+
+  // ── Clear details confirmation modal ──────────────────────────────────────
+  const ClearConfirmModal = () => (
+    <AnimatePresence>
+      {showClearModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+          style={{ backdropFilter: "blur(12px)", backgroundColor: "rgba(0,0,0,0.55)" }}
+          onClick={() => setShowClearModal(false)}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 16 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            onClick={e => e.stopPropagation()}
+            className="bg-white border border-slate-200 rounded-3xl p-7 w-full max-w-sm shadow-2xl text-center select-none"
+          >
+            {/* Warning Icon */}
+            <div className="w-14 h-14 rounded-full bg-red-50 border border-red-100 flex items-center justify-center mx-auto mb-5">
+              <svg className="w-7 h-7 text-red-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+              </svg>
+            </div>
+
+            {/* Title */}
+            <h3 className="text-xl font-bold text-slate-900 mb-2 font-sans">Clear Booking Details?</h3>
+            <p className="text-slate-500 text-sm leading-relaxed mb-6 font-sans">
+              Are you sure you want to clear all entered booking details? This action cannot be undone.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setShowClearModal(false)}
+                className="flex-1 px-4 py-3 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-sm transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={confirmReset}
+                className="flex-1 px-4 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm transition-all cursor-pointer shadow-lg shadow-red-600/10"
+              >
+                Clear All
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 
   const isFormDirty = Object.keys(form).some(k => {
     const key = k as keyof FormData;
@@ -1201,7 +1276,7 @@ export default function BookingForm() {
         <ul className="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
           <li>Keep your WhatsApp application or email inbox open.</li>
           <li>For immediate assistance, call us or use the floating contact details.</li>
-          <li>Your receipt details will remain visible on the left side of this page.</li>
+          <li>Your receipt details will remain visible on this page.</li>
           <li>Download your receipt, or send it directly to your email or WhatsApp.</li>
         </ul>
       </div>
@@ -1251,12 +1326,12 @@ export default function BookingForm() {
         {/* Section Header */}
             <div className="mb-12">
               
-              <h2 className="text-4xl sm:text-5xl font-semibold leading-tight text-white">Book Your Ride</h2>
+              <h1 className="text-4xl sm:text-5xl font-semibold leading-tight text-white">Book Your Ride</h1>
               <span className="text-white/50">Fill in the form below to book your taxi</span>
             </div>
     
 
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-8 items-start">
+        <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-8 items-start">
 
           {/* ── LEFT: info panel (sticky on desktop) ───────────────────── */}
           <motion.div
@@ -1553,6 +1628,24 @@ export default function BookingForm() {
         </div>
       </div>
       <EmailModal />
+      <ClearConfirmModal />
+
+      {/* Dynamic Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.9 }}
+            className="fixed top-24 right-6 z-[9999] flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-2xl border text-sm font-semibold select-none bg-slate-900 border-slate-800 text-white"
+          >
+            <svg className="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0110 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+            </svg>
+            <span>{toast.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </section>
   );
