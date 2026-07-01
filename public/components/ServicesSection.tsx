@@ -3,20 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GlareHover from "./GlareHover";
-
-// ── Airport card slides ───────────────────────────────────────────────────────
-const airportSlides = [
-  { src: "/images/service-card/airport/airport.webp",   label: "Suvarnabhumi Airport" },
-  { src: "/images/service-card/airport/don-mueang.webp", label: "Don Mueang Airport" },
-];
-
-// ── Upcountry card slides ─────────────────────────────────────────────────────
-const upcountrySlides = [
-  { src: "/images/service-card/upcountry/Bangkok.webp",  label: "Bangkok" },
-  { src: "/images/service-card/upcountry/Pattaya.webp",  label: "Pattaya" },
-  { src: "/images/service-card/upcountry/hua-hin.webp",  label: "Hua Hin" },
-  { src: "/images/service-card/upcountry/rayong.webp",   label: "Rayong" },
-];
+import { useLanguage } from "../context/LanguageContext";
 
 // ── Reusable Carousel Card ────────────────────────────────────────────────────
 interface ServiceCardProps {
@@ -168,6 +155,7 @@ function ServiceCard({ tag, title, slides, isActive }: ServiceCardProps) {
 // ── Main Section ──────────────────────────────────────────────────────────────
 export default function ServicesSection() {
   const [activeCard, setActiveCard] = useState<string | null>(null);
+  const { language } = useLanguage();
 
   return (
     <section id="services" className="relative w-full bg-[#1DA58C] overflow-hidden">
@@ -182,14 +170,15 @@ export default function ServicesSection() {
         {/* ── Section header ── */}
         <div className="mb-10">
           <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight mb-4">
-            Our Services
+            {language === "th" ? "บริการของเรา" : "Our Services"}
           </h2>
           <div className="border-l-4 border-white/50 pl-4 max-w-md">
             <p className="text-white/80 text-sm sm:text-base leading-relaxed">
-              Experience safe, high-quality, and cost-effective transport with our
-              specialized transfer services. From reliable airport pickups at BKK and
-              DMK to seamless city-to-city rides between Bangkok, Pattaya, Rayong,
-              and Hua Hin, We deliver reliable comfort at a price that makes sense.
+              {language === "th" ? (
+                "สัมผัสประสบการณ์เดินทางที่ปลอดภัย สะดวกสบาย และคุ้มค่า ด้วยบริการรถรับส่งเฉพาะทางของเรา ตั้งแต่บริการรับส่งสนามบินสุวรรณภูมิ (BKK) และดอนเมือง (DMK) ไปจนถึงการเดินทางข้ามจังหวัดระหว่างกรุงเทพฯ พัทยา และหัวหิน เรามอบบริการที่น่าเชื่อถือในราคาที่เหมาะสม"
+              ) : (
+                "Experience safe, high-quality, and cost-effective transport with our specialized transfer services. From reliable airport pickups at BKK and DMK to seamless city-to-city rides between Bangkok, Pattaya, and Hua Hin, We deliver reliable comfort at a price that makes sense."
+              )}
             </p>
           </div>
         </div>
@@ -202,9 +191,15 @@ export default function ServicesSection() {
             onClick={() => setActiveCard(activeCard === "airport" ? null : "airport")}
           >
             <ServiceCard
-              tag="Airport Transfers"
-              title="Airport Pickups & Drop-offs"
-              slides={airportSlides}
+              tag={language === "th" ? "บริการรับส่งสนามบิน" : "Airport Transfers"}
+              title={language === "th" ? "บริการรับส่ง สนามบินดอนเมือง & สุวรรณภูมิ" : "Airport Pickups & Drop-offs"}
+              slides={language === "th" ? [
+                { src: "/images/service-card/airport/airport.webp",   label: "สนามบินสุวรรณภูมิ (BKK)" },
+                { src: "/images/service-card/airport/don-mueang.webp", label: "สนามบินดอนเมือง (DMK)" },
+              ] : [
+                { src: "/images/service-card/airport/airport.webp",   label: "Suvarnabhumi Airport" },
+                { src: "/images/service-card/airport/don-mueang.webp", label: "Don Mueang Airport" },
+              ]}
               isActive={activeCard === "airport"}
             />
           </div>
@@ -215,9 +210,17 @@ export default function ServicesSection() {
             onClick={() => setActiveCard(activeCard === "city" ? null : "city")}
           >
             <ServiceCard
-              tag="City-to-City Transfers"
-              title="Intercity Rides"
-              slides={upcountrySlides}
+              tag={language === "th" ? "บริการรับส่งข้ามจังหวัด" : "City-to-City Transfers"}
+              title={language === "th" ? "บริการรถยนต์ข้ามจังหวัดระหว่างเมืองหลัก" : "Intercity Rides"}
+              slides={language === "th" ? [
+                { src: "/images/service-card/upcountry/Bangkok.webp",  label: "กรุงเทพมหานคร" },
+                { src: "/images/service-card/upcountry/Pattaya.webp",  label: "พัทยา" },
+                { src: "/images/service-card/upcountry/hua-hin.webp",  label: "หัวหิน" },
+              ] : [
+                { src: "/images/service-card/upcountry/Bangkok.webp",  label: "Bangkok" },
+                { src: "/images/service-card/upcountry/Pattaya.webp",  label: "Pattaya" },
+                { src: "/images/service-card/upcountry/hua-hin.webp",  label: "Hua Hin" },
+              ]}
               isActive={activeCard === "city"}
             />
           </div>
@@ -225,7 +228,9 @@ export default function ServicesSection() {
 
         {/* ── Footnote ── */}
         <p className="mt-6 text-white/60 text-sm">
-          Please note: Pricing varies based on Fleet Type and distance.
+          {language === "th"
+            ? "หมายเหตุ: อัตราค่าบริการจะแตกต่างกันไปตามประเภทของรุ่นรถและระยะทางจริง"
+            : "Please note: Pricing varies based on Fleet Type and distance."}
         </p>
 
       </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "../../public/components/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "../../public/context/LanguageContext";
 import Preloader from "../../public/components/Preloader";
 import BlurText from "../../public/utility/BlurText";
 import WhyTaxiSection from "../../public/components/WhyTaxiSection";
@@ -11,12 +12,14 @@ import CurvedLoop from "../../public/components/CurvedLoop";
 import VehiclesSection from "../../public/components/VehiclesSection";
 import ContactSection from "../../public/components/ContactSection";
 import Footer from "../../public/components/Footer";
+import PricingTable from "../../public/components/PricingTable";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [showLoader, setShowLoader] = useState(true);
   const [showContent, setShowContent] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
+  const { language, t } = useLanguage();
 
   useEffect(() => {
     setIsHydrated(true);
@@ -189,7 +192,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
             className={heroStyles.subtitleText}
           >
-            You can book service without deposit
+            {t.heroSub}
           </motion.p>
         </div>
 
@@ -257,7 +260,7 @@ export default function Home() {
           >
             {/* Shimmer effect */}
             <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-            <span className="relative">Book a ride</span>
+            <span className="relative">{language === "th" ? "จองรถเลย" : "Book a ride"}</span>
             <svg
               className="w-3.5 h-3.5 lg:w-4 lg:h-4"
               fill="none"
@@ -284,7 +287,7 @@ export default function Home() {
           >
             {/* Shimmer effect */}
             <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-            <span className="relative">Explore more</span>
+            <span className="relative">{language === "th" ? "ดูเพิ่มเติม" : "Explore more"}</span>
           </a>
         </motion.div>
       </div>
@@ -309,14 +312,18 @@ export default function Home() {
             
 
             {/* Headline */}
-            <BlurText
-              text="Experience seamless, deposit-free booking with guaranteed safety on every trip."
-              delay={50}
-              animateBy="letters"
-              direction="bottom"
-              stepDuration={0.4}
-              className="text-white font-medium leading-[1.1] text-[2.6rem] sm:text-[3.2rem] md:text-[3.6rem] lg:text-[4.4rem] xl:text-[4.8rem]"
-            />
+            <div className="[text-wrap:balance]">
+              <BlurText
+                text={language === "th"
+                  ? "สัมผัสประสบการณ์จองรถที่ราบรื่นไม่มีมัดจำ พร้อมรับประกันความปลอดภัยในทุกการเดินทาง"
+                  : "Experience seamless, deposit-free booking with guaranteed safety on every trip."}
+                delay={50}
+                animateBy={language === "th" ? "words" : "letters"}
+                direction="bottom"
+                stepDuration={0.4}
+                    className={language === "th" ? "text-white font-medium leading-[1.1] text-[2.4rem] sm:text-[3.2rem] md:text-[3.6rem] lg:text-[3rem] xl:text-[4.1rem]" : "text-white font-medium leading-[1.1] text-[2.6rem] sm:text-[3.2rem] md:text-[3.6rem] lg:text-[4.4rem] xl:text-[4.8rem]"}
+              />
+            </div>
 
             
           </motion.div>
@@ -328,7 +335,8 @@ export default function Home() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: isMobile ? "-40px" : "-80px" }}
             transition={{ duration: isMobile ? 2.5 : 6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="relative mx-auto w-fit z-20 flex justify-center px-4 mt-12 lg:absolute lg:left-0 lg:right-0 lg:bottom-20 lg:mt-0"
+            className={language === "th" ? "relative mx-auto w-fit z-20 flex justify-center px-4" : "relative mx-auto w-fit z-20 flex justify-center px-4 mt-12 lg:absolute lg:left-0 lg:right-0 lg:bottom-20 lg:mt-0"}
+
           >
             {/* Glow / shadow under car */}
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[70%] h-[30px] bg-black/25 blur-2xl rounded-full pointer-events-none" />
@@ -347,7 +355,11 @@ export default function Home() {
       <WhyTaxiSection />
 
       <CurvedLoop 
-        marqueeText="✦ Taxi Saver Thailand ✦ Safe & Reliable ✦ No Deposit Required ✦ Book Your Ride ✦ ✦ Taxi Saver Thailand ✦ Safe & Reliable ✦ No Deposit Required ✦ Book Your Ride ✦"
+        marqueeText={
+          language === "th"
+            ? "✦ แท็กซี่ เซฟเวอร์ ไทยแลนด์ ✦ ปลอดภัย ไว้ใจได้ ✦ ไม่มีมัดจำ ✦ จองรถเลย ✦ ✦ แท็กซี่ เซฟเวอร์ ไทยแลนด์ ✦ ปลอดภัย ไว้ใจได้ ✦ ไม่มีมัดจำ ✦ จองรถเลย ✦"
+            : "✦ Taxi Saver Thailand ✦ Safe & Reliable ✦ No Deposit Required ✦ Book Your Ride ✦ ✦ Taxi Saver Thailand ✦ Safe & Reliable ✦ No Deposit Required ✦ Book Your Ride ✦"
+        }
         speed={0.8}
         curveAmount={130}
         direction="left"
@@ -362,7 +374,10 @@ export default function Home() {
       {/* Section 5: Vehicles Type */}
       <VehiclesSection />
 
-      {/* Section 6: Contact */}
+      {/* Section 6: Pricing Table */}
+      <PricingTable/>
+
+      {/* Section 7: Contact */}
       <ContactSection />
 
       {/* Footer */}
@@ -381,8 +396,8 @@ export default function Home() {
             "logo": "https://taxisaverthailand.com/images/hero/BG.webp",
             "image": "https://taxisaverthailand.com/images/hero/BG.webp",
             "description": "Affordable ride-hailing and transfer services across Thailand with no deposit required. Professional drivers, clean vehicles, and flat rates.",
-            "telephone": "+66812345678",
-            "email": "hello@taxisaverthailand.com",
+            "telephone": "+66624494253",
+            "email": "Taxisaverthailand@gmail.com",
             "priceRange": "$$",
             "areaServed": [
               {

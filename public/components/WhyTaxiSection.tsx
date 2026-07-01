@@ -4,9 +4,77 @@ import React from "react";
 import ScrollStack, { ScrollStackItem } from "./ScrollStack";
 import { ShieldCheck, CircleDollarSign, Clock, Languages } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function WhyTaxiSection() {
-  const cardsData = [
+  const { language } = useLanguage();
+
+  const cardsData = language === "th" ? [
+    {
+      id: "01",
+      title: "ปลอดภัย & ไว้ใจได้",
+      icon: ShieldCheck,
+      colorClass: "text-[#3668FF] bg-blue-50 border-blue-100 shadow-blue-100/5",
+      points: [
+        {
+          title: "คนขับมืออาชีพ",
+          desc: "ผ่านการตรวจสอบประวัติ สุภาพ และมีประสบการณ์ขับรถทางไกลเพื่อความสบายใจสูงสุด",
+        },
+        {
+          title: "ตรวจเช็คสภาพรถสม่ำเสมอ",
+          desc: "รถยนต์ทุกคันในระบบผ่านการตรวจสอบความปลอดภัยและการบำรุงรักษาตามรอบอย่างเข้มงวด",
+        },
+      ],
+    },
+    {
+      id: "02",
+      title: "คุ้มค่าเกินราคา",
+      icon: CircleDollarSign,
+      colorClass: "text-emerald-600 bg-emerald-50 border-emerald-100 shadow-emerald-100/5",
+      points: [
+        {
+          title: "ราคาชัดเจนล่วงหน้า",
+          desc: "แจ้งราคาค่าบริการคงที่ชัดเจน ตกลงกันเรียบร้อยก่อนเริ่มออกเดินทาง",
+        },
+        {
+          title: "ไม่มีค่าใช้จ่ายแอบแฝง",
+          desc: "ราคาจริงใจตรงไปตรงมา ไม่มีบวกเพิ่มหน้างานให้คุณต้องเซอร์ไพรส์",
+        },
+      ],
+    },
+    {
+      id: "03",
+      title: "ตรงเวลาไม่รอนาน",
+      icon: Clock,
+      colorClass: "text-amber-600 bg-amber-50 border-amber-100 shadow-amber-100/5",
+      points: [
+        {
+          title: "ติดตามเที่ยวบินแบบเรียลไทม์",
+          desc: "ทีมงานเฝ้าติดตามสถานะไฟลท์บินของคุณเพื่อปรับเวลาไปรับให้ตรงตามจริงกรณีเครื่องบินดีเลย์",
+        },
+        {
+          title: "บริการรับส่งรวดเร็ว",
+          desc: "พนักงานไปถึงจุดรับก่อนเวลา เดินทางราบรื่นและไม่ต้องยืนรอให้เสียเวลาพักผ่อน",
+        },
+      ],
+    },
+    {
+      id: "04",
+      title: "เป็นมิตรกับผู้เดินทาง",
+      icon: Languages,
+      colorClass: "text-purple-600 bg-purple-50 border-purple-100 shadow-purple-100/5",
+      points: [
+        {
+          title: "ออกแบบมาเพื่อนักท่องเที่ยว",
+          desc: "ขั้นตอนจองรถที่แสนง่ายและทีมงานซัพพอร์ตคอยช่วยเหลือดูแลลูกค้านักท่องเที่ยวทุกสัญชาติ",
+        },
+        {
+          title: "บริการสองภาษา",
+          desc: "รองรับการติดต่อสื่อสารและการประสานงานได้เป็นอย่างดีทั้งภาษาไทยและภาษาอังกฤษ",
+        },
+      ],
+    },
+  ] : [
     {
       id: "01",
       title: "Safe & Reliable",
@@ -96,7 +164,7 @@ export default function WhyTaxiSection() {
           {/* Section Title */}
           <div className="text-center w-full px-6 mb-12">
             <h2 className="text-white text-2xl sm:text-5xl md:text-4xl font-bold tracking-tight mb-4">
-              Why Choose Taxi Saver?
+              {language === "th" ? "ทำไมต้องเลือก Taxi Saver?" : "Why Choose Taxi Saver?"}
             </h2>
             <motion.div
               initial={{ opacity: 0, scaleX: 0 }}
@@ -112,7 +180,9 @@ export default function WhyTaxiSection() {
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
               className="text-white/95 text-base sm:text-lg max-w-xl mx-auto leading-relaxed "
             >
-              Your premium journey across Thailand, made simple. Safe, punctual, and transparent from the moment we meet, leaving an impression that makes you want to return.
+              {language === "th"
+                ? "ให้การเดินทางท่องเที่ยวในประเทศไทยของคุณเป็นเรื่องง่าย ปลอดภัย ตรงเวลา และโปร่งใสตั้งแต่วินาทีแรกที่พบกัน เพื่อสร้างความประทับใจให้คุณอยากกลับมาใช้บริการอีกครั้ง"
+                : "Your premium journey across Thailand, made simple. Safe, punctual, and transparent from the moment we meet, leaving an impression that makes you want to return."}
             </motion.p>
           </div>
 
@@ -140,7 +210,7 @@ export default function WhyTaxiSection() {
                         {card.title}
                       </h3>
                       <p className="text-xs md:text-sm text-slate-500 mt-1 font-medium">
-                        Feature {card.id} of 04
+                        {language === "th" ? `จุดเด่นที่ ${card.id} จาก 04` : `Feature ${card.id} of 04`}
                       </p>
                     </div>
                   </div>

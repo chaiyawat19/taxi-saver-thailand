@@ -3,94 +3,57 @@
 import { motion } from "framer-motion";
 import Folder from "./Folder";
 import Grainient from "./Grainient";
+import { useLanguage } from "../context/LanguageContext";
 
-// ── Paper content (tiny cards inside the folder) ──────────────────────────────
-const WhatsAppPaper = (
-  <a
-    href="https://wa.me/66812345678"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-full h-full flex flex-col items-center justify-center gap-[3px] hover:no-underline"
-  >
-    <svg viewBox="0 0 24 24" fill="#25D366" className="w-5 h-5">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.554 4.122 1.528 5.855L.057 23.5l5.799-1.522A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.524-5.168-1.432L2.5 21.5l.962-4.244A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
-    </svg>
-    <span className="text-[8px] font-bold text-gray-700 leading-tight text-center">WhatsApp</span>
-    <span className="text-[6px] text-gray-500 leading-tight">+66 81 234 5678</span>
-  </a>
-);
+export default function ContactSection() {
+  const { language } = useLanguage();
 
-const FacebookPaper = (
-  <a
-    href="https://facebook.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-full h-full flex flex-col items-center justify-center gap-[3px] hover:no-underline"
-  >
-    <svg viewBox="0 0 24 24" fill="#1877F2" className="w-5 h-5">
-      <path d="M24 12.073C24 5.445 18.627 0 12 0S0 5.445 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.514c-1.491 0-1.956.93-1.956 1.886v2.247h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" />
-    </svg>
-    <span className="text-[8px] font-bold text-gray-700 leading-tight text-center">Facebook</span>
-    <span className="text-[6px] text-gray-500 leading-tight">Taxi Saver Thailand</span>
-  </a>
-);
-
-const PhonePaper = (
-  <a
-    href="tel:+66812345678"
-    className="w-full h-full flex flex-col items-center justify-center gap-[3px] hover:no-underline"
-  >
-    <svg viewBox="0 0 24 24" fill="none" stroke="#1DA58C" strokeWidth="2" className="w-5 h-5">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-    </svg>
-    <span className="text-[8px] font-bold text-gray-700 leading-tight text-center">Phone</span>
-    <span className="text-[6px] text-gray-500 leading-tight">+66 81 234 5678</span>
-  </a>
-);
-
-// ── Contact channel cards (shown outside the folder) ─────────────────────────
-const channels = [
-  {
-    id: "whatsapp",
-    label: "WhatsApp",
-    detail: "+66 81 234 5678",
-    href: "https://wa.me/66812345678",
-    bg: "#25D366",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="white" className="w-7 h-7">
+  const WhatsAppPaper = (
+    <a
+      href="https://wa.me/66624494253"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full h-full flex flex-col items-center justify-center gap-[3px] hover:no-underline"
+    >
+      <svg viewBox="0 0 24 24" fill="#25D366" className="w-5 h-5">
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
         <path d="M12 0C5.373 0 0 5.373 0 12c0 2.125.554 4.122 1.528 5.855L.057 23.5l5.799-1.522A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.524-5.168-1.432L2.5 21.5l.962-4.244A9.956 9.956 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
       </svg>
-    ),
-  },
-  {
-    id: "facebook",
-    label: "Facebook",
-    detail: "Taxi Saver Thailand",
-    href: "https://facebook.com",
-    bg: "#1877F2",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="white" className="w-7 h-7">
+      <span className="text-[8px] font-bold text-gray-700 leading-tight text-center">WhatsApp</span>
+      <span className="text-[6px] text-gray-500 leading-tight">+66 62 449 4253</span>
+    </a>
+  );
+
+  const FacebookPaper = (
+    <a
+      href="https://facebook.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-full h-full flex flex-col items-center justify-center gap-[3px] hover:no-underline"
+    >
+      <svg viewBox="0 0 24 24" fill="#1877F2" className="w-5 h-5">
         <path d="M24 12.073C24 5.445 18.627 0 12 0S0 5.445 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.514c-1.491 0-1.956.93-1.956 1.886v2.247h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" />
       </svg>
-    ),
-  },
-  {
-    id: "phone",
-    label: "Phone Call",
-    detail: "+66 81 234 5678",
-    href: "tel:+66812345678",
-    bg: "#1DA58C",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="w-7 h-7">
+      <span className="text-[8px] font-bold text-gray-700 leading-tight text-center">Facebook</span>
+      <span className="text-[6px] text-gray-500 leading-tight">Taxi Saver</span>
+    </a>
+  );
+
+  const PhonePaper = (
+    <a
+      href="tel:+66624494253"
+      className="w-full h-full flex flex-col items-center justify-center gap-[3px] hover:no-underline"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1DA58C" strokeWidth="2" className="w-5 h-5">
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
       </svg>
-    ),
-  },
-];
+      <span className="text-[8px] font-bold text-gray-700 leading-tight text-center">
+        {language === "th" ? "โทรด่วน" : "Phone"}
+      </span>
+      <span className="text-[6px] text-gray-500 leading-tight">+66 62 449 4253</span>
+    </a>
+  );
 
-export default function ContactSection() {
   return (
     <section id="contact" className="relative w-full bg-[#1DA58C] overflow-hidden">
       {/* Background Grainient */}
@@ -132,7 +95,7 @@ export default function ContactSection() {
           <div className="text-center flex flex-col items-center">
            
             <h2 className="text-white text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.05] mb-4">
-              Need a Ride?
+              {language === "th" ? "ต้องการจองรถ?" : "Need a Ride?"}
             </h2>
             <motion.p
               initial={{ opacity: 0, y: 15 }}
@@ -141,8 +104,17 @@ export default function ContactSection() {
               transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
               className="text-white/70 text-base sm:text-lg max-w-lg leading-relaxed"
             >
-              Contact Our Thailand Taxi Support Team 
-              <br /> Reach us anytime via WhatsApp, Facebook, or phone. We reply fast — usually within minutes.
+              {language === "th" ? (
+                <>
+                  ติดต่อทีมงานซัพพอร์ตแท็กซี่ไทย
+                  <br /> ได้ตลอด 24 ชั่วโมงผ่าน WhatsApp, Facebook หรือโทรศัพท์โดยตรง ทีมงานของเรายินดีบริการอย่างรวดเร็ว
+                </>
+              ) : (
+                <>
+                  Contact Our Thailand Taxi Support Team 
+                  <br /> Reach us anytime via WhatsApp, Facebook, or phone. We reply fast — usually within minutes.
+                </>
+              )}
             </motion.p>
           </div>
 
@@ -163,7 +135,7 @@ export default function ContactSection() {
               />
             </div>
             <p className="text-white/50 text-xs font-medium tracking-wide animate-pulse mt-2">
-              ← Click the folder to reveal contacts
+              {language === "th" ? "← คลิกที่แฟ้มเพื่อแสดงช่องทางการติดต่อ" : "← Click the folder to reveal contacts"}
             </p>
           </motion.div>
         </div>

@@ -2,14 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-
-const links = [
-  { label: "Home",      href: "/#homepage" },
-  { label: "About Us",  href: "/#about-us"  },
-  { label: "Services",  href: "/#services"  },
-  { label: "Fleet",  href: "/#fleet"  },
-  { label: "Book a Ride", href: "/booking"  },
-];
+import { useLanguage } from "../context/LanguageContext";
 
 // LINE icon SVG path
 function LineIcon() {
@@ -39,6 +32,15 @@ function MailIcon() {
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const { language, t } = useLanguage();
+
+  const footerLinks = [
+    { label: t.navHome,      href: "/#homepage" },
+    { label: t.navFleet,     href: "/#fleet"  },
+    { label: t.navPricing,   href: "/#pricing"  },
+    { label: t.navContact,   href: "/#contact"  },
+    { label: t.bookNow,      href: "/booking"  },
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,10 +74,10 @@ export default function Footer() {
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="text-white/60 text-sm font-semibold uppercase tracking-widest mb-2"
             >
-              24/7 Advance Booking
+              {language === "th" ? "จองรถล่วงหน้า 24 ชั่วโมง" : "24/7 Advance Booking"}
             </motion.p>
             <h2 className="text-white text-2xl sm:text-5xl md:text-6xl font-bold leading-[1.05]">
-              Ready to Hit the Road?
+              {language === "th" ? "พร้อมออกเดินทางแล้วหรือยัง?" : "Ready to Hit the Road?"}
             </h2>
           </div>
           <motion.a
@@ -86,7 +88,7 @@ export default function Footer() {
             href="/booking"
             className="inline-flex items-center gap-2.5 bg-white hover:bg-gray-50 text-[#3668FF] font-bold px-8 py-4 rounded-xl transition-all duration-200 hover:scale-[1.03] active:scale-[0.97] shadow-xl text-base shrink-0 self-start md:self-auto"
           >
-            Book Now
+            {t.bookNow}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
             </svg>
@@ -117,23 +119,27 @@ export default function Footer() {
             </a>
 
             <p className="text-white/60 text-sm leading-relaxed max-w-[260px]">
-              Affordable and reliable transport across Thailand. No deposit required. Trusted by thousands of travelers.
+              {language === "th"
+                ? "บริการรถรับส่งและแท็กซี่ราคาสบายกระเป๋า ทั่วประเทศไทย ไม่มีมัดจำ ได้รับความไว้วางใจจากนักท่องเที่ยวนับพันราย"
+                : "Affordable and reliable transport across Thailand. No deposit required. Trusted by thousands of travelers."}
             </p>
 
             {/* Email subscribe */}
             <div>
               <p className="text-white/80 text-xs font-semibold uppercase tracking-widest mb-2.5">
-                Stay in touch
+                {language === "th" ? "ติดตามข่าวสาร" : "Stay in touch"}
               </p>
               {sent ? (
-                <p className="text-white/70 text-sm font-medium">✓ Thanks! We&apos;ll be in touch.</p>
+                <p className="text-white/70 text-sm font-medium">
+                  {language === "th" ? "✓ ขอบคุณ! เราจะติดต่อกลับเมื่อมีข่าวสารอัปเดต" : "✓ Thanks! We'll be in touch."}
+                </p>
               ) : (
                 <form onSubmit={handleSubmit} className="flex gap-2">
                   <input
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    placeholder="Your email address"
+                    placeholder={language === "th" ? "ที่อยู่อีเมลของคุณ" : "Your email address"}
                     required
                     suppressHydrationWarning
                     className="flex-1 bg-white/10 border border-white/20 text-white placeholder-white/40 text-sm rounded-lg px-3 py-2.5 outline-none focus:border-white/50 focus:bg-white/15 transition-all duration-200 min-w-0"
@@ -143,7 +149,7 @@ export default function Footer() {
                     suppressHydrationWarning
                     className="bg-white text-[#3668FF] font-bold text-sm px-4 py-2.5 rounded-lg hover:bg-gray-100 transition-all duration-200 shrink-0 hover:scale-[1.03] active:scale-[0.97]"
                   >
-                    Send
+                    {language === "th" ? "ส่ง" : "Send"}
                   </button>
                 </form>
               )}
@@ -159,10 +165,10 @@ export default function Footer() {
             className="flex flex-col gap-4"
           >
             <p className="text-white/80 text-xs font-semibold uppercase tracking-widest">
-              Navigation
+              {language === "th" ? "แผนผังเว็บไซต์" : "Navigation"}
             </p>
             <nav className="flex flex-col gap-2.5">
-              {links.map(link => (
+              {footerLinks.map(link => (
                 <a
                   key={link.href}
                   href={link.href}
@@ -183,30 +189,30 @@ export default function Footer() {
             className="flex flex-col gap-4"
           >
             <p className="text-white/80 text-xs font-semibold uppercase tracking-widest">
-              Contact Us
+              {language === "th" ? "ติดต่อเรา" : "Contact Us"}
             </p>
 
             <div className="flex flex-col gap-3">
               <a
-                href="tel:+66812345678"
+                href="tel:+66624494253"
                 className="flex items-center gap-2.5 text-white/65 hover:text-white text-sm transition-colors duration-200"
               >
                 <PhoneIcon />
-                +66 81 234 5678
+                +66 62 449 4253
               </a>
               <a
-                href="mailto:hello@taxisaverthailand.com"
+                href="mailto:Taxisaverthailand@gmail.com"
                 className="flex items-center gap-2.5 text-white/65 hover:text-white text-sm transition-colors duration-200 break-all"
               >
                 <MailIcon />
-                hello@taxisaverthailand.com
+                Taxisaverthailand@gmail.com
               </a>
             </div>
 
             {/* Social icons */}
             <div className="mt-1">
               <p className="text-white/80 text-xs font-semibold uppercase tracking-widest mb-3">
-                Follow Us
+                {language === "th" ? "ติดตามเรา" : "Follow Us"}
               </p>
               <div className="flex gap-3">
                 {/* LINE */}
@@ -251,7 +257,11 @@ export default function Footer() {
 
         {/* ── Bottom bar ── */}
         <div className="border-t border-white/15 py-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-white/35">
-          <span>© {new Date().getFullYear()} Taxi Saver Thailand. All rights reserved.</span>
+          <span>
+            {language === "th"
+              ? `© ${new Date().getFullYear()} Taxi Saver Thailand. สงวนลิขสิทธิ์ทั้งหมด`
+              : `© ${new Date().getFullYear()} Taxi Saver Thailand. All rights reserved.`}
+          </span>
           <span>taxisaverthailand.com</span>
         </div>
 

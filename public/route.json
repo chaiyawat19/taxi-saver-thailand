@@ -1,0 +1,148 @@
+{
+  "routes": [
+    {
+      "id": "pattaya_bkk_airport",
+      "from": "Pattaya",
+      "to": "Suvarnabhumi (BKK)",
+      "fromTag": "",
+      "toTag": "BKK",
+      "group": "Pattaya Routes",
+      "groupIcon": "🏖️",
+      "prices": {
+        "sedan_s": 1000,
+        "sedan_m": 1100,
+        "sedan_l": 1200,
+        "suv": 1400,
+        "van": 2000
+      }
+    },
+    {
+      "id": "pattaya_dmk",
+      "from": "Pattaya",
+      "to": "Don Mueang (DMK)",
+      "fromTag": "",
+      "toTag": "DMK",
+      "group": "Pattaya Routes",
+      "groupIcon": "🏖️",
+      "prices": {
+        "sedan_s": 1000,
+        "sedan_m": 1100,
+        "sedan_l": 1200,
+        "suv": 1400,
+        "van": 2000
+      }
+    },
+    {
+      "id": "pattaya_bkk_city",
+      "from": "Pattaya",
+      "to": "Bangkok City",
+      "fromTag": "",
+      "toTag": "Hotel/Area",
+      "group": "Pattaya Routes",
+      "groupIcon": "🏖️",
+      "prices": {
+        "sedan_s": 1300,
+        "sedan_m": 1400,
+        "sedan_l": 1500,
+        "suv": 1700,
+        "van": 2500
+      }
+    },
+    {
+      "id": "pattaya_huahin",
+      "from": "Pattaya",
+      "to": "Hua Hin",
+      "fromTag": "",
+      "toTag": "",
+      "group": "Pattaya Routes",
+      "groupIcon": "🏖️",
+      "prices": {
+        "sedan_s": 2900,
+        "sedan_m": 3100,
+        "sedan_l": 3300,
+        "suv": 3500,
+        "van": 4200
+      }
+    },
+    {
+      "id": "bkk_airport_huahin",
+      "from": "Suvarnabhumi Airport",
+      "to": "Hua Hin",
+      "fromTag": "BKK",
+      "toTag": "",
+      "group": "Bangkok (BKK) Routes",
+      "groupIcon": "✈️",
+      "prices": {
+        "sedan_s": 1900,
+        "sedan_m": 2100,
+        "sedan_l": 2300,
+        "suv": 2500,
+        "van": 3200
+      }
+    },
+    {
+      "id": "bkk_city_huahin",
+      "from": "Bangkok City",
+      "to": "Hua Hin",
+      "fromTag": "Hotel/Area",
+      "toTag": "",
+      "group": "Bangkok City Routes",
+      "groupIcon": "🏙️",
+      "prices": {
+        "sedan_s": 2100,
+        "sedan_m": 2300,
+        "sedan_l": 2500,
+        "suv": 2700,
+        "van": 3400
+      }
+    },
+    {
+      "id": "dmk_huahin",
+      "from": "Don Mueang Airport",
+      "to": "Hua Hin",
+      "fromTag": "DMK",
+      "toTag": "",
+      "group": "Don Mueang (DMK) Routes",
+      "groupIcon": "🛫",
+      "prices": {
+        "sedan_s": 2100,
+        "sedan_m": 2300,
+        "sedan_l": 2500,
+        "suv": 2700,
+        "van": 3400
+      }
+    },
+    {
+      "id": "dmk_bkk_city",
+      "from": "Don Mueang Airport",
+      "to": "Bangkok City",
+      "fromTag": "DMK",
+      "toTag": "Hotel/Area",
+      "group": "Don Mueang (DMK) Routes",
+      "groupIcon": "🛫",
+      "prices": {
+        "sedan_s": 700,
+        "sedan_m": 800,
+        "sedan_l": 900,
+        "suv": 900,
+        "van": 1400
+      }
+    },
+    {
+      "id": "bkk_airport_city",
+      "from": "Suvarnabhumi Airport",
+      "to": "Bangkok City",
+      "fromTag": "BKK",
+      "toTag": "Hotel/Area",
+      "group": "Bangkok (BKK) Routes",
+      "groupIcon": "✈️",
+      "prices": {
+        "sedan_s": 700,
+        "sedan_m": 800,
+        "sedan_l": 900,
+        "suv": 900,
+        "van": 1400
+      }
+    }
+  ]
+}

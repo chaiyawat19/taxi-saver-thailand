@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./style.css";
-import { Geist } from "next/font/google";
+import { Geist, Kanit } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { LanguageProvider } from "../../public/context/LanguageContext";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const kanit = Kanit({
+  subsets: ["thai", "latin"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-kanit",
+  display: "swap",
+});
 
 const generalSans = localFont({
   src: [
@@ -139,8 +146,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
-      <body className={generalSans.className}>{children}</body>
+    <html lang="en" className={cn("font-sans", geist.variable, kanit.variable, generalSans.variable)}>
+      <body className={generalSans.className}>
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }

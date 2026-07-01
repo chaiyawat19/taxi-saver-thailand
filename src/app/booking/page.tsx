@@ -23,8 +23,8 @@ export default function BookingPage() {
         <Navbar />
       </motion.div>
 
-      {/* ── LAYER 10: Main content ── */}
-      <div className="relative z-10 pt-24 md:pt-28">
+      {/* ── LAYER 20: Main content ── */}
+      <div className="relative z-20 pt-24 md:pt-28">
         <BookingForm />
       </div>
 
