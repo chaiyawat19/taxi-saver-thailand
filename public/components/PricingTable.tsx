@@ -353,12 +353,12 @@ export default function PricingTable() {
                         className="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-100"
                       >
                         {/* Route header */}
-                        <div className="px-4 py-3 bg-slate-50 border-b border-slate-100 flex items-center gap-2">
-                          <span className={`text-slate-800 text-sm flex-1 min-w-0 truncate text-right ${isTh ? "font-medium" : "font-extrabold"}`}>
+                        <div className="px-4 py-3 bg-slate-50 border-b border-slate-100 flex items-center justify-center gap-2">
+                          <span className={`text-slate-800 text-sm truncate text-right ${isTh ? "font-medium" : "font-extrabold"}`}>
                             {isTh ? thLoc(route.from) : route.from}
                           </span>
                           <span className="text-[#3668FF] font-black flex-shrink-0">→</span>
-                          <span className={`text-slate-800 text-sm flex-1 min-w-0 truncate text-left ${isTh ? "font-medium" : "font-extrabold"}`}>
+                          <span className={`text-slate-800 text-sm truncate text-left ${isTh ? "font-medium" : "font-extrabold"}`}>
                             {isTh ? thLoc(route.to) : route.to}
                           </span>
                         </div>
