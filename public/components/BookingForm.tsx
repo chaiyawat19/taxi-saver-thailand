@@ -1287,7 +1287,7 @@ export default function BookingForm() {
           </label>
 
           {/* Level 1: Category */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* Sedan category */}
             {(() => {
               const isSedanSelected = ["sedan_s","sedan_m","sedan_l"].includes(form.vehicleType) && form.hasSelectedVehicle;
@@ -1419,7 +1419,7 @@ export default function BookingForm() {
               transition={{ duration: 0.25 }}
               className="bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-3"
             >
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {(["sedan_s","sedan_m","sedan_l"] as const).map(sizeId => {
                   const sizeLabel = sizeId === "sedan_s" ? "S" : sizeId === "sedan_m" ? "M" : "L";
                   const sizeDesc = sizeId === "sedan_s"
