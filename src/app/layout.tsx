@@ -16,34 +16,9 @@ const kanit = Kanit({
 const generalSans = localFont({
   src: [
     {
-      path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-Extralight.otf",
-      weight: "200",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-ExtralightItalic.otf",
-      weight: "200",
-      style: "italic",
-    },
-    {
-      path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-Light.otf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-LightItalic.otf",
-      weight: "300",
-      style: "italic",
-    },
-    {
       path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-Regular.otf",
       weight: "400",
       style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-Italic.otf",
-      weight: "400",
-      style: "italic",
     },
     {
       path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-Medium.otf",
@@ -51,29 +26,14 @@ const generalSans = localFont({
       style: "normal",
     },
     {
-      path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-MediumItalic.otf",
-      weight: "500",
-      style: "italic",
-    },
-    {
       path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-Semibold.otf",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-SemiboldItalic.otf",
-      weight: "600",
-      style: "italic",
-    },
-    {
       path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-Bold.otf",
       weight: "700",
       style: "normal",
-    },
-    {
-      path: "../../public/fonts/GeneralSans_Complete_Font/GeneralSans-BoldItalic.otf",
-      weight: "700",
-      style: "italic",
     },
   ],
   variable: "--font-general-sans",
