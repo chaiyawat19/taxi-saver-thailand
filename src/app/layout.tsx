@@ -184,6 +184,9 @@ export const metadata: Metadata = {
     description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
     images: ["/images/og-share.jpg"],
   },
+  verification: {
+    google: "google266f50836128f774",
+  },
 };
 
 const jsonLd = {
