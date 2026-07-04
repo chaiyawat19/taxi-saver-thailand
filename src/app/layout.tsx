@@ -185,7 +185,7 @@ export const metadata: Metadata = {
     images: ["/images/og-share.jpg"],
   },
   verification: {
-    google: "google266f50836128f774",
+    google: "ZOXt7Akm0hUNBxuu9IDKoxnc-YqjN_EpWgWNfu-K5qw",
   },
 };
 
