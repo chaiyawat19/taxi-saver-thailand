@@ -60,13 +60,13 @@ export default function VehiclesSection() {
     },
     suv: {
       name: "SUV",
-      passengers: 6,
+      passengers: 4,
       luggage: 4,
       desc: "เหมาะสำหรับครอบครัวขนาดเล็กหรือผู้เดินทางที่มีสัมภาระเพิ่มเติม ทัศนวิสัยสูงโปร่ง โครงสร้างแข็งแรงนั่งสบาย",
       color: "from-emerald-500 to-teal-600",
       image: "/images/vehicle-type/fortuner-19139.png",
       features: [
-        "✦ เหมาะสำหรับผู้โดยสาร 3-6 ท่าน",
+        "✦ เหมาะสำหรับผู้โดยสาร 1-4 ท่าน",
         "✦ ระบบปรับอากาศแยกส่วนหน้าหลัง",
         "✦ บรรจุกระเป๋าเดินทางใบใหญ่ได้ 4 ใบ",
       ]
@@ -133,21 +133,21 @@ export default function VehiclesSection() {
       color: "from-emerald-500 to-teal-600",
       image: "/images/vehicle-type/fortuner-19139.png",
       features: [
-        "✦ Best for 3-4 passengers",
+        "✦ Best for 1-4 passengers",
         "✦ Dual Zone Air Conditioning",
         "✦ Fits 4 large luggage bags",
       ]
     },
     van: {
       name: "VIP Van",
-      passengers: 9,
-      luggage: 5,
+      passengers: 6,
+      luggage: 4,
       desc: "Excellent for large groups, families, golf tours, or corporate travel. Spacious interior with premium VIP seating.",
       color: "from-rose-500 to-pink-600",
       image: "/images/vehicle-type/alphard.webp",
       features: [
-        "✦ Best for 5-9 passengers",
-        "✦ Fits 5-6 large luggage bags",
+        "✦ Best for 4-6 passengers",
+        "✦ Fits 3-4 large luggage bags",
         "✦ Plenty of legroom & VIP seats",
         "✦ Recommended for group tours"
       ]
@@ -178,7 +178,7 @@ export default function VehiclesSection() {
       />
 
       <div className="relative max-w-[1400px] mx-auto px-6 py-16 md:py-20 xl:py-24 flex flex-col items-center gap-10 w-full">
-        
+
         {/* Section title */}
         <div className="text-center w-full">
           <h2 className="text-white text-3xl sm:text-4xl md:text-5xl font-bold mb-3">
@@ -200,11 +200,10 @@ export default function VehiclesSection() {
                   key={group.label}
                   type="button"
                   onClick={() => setSelectedVehicle(group.keys[0])}
-                  className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 cursor-pointer ${
-                    isGroupSelected
+                  className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all duration-300 cursor-pointer ${isGroupSelected
                       ? "bg-white text-slate-900 shadow-xl"
                       : "text-white/80 hover:text-white hover:bg-white/5"
-                  }`}
+                    }`}
                 >
                   {group.label}
                 </button>
@@ -230,11 +229,10 @@ export default function VehiclesSection() {
                       key={key}
                       type="button"
                       onClick={() => setSelectedVehicle(key)}
-                      className={`px-5 py-1.5 rounded-lg font-bold text-sm transition-all duration-200 cursor-pointer ${
-                        isSelected
+                      className={`px-5 py-1.5 rounded-lg font-bold text-sm transition-all duration-200 cursor-pointer ${isSelected
                           ? "bg-white/90 text-slate-900 shadow-lg"
                           : "text-white/70 hover:text-white hover:bg-white/10"
-                      }`}
+                        }`}
                     >
                       {language === "th" ? `ไซส์ ${sizeLabel}` : `Size ${sizeLabel}`}
                     </button>
@@ -247,7 +245,7 @@ export default function VehiclesSection() {
 
         {/* ── Split Layout: 60% Vehicle Image | 40% Details Panel ── */}
         <div className="flex flex-col lg:flex-row gap-6 w-full items-stretch min-h-[460px]">
-          
+
           {/* LEFT: Car Image Display */}
           <div className="lg:w-[60%] w-full h-[45vh] lg:h-auto min-h-[360px] border border-white/15 rounded-3xl bg-black/25 overflow-hidden relative select-none shadow-inner flex items-center justify-center p-6">
             <AnimatePresence mode="wait">
@@ -263,16 +261,15 @@ export default function VehiclesSection() {
                 <div className="relative w-full h-full flex items-center justify-center">
                   {/* Shadow underneath the car */}
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[75%] h-[30px] bg-black/40 blur-2xl rounded-full pointer-events-none origin-center" />
-                  
+
                   {/* Car Image */}
                   <img
                     src={vehicleDetails[selectedVehicle].image}
                     alt={vehicleDetails[selectedVehicle].name}
-                    className={`w-full h-auto object-contain z-10 pointer-events-none drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-all duration-300 ${
-                      selectedVehicle === "van"
+                    className={`w-full h-auto object-contain z-10 pointer-events-none drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-all duration-300 ${selectedVehicle === "van"
                         ? "max-w-[480px] sm:max-w-[550px] lg:max-w-[500px] scale-[1.35] sm:scale-[1.25] mt-20"
                         : "max-w-[420px] sm:max-w-[480px] lg:max-w-[540px] "
-                    }`}
+                      }`}
                   />
                 </div>
               </motion.div>

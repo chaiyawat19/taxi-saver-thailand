@@ -15,8 +15,8 @@ const VEHICLES: { id: VehicleId; name: string; capacity: string; color: string }
   { id: "sedan_s", name: "Sedan S", capacity: "1–3 pax", color: "#3668FF" },
   { id: "sedan_m", name: "Sedan M", capacity: "1–3 pax", color: "#6C47FF" },
   { id: "sedan_l", name: "Sedan L", capacity: "1–3 pax", color: "#9333ea" },
-  { id: "suv", name: "SUV", capacity: "3–4 pax", color: "#1DA58C" },
-  { id: "van", name: "Van", capacity: "3–4 pax", color: "#F59E0B" },
+  { id: "suv", name: "SUV", capacity: "1–4 pax", color: "#1DA58C" },
+  { id: "van", name: "Van", capacity: "4–6 pax", color: "#F59E0B" },
 ];
 
 interface RouteItem {
@@ -468,8 +468,8 @@ export default function PricingTable() {
                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
                     className={`w-9 h-9 rounded-xl border flex items-center justify-center text-sm transition-all cursor-pointer ${currentPage === 1
-                        ? "border-white/20 text-white/30 cursor-not-allowed"
-                        : "border-white/50 text-white hover:bg-white/10"
+                      ? "border-white/20 text-white/30 cursor-not-allowed"
+                      : "border-white/50 text-white hover:bg-white/10"
                       }`}
                   >
                     ‹
@@ -480,8 +480,8 @@ export default function PricingTable() {
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       className={`w-9 h-9 rounded-xl border text-sm font-semibold transition-all cursor-pointer ${currentPage === page
-                          ? "bg-white text-[#1DA58C] border-white shadow-md"
-                          : "border-white/40 text-white hover:bg-white/10"
+                        ? "bg-white text-[#1DA58C] border-white shadow-md"
+                        : "border-white/40 text-white hover:bg-white/10"
                         }`}
                     >
                       {page}
@@ -492,8 +492,8 @@ export default function PricingTable() {
                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
                     className={`w-9 h-9 rounded-xl border flex items-center justify-center text-sm transition-all cursor-pointer ${currentPage === totalPages
-                        ? "border-white/20 text-white/30 cursor-not-allowed"
-                        : "border-white/50 text-white hover:bg-white/10"
+                      ? "border-white/20 text-white/30 cursor-not-allowed"
+                      : "border-white/50 text-white hover:bg-white/10"
                       }`}
                   >
                     ›

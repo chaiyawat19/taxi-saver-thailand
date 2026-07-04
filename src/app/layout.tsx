@@ -82,9 +82,12 @@ const generalSans = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://taxisaverthailand.com"),
-  title: "Taxi Saver Thailand",
+  title: {
+    default: "Taxi Saver Thailand | Private Taxi Service & Airport Transfer",
+    template: "%s | Taxi Saver Thailand"
+  },
   description:
-    "Taxi Saver Thailand — affordable ride-hailing services across Thailand with no deposit required.",
+    "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
@@ -112,21 +115,64 @@ export const metadata: Metadata = {
     "taxi bkk to rayong",
     "bangkok airport taxi transfer",
     "private transfer bangkok to pattaya",
+    "toyota alphard taxi bangkok",
+    "toyota alphard taxi bangkok to pattaya",
+    "toyota fortuner taxi thailand",
+    "suv taxi bangkok to pattaya",
+    "vip van transfer bangkok",
+    "luxury van transfer pattaya",
+    "sedan taxi bangkok airport",
+    "camry taxi bangkok",
+    "minivan transfer bangkok",
+    "private commuter van bangkok",
+    "taxi bangkok airport to pattaya hotel",
+    "private transfer don mueang to pattaya",
+    "suvarnabhumi to pattaya taxi price",
+    "bangkok to hua hin private taxi cost",
+    "taxi transfer bangkok to koh chang",
+    "taxi bangkok to ban phe pier",
+    "bangkok airport to hotel transfer",
+    "bkk airport pick up service",
+    "dmk airport pick up service",
+    "เหมารถไปต่างจังหวัด",
+    "เหมารถกรุงเทพไปพัทยา",
+    "เหมารถกรุงเทพไปหัวหิน",
+    "แท็กซี่สุวรรณภูมิ พัทยา",
+    "แท็กซี่ดอนเมือง พัทยา",
+    "รถรับส่งสุวรรณภูมิ กรุงเทพ",
+    "รถรับส่งสนามบินดอนเมือง",
+    "รถตู้นำเที่ยวพัทยา",
+    "แท็กซี่กรุงเทพไปชลบุรี",
+    "แท็กซี่กรุงเทพไประยอง",
+    "เหมารถไปท่าเรือบ้านเพ",
+    "รถตู้อัลพาร์ด สุวรรณภูมิ",
+    "เหมารถตู้อัลพาร์ด",
+    "จองรถตู้ vip พัทยา",
+    "รถตู้อัลพาร์ดไปพัทยา",
+    "รถฟอร์จูนเนอร์เหมาไปพัทยา",
+    "รถตู้นำเที่ยวหัวหิน",
+    "เหมารถตู้ commuter กรุงเทพ",
+    "บริการแท็กซี่ 24 ชั่วโมง",
+    "จองรถออนไลน์ ไม่มีมัดจำ",
+    "บริการรถรับส่งสนามบินสุวรรณภูมิไปพัทยา ราคา",
+    "รถเหมาจากพัทยาไปกรุงเทพ",
+    "จองรถข้ามจังหวัด พัทยา หัวหิน",
+    "เหมารถตู้อัลพาร์ด กทม"
   ],
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Taxi Saver Thailand",
-    description: "Affordable ride-hailing and transfer services across Thailand with no deposit required.",
+    title: "Taxi Saver Thailand | Private Taxi Service & Airport Transfer",
+    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
     url: "https://taxisaverthailand.com",
     siteName: "Taxi Saver Thailand",
     images: [
       {
-        url: "/images/hero/BG.webp",
+        url: "/images/og-share.jpg",
         width: 1200,
-        height: 630,
-        alt: "Taxi Saver Thailand - Affordable Taxi Transfers",
+        height: 675,
+        alt: "Taxi Saver Thailand - Private Taxi & Airport Transfer Service",
       },
     ],
     locale: "en_US",
@@ -134,10 +180,48 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Taxi Saver Thailand",
-    description: "Affordable ride-hailing and transfer services across Thailand with no deposit required.",
-    images: ["/images/hero/BG.webp"],
+    title: "Taxi Saver Thailand | Private Taxi & Airport Transfer",
+    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
+    images: ["/images/og-share.jpg"],
   },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TaxiService",
+      "@id": "https://taxisaverthailand.com/#taxiservice",
+      "name": "Taxi Saver Thailand",
+      "description": "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
+      "url": "https://taxisaverthailand.com",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Taxi Saver Thailand",
+        "image": "https://taxisaverthailand.com/images/og-share.jpg",
+        "telephone": "+66624494253",
+        "email": "Taxisaverthailand@gmail.com",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Bangkok",
+          "addressCountry": "TH"
+        }
+      },
+      "areaServed": [
+        { "@type": "AdministrativeArea", "name": "Bangkok" },
+        { "@type": "AdministrativeArea", "name": "Pattaya" },
+        { "@type": "AdministrativeArea", "name": "Hua Hin" },
+        { "@type": "AdministrativeArea", "name": "Rayong" }
+      ],
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "THB",
+        "price": "1000",
+        "description": "Starting from 1,000 THB for airport transfer"
+      }
+    }
+  ]
 };
 
 export default function RootLayout({
@@ -148,6 +232,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable, kanit.variable, generalSans.variable)}>
       <body className={generalSans.className}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

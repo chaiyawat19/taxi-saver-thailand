@@ -1,32 +1,39 @@
-"use client";
+import type { Metadata } from "next";
+import PricingPageClient from "./PricingPageClient";
 
-import { motion } from "framer-motion";
-import Navbar from "../../../public/components/Navbar";
-import Footer from "../../../public/components/Footer";
-import PricingTable from "../../../public/components/PricingTable";
+export const metadata: Metadata = {
+  title: "Taxi Fares & Fixed Rates | Bangkok, Pattaya, Hua Hin",
+  description:
+    "View our cheap, fixed taxi prices from Bangkok (BKK/DMK) airports to top destinations. No hidden fees, toll taxes included in the fare.",
+  keywords: [
+    "taxi fares thailand",
+    "airport taxi prices bangkok",
+    "bangkok to pattaya taxi rate",
+    "taxi fare suvarnabhumi to pattaya",
+    "taxi pricing hua hin",
+    "taxi saver pricing",
+    "bangkok to hua hin private taxi cost",
+    "airport transfer prices thailand",
+    "camry taxi rates bangkok",
+    "toyota alphard taxi price bangkok",
+    "vip van rate bangkok to pattaya",
+    "how much is taxi from suvarnabhumi to pattaya",
+    "pattaya to bangkok taxi cost",
+    "อัตราค่าบริการแท็กซี่",
+    "ราคาแท็กซี่กรุงเทพไปพัทยา",
+    "ราคาเหมารถไปต่างจังหวัด",
+    "ราคาแท็กซี่สุวรรณภูมิไปพัทยา",
+    "เหมารถตู้อัลพาร์ด ราคา",
+    "ค่ารถตู้วีไอพีไปพัทยา",
+    "ราคาแท็กซี่กรุงเทพไปหัวหิน",
+    "เหมารถตู้คอมมิวเตอร์ ราคา",
+    "ราคารถตู้นำเที่ยว พัทยา"
+  ],
+  alternates: {
+    canonical: "/pricing",
+  },
+};
 
 export default function PricingPage() {
-  return (
-    <main className="relative min-h-screen overflow-x-hidden bg-[#1DA58C]">
-      {/* ── Navbar ── */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="w-full relative z-50"
-      >
-        <Navbar />
-      </motion.div>
-
-      {/* ── Pricing content ── */}
-      <div className="relative z-10 pt-12 md:pt-16">
-        <PricingTable />
-      </div>
-
-      {/* ── Footer ── */}
-      <div className="relative z-10">
-        <Footer />
-      </div>
-    </main>
-  );
+  return <PricingPageClient />;
 }

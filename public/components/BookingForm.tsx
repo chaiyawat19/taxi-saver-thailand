@@ -96,8 +96,8 @@ const VEHICLE_TYPES = [
   { id: "sedan_s" as VehicleType, name: "Sedan S", capacity: "1–3 passengers" },
   { id: "sedan_m" as VehicleType, name: "Sedan M", capacity: "1–3 passengers" },
   { id: "sedan_l" as VehicleType, name: "Sedan L", capacity: "1–3 passengers" },
-  { id: "suv" as VehicleType, name: "SUV", capacity: "3–6 passengers" },
-  { id: "van" as VehicleType, name: "Van", capacity: "4-6 passengers" },
+  { id: "suv" as VehicleType, name: "SUV", capacity: "1–4 passengers" },
+  { id: "van" as VehicleType, name: "Van", capacity: "4–6 passengers" },
 ];
 
 const DRIVER_TYPES = [
@@ -605,13 +605,13 @@ export default function BookingForm() {
       sedan_m: "Sedan M (1–3 ผู้โดยสาร)",
       sedan_l: "Sedan L (1–3 ผู้โดยสาร)",
       suv: "SUV (1–4 ผู้โดยสาร)",
-      van: "Van (5–9 ผู้โดยสาร)",
+      van: "Van (4–6 ผู้โดยสาร)",
     } : {
       sedan_s: "Sedan S (1–3 passengers)",
       sedan_m: "Sedan M (1–3 passengers)",
       sedan_l: "Sedan L (1–3 passengers)",
       suv: "SUV (1–4 passengers)",
-      van: "Van (5–9 passengers)",
+      van: "Van (4–6 passengers)",
     };
     const vehicle = vehicleLabels[form.vehicleType];
     const driver = isTh
@@ -660,7 +660,7 @@ export default function BookingForm() {
     // ── Estimated price ─────────────────────────────────────────────────
     const priceResult = getPrice(form.pickupRegion, form.dropoffRegion, form.pickupUpcountryCity, form.vehicleType);
     const priceStr = priceResult
-      ? `฿${priceResult.price.toLocaleString()} (${ROUTE_LABELS[priceResult.routeKey].from} → ${ROUTE_LABELS[priceResult.routeKey].to}${ isTh ? " รวมค่าทางด่วนทั้งหมด" : ", all tolls included"})`
+      ? `฿${priceResult.price.toLocaleString()} (${ROUTE_LABELS[priceResult.routeKey].from} → ${ROUTE_LABELS[priceResult.routeKey].to}${isTh ? " รวมค่าทางด่วนทั้งหมด" : ", all tolls included"})`
       : (isTh ? "จะยืนยันภายหลัง" : "To be confirmed");
 
     // ── Build message ───────────────────────────────────────────────────
@@ -1180,8 +1180,8 @@ export default function BookingForm() {
                 <button key={city.id} type="button"
                   onClick={() => set("pickupUpcountryCity", city.id)}
                   className={`flex flex-col items-center justify-center p-3.5 rounded-xl border text-center transition-all cursor-pointer ${selected
-                      ? "bg-blue-50/50 border-[#3668FF] shadow-[0_0_12px_rgba(54,104,255,0.08)] text-[#3668FF]"
-                      : "bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                    ? "bg-blue-50/50 border-[#3668FF] shadow-[0_0_12px_rgba(54,104,255,0.08)] text-[#3668FF]"
+                    : "bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
                     }`}>
                   <span className="text-sm font-bold">{getCityName(city.id)}</span>
                   <div className={`mt-2.5 w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-all ${selected ? "border-[#3668FF] bg-[#3668FF]" : "border-slate-300 bg-transparent"
@@ -1290,19 +1290,18 @@ export default function BookingForm() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* Sedan category */}
             {(() => {
-              const isSedanSelected = ["sedan_s","sedan_m","sedan_l"].includes(form.vehicleType) && form.hasSelectedVehicle;
+              const isSedanSelected = ["sedan_s", "sedan_m", "sedan_l"].includes(form.vehicleType) && form.hasSelectedVehicle;
               const priceResult = getPrice(form.pickupRegion, form.dropoffRegion, form.pickupUpcountryCity, "sedan_s");
               return (
                 <button
                   type="button"
                   onClick={() => setMany({ vehicleType: "sedan_s", hasSelectedVehicle: true })}
-                  className={`flex flex-col items-center gap-2.5 p-4 rounded-2xl border text-center transition-all duration-200 cursor-pointer ${
-                    isSedanSelected
+                  className={`flex flex-col items-center gap-2.5 p-4 rounded-2xl border text-center transition-all duration-200 cursor-pointer ${isSedanSelected
                       ? "bg-blue-50 border-[#3668FF] shadow-[0_0_16px_rgba(54,104,255,0.12)]"
                       : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                  }`}
+                    }`}
                 >
-                  
+
                   <div>
                     <div className={`font-bold text-sm sm:text-base ${isSedanSelected ? "text-[#3668FF]" : "text-slate-800"}`}>
                       {language === "th" ? "รถเก๋ง (Sedan)" : "Sedan"}
@@ -1312,17 +1311,15 @@ export default function BookingForm() {
                     </div>
                   </div>
                   {priceResult && (
-                    <div className={`mt-1 px-3 py-1 rounded-full text-sm font-black shadow-sm border transition-all ${
-                      isSedanSelected
+                    <div className={`mt-1 px-3 py-1 rounded-full text-sm font-black shadow-sm border transition-all ${isSedanSelected
                         ? "bg-[#3668FF] text-white border-transparent"
                         : "bg-emerald-50 text-emerald-700 border-emerald-200"
-                    }`}>
+                      }`}>
                       ฿{priceResult.price.toLocaleString()}
                     </div>
                   )}
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
-                    isSedanSelected ? "border-[#3668FF] bg-[#3668FF]" : "border-slate-300"
-                  }`}>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${isSedanSelected ? "border-[#3668FF] bg-[#3668FF]" : "border-slate-300"
+                    }`}>
                     {isSedanSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </div>
                 </button>
@@ -1337,32 +1334,29 @@ export default function BookingForm() {
                 <button
                   type="button"
                   onClick={() => setMany({ vehicleType: "suv", hasSelectedVehicle: true })}
-                  className={`flex flex-col items-center gap-2.5 p-4 rounded-2xl border text-center transition-all duration-200 cursor-pointer ${
-                    isSelected
+                  className={`flex flex-col items-center gap-2.5 p-4 rounded-2xl border text-center transition-all duration-200 cursor-pointer ${isSelected
                       ? "bg-blue-50 border-[#3668FF] shadow-[0_0_16px_rgba(54,104,255,0.12)]"
                       : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                  }`}
+                    }`}
                 >
                   <div>
                     <div className={`font-bold text-sm sm:text-base ${isSelected ? "text-[#3668FF]" : "text-slate-800"}`}>
                       {language === "th" ? "รถอเนกประสงค์ (SUV)" : "SUV"}
                     </div>
                     <div className={`text-xs mt-0.5 ${isSelected ? "text-[#3668FF]/70" : "text-slate-400"}`}>
-                      {language === "th" ? "ผู้โดยสาร 3–6 ท่าน" : "1–4 passengers"}
+                      {language === "th" ? "ผู้โดยสาร 1–4 ท่าน" : "1–4 passengers"}
                     </div>
                   </div>
                   {priceResult && (
-                    <div className={`mt-1 px-3 py-1 rounded-full text-sm font-black shadow-sm border transition-all ${
-                      isSelected
+                    <div className={`mt-1 px-3 py-1 rounded-full text-sm font-black shadow-sm border transition-all ${isSelected
                         ? "bg-[#3668FF] text-white border-transparent"
                         : "bg-emerald-50 text-emerald-700 border-emerald-200"
-                    }`}>
+                      }`}>
                       ฿{priceResult.price.toLocaleString()}
                     </div>
                   )}
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
-                    isSelected ? "border-[#3668FF] bg-[#3668FF]" : "border-slate-300"
-                  }`}>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${isSelected ? "border-[#3668FF] bg-[#3668FF]" : "border-slate-300"
+                    }`}>
                     {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </div>
                 </button>
@@ -1377,33 +1371,30 @@ export default function BookingForm() {
                 <button
                   type="button"
                   onClick={() => setMany({ vehicleType: "van", hasSelectedVehicle: true })}
-                  className={`flex flex-col items-center gap-2.5 p-4 rounded-2xl border text-center transition-all duration-200 cursor-pointer ${
-                    isSelected
+                  className={`flex flex-col items-center gap-2.5 p-4 rounded-2xl border text-center transition-all duration-200 cursor-pointer ${isSelected
                       ? "bg-blue-50 border-[#3668FF] shadow-[0_0_16px_rgba(54,104,255,0.12)]"
                       : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                  }`}
+                    }`}
                 >
-                  
+
                   <div>
                     <div className={`font-bold text-sm sm:text-base ${isSelected ? "text-[#3668FF]" : "text-slate-800"}`}>
                       {language === "th" ? "รถตู้ VIP (Van)" : "Van"}
                     </div>
                     <div className={`text-xs mt-0.5 ${isSelected ? "text-[#3668FF]/70" : "text-slate-400"}`}>
-                      {language === "th" ? "ผู้โดยสาร 4–6 ท่าน" : "5–9 passengers"}
+                      {language === "th" ? "ผู้โดยสาร 4–6 ท่าน" : "4–6 passengers"}
                     </div>
                   </div>
                   {priceResult && (
-                    <div className={`mt-1 px-3 py-1 rounded-full text-sm font-black shadow-sm border transition-all ${
-                      isSelected
+                    <div className={`mt-1 px-3 py-1 rounded-full text-sm font-black shadow-sm border transition-all ${isSelected
                         ? "bg-[#3668FF] text-white border-transparent"
                         : "bg-emerald-50 text-emerald-700 border-emerald-200"
-                    }`}>
+                      }`}>
                       ฿{priceResult.price.toLocaleString()}
                     </div>
                   )}
-                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${
-                    isSelected ? "border-[#3668FF] bg-[#3668FF]" : "border-slate-300"
-                  }`}>
+                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${isSelected ? "border-[#3668FF] bg-[#3668FF]" : "border-slate-300"
+                    }`}>
                     {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </div>
                 </button>
@@ -1412,7 +1403,7 @@ export default function BookingForm() {
           </div>
 
           {/* Level 2: Sedan size picker — only shown when sedan category is active */}
-          {(["sedan_s","sedan_m","sedan_l"].includes(form.vehicleType) && form.hasSelectedVehicle) && (
+          {(["sedan_s", "sedan_m", "sedan_l"].includes(form.vehicleType) && form.hasSelectedVehicle) && (
             <motion.div
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1420,13 +1411,13 @@ export default function BookingForm() {
               className="bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-3"
             >
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {(["sedan_s","sedan_m","sedan_l"] as const).map(sizeId => {
+                {(["sedan_s", "sedan_m", "sedan_l"] as const).map(sizeId => {
                   const sizeLabel = sizeId === "sedan_s" ? "S" : sizeId === "sedan_m" ? "M" : "L";
                   const sizeDesc = sizeId === "sedan_s"
                     ? (language === "th" ? "ประหยัด · 2 ใบ" : "Economy · 2 bags")
                     : sizeId === "sedan_m"
-                    ? (language === "th" ? "คอมฟอร์ต · 3 ใบ" : "Comfort · 3 bags")
-                    : (language === "th" ? "ผู้บริหาร · 3 ใบ" : "Executive · 3 bags");
+                      ? (language === "th" ? "คอมฟอร์ต · 3 ใบ" : "Comfort · 3 bags")
+                      : (language === "th" ? "ผู้บริหาร · 3 ใบ" : "Executive · 3 bags");
                   const isSelected = form.vehicleType === sizeId;
                   const priceResult = getPrice(form.pickupRegion, form.dropoffRegion, form.pickupUpcountryCity, sizeId);
                   return (
@@ -1434,26 +1425,23 @@ export default function BookingForm() {
                       key={sizeId}
                       type="button"
                       onClick={() => setMany({ vehicleType: sizeId, hasSelectedVehicle: true })}
-                      className={`flex flex-col items-center gap-1.5 p-3.5 rounded-xl border text-center transition-all duration-200 cursor-pointer ${
-                        isSelected
+                      className={`flex flex-col items-center gap-1.5 p-3.5 rounded-xl border text-center transition-all duration-200 cursor-pointer ${isSelected
                           ? "bg-white border-[#3668FF] shadow-[0_0_12px_rgba(54,104,255,0.12)]"
                           : "bg-white border-slate-200 hover:border-slate-300"
-                      }`}
+                        }`}
                     >
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm ${
-                        isSelected ? "bg-[#3668FF] text-white" : "bg-slate-100 text-slate-600"
-                      }`}>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-sm ${isSelected ? "bg-[#3668FF] text-white" : "bg-slate-100 text-slate-600"
+                        }`}>
                         {sizeLabel}
                       </div>
                       <div className={`text-xs font-semibold leading-tight ${isSelected ? "text-[#3668FF]" : "text-slate-600"}`}>
                         {sizeDesc}
                       </div>
                       {priceResult ? (
-                        <div className={`mt-1 px-2.5 py-0.5 rounded-full text-xs sm:text-sm font-black border transition-all ${
-                          isSelected
+                        <div className={`mt-1 px-2.5 py-0.5 rounded-full text-xs sm:text-sm font-black border transition-all ${isSelected
                             ? "bg-[#3668FF] text-white border-transparent"
                             : "bg-emerald-50 text-emerald-700 border-emerald-200"
-                        }`}>
+                          }`}>
                           ฿{priceResult.price.toLocaleString()}
                         </div>
                       ) : (
@@ -1519,7 +1507,7 @@ export default function BookingForm() {
                   <User className="w-4 h-4 text-slate-500" />
                   {language === "th" ? "ผู้ใหญ่" : "Adults"}
                 </span>
-                
+
               </div>
               <div className="flex items-center gap-3">
                 <button
@@ -1546,7 +1534,7 @@ export default function BookingForm() {
                   <Baby className="w-4 h-4 text-slate-500" />
                   {language === "th" ? "เด็ก" : "Children"}
                 </span>
-                
+
               </div>
               <div className="flex items-center gap-3">
                 <button
@@ -1931,11 +1919,10 @@ export default function BookingForm() {
                         ? `ผู้ใหญ่ ${form.adults} ท่าน`
                         : `${form.adults} Adult${form.adults > 1 ? 's' : ''}`
                       }
-                      {form.children > 0 && `, ${
-                        language === "th"
+                      {form.children > 0 && `, ${language === "th"
                           ? `เด็ก ${form.children} ท่าน`
                           : `${form.children} Child${form.children > 1 ? 'ren' : ''}`
-                      }`}
+                        }`}
                     </span>
                   </div>
                   {form.phone && (
@@ -2215,8 +2202,8 @@ export default function BookingForm() {
                     {STEPS.map((_, i) => (
                       <div key={i} className="flex items-center">
                         <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold border-2 transition-all duration-300 ${i < step ? "bg-emerald-500 border-emerald-500 text-white"
-                            : i === step ? "bg-[#3668FF] border-[#3668FF] text-white shadow-lg shadow-blue-500/15"
-                              : "bg-transparent border-slate-200 text-slate-300"
+                          : i === step ? "bg-[#3668FF] border-[#3668FF] text-white shadow-lg shadow-blue-500/15"
+                            : "bg-transparent border-slate-200 text-slate-300"
                           }`}>
                           {i < step ? "✓" : i + 1}
                         </div>
