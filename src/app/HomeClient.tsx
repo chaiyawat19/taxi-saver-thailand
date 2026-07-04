@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Navbar from "../../public/components/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../../public/context/LanguageContext";
@@ -154,10 +155,12 @@ export default function HomeClient() {
       {/* Hero Section Container */}
       <div className="relative w-full h-[95vh] min-h-[700px] max-h-[950px] overflow-hidden select-none bg-[#1DA58C]">
         {/* Layer 0: Background Image */}
-        <img
+        <Image
           src="/images/hero/bkk.webp"
           alt="Suvarnabhumi Airport Terminal BG"
-          className="absolute inset-0 w-full h-full object-cover z-0 opacity-100"
+          fill
+          priority
+          className="object-cover z-0 opacity-100"
           draggable={false}
         />
 

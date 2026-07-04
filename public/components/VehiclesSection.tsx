@@ -25,7 +25,7 @@ export default function VehiclesSection() {
       luggage: 2,
       desc: "เหมาะสำหรับผู้เดินทางคนเดียวหรือคู่รัก ขนาดกะทัดรัด สะอาด และประหยัดงบสำหรับทริปใกล้ ๆ",
       color: "from-sky-500 to-blue-600",
-      image: "/images/vehicle-type/almera.png",
+      image: "/images/vehicle-type/almera.webp",
       features: [
         "✦ เหมาะสำหรับผู้โดยสาร 1-3 ท่าน",
         "✦ ระบบปรับอากาศมาตรฐาน",
@@ -38,7 +38,7 @@ export default function VehiclesSection() {
       luggage: 3,
       desc: "ยกระดับความสบายขึ้นมาอีกขั้น เหมาะสำหรับการเดินทางติดต่อธุรกิจ หรือครอบครัวขนาดเล็กที่ต้องการพื้นที่วางขาเพิ่มเติม",
       color: "from-indigo-500 to-violet-600",
-      image: "/images/vehicle-type/altis.png",
+      image: "/images/vehicle-type/altis.webp",
       features: [
         "✦ เหมาะสำหรับผู้โดยสาร 1-3 ท่าน",
         "✦ ระบบปรับอากาศระดับพรีเมียม",
@@ -64,7 +64,7 @@ export default function VehiclesSection() {
       luggage: 4,
       desc: "เหมาะสำหรับครอบครัวขนาดเล็กหรือผู้เดินทางที่มีสัมภาระเพิ่มเติม ทัศนวิสัยสูงโปร่ง โครงสร้างแข็งแรงนั่งสบาย",
       color: "from-emerald-500 to-teal-600",
-      image: "/images/vehicle-type/fortuner-19139.png",
+      image: "/images/vehicle-type/fortuner-19139.webp",
       features: [
         "✦ เหมาะสำหรับผู้โดยสาร 1-4 ท่าน",
         "✦ ระบบปรับอากาศแยกส่วนหน้าหลัง",
@@ -92,7 +92,7 @@ export default function VehiclesSection() {
       luggage: 2,
       desc: "Perfect for solo travellers or couples. Compact, clean, and budget-friendly for short trips.",
       color: "from-sky-500 to-blue-600",
-      image: "/images/vehicle-type/almera.png",
+      image: "/images/vehicle-type/almera.webp",
       features: [
         "✦ Best for 1-3 passengers",
         "✦ Standard Air Conditioning",
@@ -105,7 +105,7 @@ export default function VehiclesSection() {
       luggage: 3,
       desc: "A step up in comfort — ideal for business trips or small families wanting a little extra space.",
       color: "from-indigo-500 to-violet-600",
-      image: "/images/vehicle-type/altis.png",
+      image: "/images/vehicle-type/altis.webp",
       features: [
         "✦ Best for 1-3 passengers",
         "✦ Premium Air Conditioning",
@@ -131,7 +131,7 @@ export default function VehiclesSection() {
       luggage: 4,
       desc: "Ideal for small families or passengers with extra luggage. Provides a commanding view and robust comfort.",
       color: "from-emerald-500 to-teal-600",
-      image: "/images/vehicle-type/fortuner-19139.png",
+      image: "/images/vehicle-type/fortuner-19139.webp",
       features: [
         "✦ Best for 1-4 passengers",
         "✦ Dual Zone Air Conditioning",
