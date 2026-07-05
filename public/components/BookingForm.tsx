@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -1019,7 +1019,7 @@ export default function BookingForm() {
           <label className="block text-base font-semibold text-slate-700 mb-2">
             {language === "th" ? "ชื่อ-นามสกุล" : "Full Name"} <span className="text-red-500">*</span>
           </label>
-          <input type="text" value={form.customerName} onChange={e => set("customerName", e.target.value)}
+          <input suppressHydrationWarning type="text" value={form.customerName} onChange={e => set("customerName", e.target.value)}
             placeholder={language === "th" ? "ชื่อจริง และนามสกุล" : "First and last name"} className={inputCls(errors.customerName)} />
           {errors.customerName && <p className="mt-1 text-sm text-red-500">{errors.customerName}</p>}
         </div>
@@ -1030,7 +1030,7 @@ export default function BookingForm() {
           <div className={`flex items-center bg-slate-50 border ${errors.phone ? "border-red-500" : "border-slate-200"} rounded-xl focus-within:border-[#3668FF] focus-within:ring-2 focus-within:ring-[#3668FF]/15 transition-all overflow-hidden`}>
             {isCustomCc ? (
               <div className="flex items-center border-r border-slate-200 bg-slate-100/30">
-                <input
+                <input suppressHydrationWarning
                   type="text"
                   value={form.phoneCountryCode === "custom" ? "+" : form.phoneCountryCode}
                   onChange={e => {
@@ -1058,7 +1058,7 @@ export default function BookingForm() {
               </div>
             ) : (
               <div className="relative border-r border-slate-200 bg-transparent flex items-center">
-                <select
+                <select suppressHydrationWarning
                   value={form.phoneCountryCode}
                   onChange={e => {
                     if (e.target.value === "custom") {
@@ -1097,7 +1097,7 @@ export default function BookingForm() {
                 </div>
               </div>
             )}
-            <input
+            <input suppressHydrationWarning
               type="tel"
               value={form.phone}
               onChange={e => set("phone", e.target.value)}
@@ -1116,7 +1116,7 @@ export default function BookingForm() {
             {language === "th" ? "(ไม่บังคับ — สำหรับรับอีเมลยืนยันการจอง)" : "(optional — for booking confirmation)"}
           </span>
         </label>
-        <input type="email" value={form.email} onChange={e => set("email", e.target.value)}
+        <input suppressHydrationWarning type="email" value={form.email} onChange={e => set("email", e.target.value)}
           placeholder="your@email.com" className={inputCls()} />
       </div>
 
@@ -1125,7 +1125,7 @@ export default function BookingForm() {
           <label className="block text-base font-semibold text-slate-700 mb-2">
             {language === "th" ? "วันที่เดินทาง" : "Travel Date"} <span className="text-red-500">*</span>
           </label>
-          <input type="date" min={todayStr} value={form.travelDate} onChange={e => set("travelDate", e.target.value)}
+          <input suppressHydrationWarning type="date" min={todayStr} value={form.travelDate} onChange={e => set("travelDate", e.target.value)}
             className={inputCls(errors.travelDate)} style={{ colorScheme: "light" }} />
           {errors.travelDate && <p className="mt-1 text-sm text-red-500">{errors.travelDate}</p>}
         </div>
@@ -1133,7 +1133,7 @@ export default function BookingForm() {
           <label className="block text-base font-semibold text-slate-700 mb-2">
             {language === "th" ? "เวลาเข้ารับ" : "Pick-up Time"} <span className="text-red-500">*</span>
           </label>
-          <input type="time" value={form.travelTime} onChange={e => set("travelTime", e.target.value)}
+          <input suppressHydrationWarning type="time" value={form.travelTime} onChange={e => set("travelTime", e.target.value)}
             className={inputCls(errors.travelTime)} style={{ colorScheme: "light" }} />
           {errors.travelTime && <p className="mt-1 text-sm text-red-500">{errors.travelTime}</p>}
         </div>
@@ -1206,7 +1206,7 @@ export default function BookingForm() {
               <>Hotel Name or Address in {getCityName(form.pickupUpcountryCity)} <span className="text-red-500">*</span></>
             )}
           </label>
-          <input type="text" value={form.pickupHotelName} onChange={e => set("pickupHotelName", e.target.value)}
+          <input suppressHydrationWarning type="text" value={form.pickupHotelName} onChange={e => set("pickupHotelName", e.target.value)}
             placeholder={language === "th" ? "เช่น ชื่อโรงแรม, รีสอร์ทริมหาด หรือที่อยู่..." : "e.g., Hotel name, beach resort, or specific address..."} className={inputCls(errors.pickupHotelName)} />
           {errors.pickupHotelName && <p className="mt-1 text-sm text-red-500">{errors.pickupHotelName}</p>}
         </motion.div>
@@ -1218,7 +1218,7 @@ export default function BookingForm() {
           <label className="block text-base font-semibold text-slate-700 mb-2">
             {language === "th" ? "ชื่อโรงแรมหรือที่อยู่ในกรุงเทพฯ" : "Hotel Name or Address in Bangkok"} <span className="text-red-500">*</span>
           </label>
-          <input type="text" value={form.pickupHotelName} onChange={e => set("pickupHotelName", e.target.value)}
+          <input suppressHydrationWarning type="text" value={form.pickupHotelName} onChange={e => set("pickupHotelName", e.target.value)}
             placeholder={language === "th" ? "เช่น แมริออท สุขุมวิท, ใกล้สยามพารากอน..." : "e.g., Marriott Sukhumvit, near Siam Paragon..."} className={inputCls(errors.pickupHotelName)} />
           {errors.pickupHotelName && <p className="mt-1 text-sm text-red-500">{errors.pickupHotelName}</p>}
         </motion.div>
@@ -1265,7 +1265,7 @@ export default function BookingForm() {
               <label className="block text-base font-semibold text-slate-700 mb-2">
                 {getDropoffAddressLabel(form.dropoffRegion as DropoffKey)} <span className="text-red-500">*</span>
               </label>
-              <input type="text" value={form.dropoffAddress} onChange={e => set("dropoffAddress", e.target.value)}
+              <input suppressHydrationWarning type="text" value={form.dropoffAddress} onChange={e => set("dropoffAddress", e.target.value)}
                 placeholder={language === "th" ? "เช่น โรงแรม อวานี พัทยา รีสอร์ท, เลขที่ 300 ถนนเลียบชายหาด..." : "e.g., Avani Pattaya Resort, 300 Beach Road..."}
                 className={inputCls(errors.dropoffAddress)} />
               {errors.dropoffAddress && <p className="mt-1 text-sm text-red-500">{errors.dropoffAddress}</p>}
@@ -1636,7 +1636,7 @@ export default function BookingForm() {
             </label>
             <div className="relative">
               <Plane className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <input
+              <input suppressHydrationWarning
                 type="text"
                 value={form.flightNumber}
                 onChange={e => set("flightNumber", e.target.value.toUpperCase())}
@@ -1659,7 +1659,7 @@ export default function BookingForm() {
               {language === "th" ? "(ไม่บังคับ)" : "(optional)"}
             </span>
           </label>
-          <textarea
+          <textarea suppressHydrationWarning
             value={form.additionalDetails}
             onChange={e => set("additionalDetails", e.target.value)}
             rows={3}

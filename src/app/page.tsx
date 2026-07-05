@@ -4,7 +4,7 @@ import HomeClient from "./HomeClient";
 export const metadata: Metadata = {
   title: "Private Taxi & Airport Transfer Thailand | Taxi Saver Thailand",
   description:
-    "Book a private taxi or VIP Alphard transfer from Suvarnabhumi (BKK) & Don Mueang (DMK) airports to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required. Best rates guaranteed.",
+    "Book a private taxi or VIP Alphard transfer from Suvarnabhumi (BKK) & Don Mueang (DMK) airports to Bangkok, Pattaya, Hua Hin. No deposit required. Best rates guaranteed.",
   keywords: [
     "taxi saver",
     "taxi saver thailand",
@@ -19,12 +19,10 @@ export const metadata: Metadata = {
     "taxi bkk to pattaya",
     "taxi bangkok to pattaya",
     "taxi bangkok to hua hin",
-    "taxi bangkok to rayong",
     "taxi pattaya to bangkok",
     "suvarnabhumi to pattaya taxi",
     "don mueang to pattaya taxi",
     "taxi bkk to hua hin",
-    "taxi bkk to rayong",
     "bangkok airport taxi transfer",
     "private transfer bangkok to pattaya",
     "toyota alphard taxi bangkok",
@@ -55,7 +53,6 @@ export const metadata: Metadata = {
     "รถรับส่งสนามบินดอนเมือง",
     "รถตู้นำเที่ยวพัทยา",
     "แท็กซี่กรุงเทพไปชลบุรี",
-    "แท็กซี่กรุงเทพไประยอง",
     "เหมารถไปท่าเรือบ้านเพ",
     "รถตู้อัลพาร์ด สุวรรณภูมิ",
     "เหมารถตู้อัลพาร์ด",
@@ -76,7 +73,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Taxi Saver Thailand | Private Taxi Service & Airport Transfer",
-    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
+    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin. No deposit required, pay the driver directly.",
     url: "https://taxisaverthailand.com",
     siteName: "Taxi Saver Thailand",
     images: [
@@ -93,7 +90,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Taxi Saver Thailand | Private Taxi & Airport Transfer",
-    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
+    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin. No deposit required, pay the driver directly.",
     images: ["/images/og-share.jpg"],
   },
 };

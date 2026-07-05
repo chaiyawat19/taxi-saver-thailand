@@ -14,6 +14,7 @@ import VehiclesSection from "../../public/components/VehiclesSection";
 import ContactSection from "../../public/components/ContactSection";
 import Footer from "../../public/components/Footer";
 import PricingTable from "../../public/components/PricingTable";
+import FAQSection from "../../public/components/FAQSection";
 
 export default function HomeClient() {
   const [isMobile, setIsMobile] = useState(false);
@@ -78,7 +79,7 @@ export default function HomeClient() {
 
     // Subtitle paragraph (You can book service without deposit)
     subtitleText: [
-      "text-white/95 text-base mt-4 font-semibold tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] z-40",
+      "text-white text-base mt-4 font-semibold tracking-wide drop-shadow-[0_3px_12px_rgba(0,0,0,0.9)] z-40",
       "sm:text-lg",
       "lg:text-xl",
       "xl:text-2xl",
@@ -179,7 +180,7 @@ export default function HomeClient() {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-white font-semibold leading-none select-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] flex flex-col z-30" 
+            className="text-white font-semibold leading-none select-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.65)] flex flex-col z-30" 
           >
             <span className={heroStyles.titleText}>Taxi Saver</span>
             <span className={`${heroStyles.titleText} mt-[-10px] lg:mt-[-25px]`}>Thailand</span>
@@ -251,43 +252,46 @@ export default function HomeClient() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.0, ease: "easeOut" }}
-          className="absolute bottom-[20%] xl:bottom-[10%]  left-1/2 transform -translate-x-1/2 flex items-center justify-center gap-4 z-40 w-full px-4"
+          className="absolute bottom-[20%] xl:bottom-[10%] left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-3 z-40 w-full px-4"
         >
-          <a
-            href="/booking"
-            className="relative overflow-hidden bg-[#3668FF] text-white px-6 py-3.5 rounded-xl font-bold flex items-center gap-1.5 shadow-xl shadow-blue-600/30 border border-blue-400/30 group transition-all duration-300 hover:shadow-blue-500/50 hover:shadow-2xl active:scale-95"
-          >
-            {/* Shimmer effect */}
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-            <span className="relative">{language === "th" ? "จองรถเลย" : "Book a ride"}</span>
-            <svg
-              className="w-3.5 h-3.5 lg:w-4 lg:h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
+          {/* CTA Buttons row */}
+          <div className="flex items-center justify-center gap-4">
+            <a
+              href="/booking"
+              className="relative overflow-hidden bg-[#3668FF] text-white px-6 py-3.5 rounded-xl font-bold flex items-center gap-1.5 shadow-xl shadow-blue-600/30 border border-blue-400/30 group transition-all duration-300 hover:shadow-blue-500/50 hover:shadow-2xl active:scale-95"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-              />
-            </svg>
-          </a>
+              {/* Shimmer effect */}
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+              <span className="relative">{language === "th" ? "จองรถเลย" : "Book a ride"}</span>
+              <svg
+                className="w-3.5 h-3.5 lg:w-4 lg:h-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+              </svg>
+            </a>
 
-          <a
-            href="#explore"
-            className="relative overflow-hidden bg-white/95 text-gray-800 px-7 py-3.5 rounded-xl font-bold border border-white/20 backdrop-blur-sm group transition-all duration-300 hover:shadow-white/20 hover:shadow-2xl shadow-xl active:scale-95"
-          >
-            {/* Shimmer effect */}
-            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
-            <span className="relative">{language === "th" ? "ดูเพิ่มเติม" : "Explore more"}</span>
-          </a>
+            <a
+              href="#explore"
+              className="relative overflow-hidden bg-white/95 text-gray-800 px-7 py-3.5 rounded-xl font-bold border border-white/20 backdrop-blur-sm group transition-all duration-300 hover:shadow-white/20 hover:shadow-2xl shadow-xl active:scale-95"
+            >
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+              <span className="relative">{language === "th" ? "ดูเพิ่มเติม" : "Explore more"}</span>
+            </a>
+          </div>
+
+          {/* Trust signal pills */}
+          <div className="hidden sm:flex items-center gap-2.5 text-white/70 text-xs font-medium">
+            <span className="flex items-center gap-1"><span className="text-[10px]">✓</span> {language === "th" ? "ไม่มีมัดจำ" : "No deposit"}</span>
+            <span className="w-px h-3 bg-white/25 rounded-full" />
+            <span className="flex items-center gap-1"><span className="text-[10px]">✓</span> {language === "th" ? "จ่ายตรงให้คนขับ" : "Pay driver directly"}</span>
+            <span className="w-px h-3 bg-white/25 rounded-full" />
+            <span className="flex items-center gap-1"><span className="text-[10px]">✓</span> {language === "th" ? "เริ่มต้น ฿700" : "Starting from ฿700"}</span>
+          </div>
         </motion.div>
       </div>
 
@@ -324,8 +328,37 @@ export default function HomeClient() {
               />
             </div>
 
-            
+            {/* Stats bar */}
+            <div className="flex flex-wrap gap-x-10 gap-y-5 mt-10">
+              {[
+                { value: "24/7", label: language === "th" ? "บริการตลอดวัน" : "Service Available" },
+                { value: "2", label: language === "th" ? "สนามบิน (BKK & DMK)" : "Airports Covered" },
+                { value: "฿0", label: language === "th" ? "ค่ามัดจำ" : "Deposit Required" },
+                { value: "3+", label: language === "th" ? "เส้นทางหลัก" : "Major Destinations" },
+              ].map((stat, i) => (
+                <div key={i} className="flex flex-col gap-0.5">
+                  <BlurText
+                    text={stat.value}
+                    delay={60 + i * 100}
+                    animateBy="letters"
+                    direction="bottom"
+                    stepDuration={0.35}
+                    className="text-white text-5xl font-bold leading-none tracking-tight"
+                  />
+                  <motion.span
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.35 + i * 0.1 }}
+                    className="text-white/55 text-xs font-medium mt-1"
+                  >
+                    {stat.label}
+                  </motion.span>
+                </div>
+              ))}
+            </div>
           </motion.div>
+
 
           {/* Right: Car image */}
           <motion.div
@@ -376,7 +409,10 @@ export default function HomeClient() {
       {/* Section 6: Pricing Table */}
       <PricingTable/>
 
-      {/* Section 7: Contact */}
+      {/* Section 7: FAQ */}
+      <FAQSection />
+
+      {/* Section 8: Contact */}
       <ContactSection />
 
       {/* Footer */}
@@ -413,17 +449,13 @@ export default function HomeClient() {
               },
               {
                 "@type": "AdministrativeArea",
-                "name": "Rayong"
-              },
-              {
-                "@type": "AdministrativeArea",
                 "name": "Thailand"
               }
             ],
             "offers": {
               "@type": "AggregateOffer",
               "priceCurrency": "THB",
-              "description": "Taxi services starting from Suvarnabhumi & Don Mueang airports to Bangkok city, Pattaya, Hua Hin, and Rayong."
+              "description": "Taxi services starting from Suvarnabhumi & Don Mueang airports to Bangkok city, Pattaya, and Hua Hin."
             }
           }),
         }}

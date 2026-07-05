@@ -47,11 +47,23 @@ export const metadata: Metadata = {
     template: "%s | Taxi Saver Thailand"
   },
   description:
-    "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
+    "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin. No deposit required, pay the driver directly.",
   icons: {
-    icon: "/icon.png",
+    icon: [
+      {
+        url: "/icon.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+    ],
     shortcut: "/icon.png",
-    apple: "/icon.png",
+    apple: [
+      {
+        url: "/icon.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+    ],
   },
   keywords: [
     "taxi saver",
@@ -67,12 +79,10 @@ export const metadata: Metadata = {
     "taxi bkk to pattaya",
     "taxi bangkok to pattaya",
     "taxi bangkok to hua hin",
-    "taxi bangkok to rayong",
     "taxi pattaya to bangkok",
     "suvarnabhumi to pattaya taxi",
     "don mueang to pattaya taxi",
     "taxi bkk to hua hin",
-    "taxi bkk to rayong",
     "bangkok airport taxi transfer",
     "private transfer bangkok to pattaya",
     "toyota alphard taxi bangkok",
@@ -103,7 +113,6 @@ export const metadata: Metadata = {
     "รถรับส่งสนามบินดอนเมือง",
     "รถตู้นำเที่ยวพัทยา",
     "แท็กซี่กรุงเทพไปชลบุรี",
-    "แท็กซี่กรุงเทพไประยอง",
     "เหมารถไปท่าเรือบ้านเพ",
     "รถตู้อัลพาร์ด สุวรรณภูมิ",
     "เหมารถตู้อัลพาร์ด",
@@ -124,7 +133,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Taxi Saver Thailand | Private Taxi Service & Airport Transfer",
-    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
+    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin. No deposit required, pay the driver directly.",
     url: "https://taxisaverthailand.com",
     siteName: "Taxi Saver Thailand",
     images: [
@@ -141,7 +150,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Taxi Saver Thailand | Private Taxi & Airport Transfer",
-    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
+    description: "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin. No deposit required, pay the driver directly.",
     images: ["/images/og-share.jpg"],
   },
   verification: {
@@ -156,7 +165,7 @@ const jsonLd = {
       "@type": "TaxiService",
       "@id": "https://taxisaverthailand.com/#taxiservice",
       "name": "Taxi Saver Thailand",
-      "description": "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin, Rayong. No deposit required, pay the driver directly.",
+      "description": "Affordable private taxi service and airport transfers in Thailand. Book rides from Suvarnabhumi (BKK) and Don Mueang (DMK) to Bangkok, Pattaya, Hua Hin. No deposit required, pay the driver directly.",
       "url": "https://taxisaverthailand.com",
       "provider": {
         "@type": "LocalBusiness",
@@ -174,8 +183,7 @@ const jsonLd = {
       "areaServed": [
         { "@type": "AdministrativeArea", "name": "Bangkok" },
         { "@type": "AdministrativeArea", "name": "Pattaya" },
-        { "@type": "AdministrativeArea", "name": "Hua Hin" },
-        { "@type": "AdministrativeArea", "name": "Rayong" }
+        { "@type": "AdministrativeArea", "name": "Hua Hin" }
       ],
       "offers": {
         "@type": "Offer",

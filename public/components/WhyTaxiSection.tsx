@@ -152,12 +152,15 @@ export default function WhyTaxiSection() {
       <div className="relative max-w-[1400px] mx-auto w-full">
         {/* Scroll Stack Container */}
         <ScrollStack 
+          key={language}
           useWindowScroll={true} 
           itemDistance={60} 
           itemScale={0.03} 
-          itemStackDistance={110}
+          itemStackDistance={100}
+          stackPosition="15%"
+          scaleEndPosition="10%"
           baseScale={0.92}
-          rotationAmount={1}
+          rotationAmount={0}
           className="px-0"
         >
           {/* Section Title */}
@@ -195,7 +198,7 @@ export default function WhyTaxiSection() {
                 itemClassName="bg-white border border-slate-200/80 text-slate-900 shadow-2xl overflow-hidden relative"
               >
                 {/* Large watermark number positioned at the absolute bottom-right corner of the card */}
-                <div className="absolute right-10 bottom-[-10px] md:bottom-[-35px] text-[10rem] md:text-[14rem] font-black text-slate-100 select-none pointer-events-none leading-none z-0">
+                <div className="absolute right-10 bottom-0 text-[8rem] md:text-[11rem] font-black text-slate-100 select-none pointer-events-none leading-none z-0">
                   {card.id}
                 </div>
 

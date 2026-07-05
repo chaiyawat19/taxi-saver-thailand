@@ -225,7 +225,6 @@ export default function ServicesSection() {
             />
           </div>
         </div>
-
         {/* ── Footnote ── */}
         <p className="mt-6 text-white/60 text-sm">
           {language === "th"
