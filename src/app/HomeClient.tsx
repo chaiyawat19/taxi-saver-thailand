@@ -343,7 +343,7 @@ export default function HomeClient() {
                     animateBy="letters"
                     direction="bottom"
                     stepDuration={0.35}
-                    className="text-white text-5xl font-bold leading-none tracking-tight"
+                    className="text-white text-5xl font-semibold "
                   />
                   <motion.span
                     initial={{ opacity: 0 }}

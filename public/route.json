@@ -25,11 +25,11 @@
       "group": "Pattaya Routes",
       "groupIcon": "🏖️",
       "prices": {
-        "sedan_s": 1000,
-        "sedan_m": 1100,
-        "sedan_l": 1200,
-        "suv": 1400,
-        "van": 2000
+        "sedan_s": 1400,
+        "sedan_m": 1500,
+        "sedan_l": 1700,
+        "suv": 1800,
+        "van": 2200
       }
     },
     {
