@@ -2,39 +2,29 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import Navbar from "../../public/components/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../../public/context/LanguageContext";
-import Preloader from "../../public/components/Preloader";
 import BlurText from "../../public/utility/BlurText";
-import WhyTaxiSection from "../../public/components/WhyTaxiSection";
-import ServicesSection from "../../public/components/ServicesSection";
 import CurvedLoop from "../../public/components/CurvedLoop";
-import VehiclesSection from "../../public/components/VehiclesSection";
-import ContactSection from "../../public/components/ContactSection";
-import Footer from "../../public/components/Footer";
-import PricingTable from "../../public/components/PricingTable";
-import FAQSection from "../../public/components/FAQSection";
+
+// Dynamic imports for below-the-fold sections to reduce initial bundle size and TBT
+const WhyTaxiSection = dynamic(() => import("../../public/components/WhyTaxiSection"), { ssr: true });
+const ServicesSection = dynamic(() => import("../../public/components/ServicesSection"), { ssr: true });
+const VehiclesSection = dynamic(() => import("../../public/components/VehiclesSection"), { ssr: true });
+const PricingTable = dynamic(() => import("../../public/components/PricingTable"), { ssr: true });
+const ContactSection = dynamic(() => import("../../public/components/ContactSection"), { ssr: true });
+const FAQSection = dynamic(() => import("../../public/components/FAQSection"), { ssr: true });
+const Footer = dynamic(() => import("../../public/components/Footer"), { ssr: true });
 
 export default function HomeClient() {
   const [isMobile, setIsMobile] = useState(false);
-  const [showLoader, setShowLoader] = useState(true);
-  const [showContent, setShowContent] = useState(false);
-  const [isHydrated, setIsHydrated] = useState(false);
   const { language, t } = useLanguage();
-
-  useEffect(() => {
-    setIsHydrated(true);
-    const hasLoadedBefore = sessionStorage.getItem("hasLoadedBefore");
-    if (hasLoadedBefore === "true") {
-      setShowLoader(false);
-      setShowContent(true);
-    }
-  }, []);
 
   // Handle cross-page hash scroll after content has mounted/rendered
   useEffect(() => {
-    if (showContent && typeof window !== "undefined" && window.location.hash) {
+    if (typeof window !== "undefined" && window.location.hash) {
       const hash = window.location.hash;
       const targetId = hash.replace("#", "");
       const timer = setTimeout(() => {
@@ -45,7 +35,7 @@ export default function HomeClient() {
       }, 500); // 500ms delay to ensure elements are hydrated and laid out
       return () => clearTimeout(timer);
     }
-  }, [showContent]);
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 1023px)");
@@ -131,27 +121,11 @@ export default function HomeClient() {
   return (
     <>
       <link rel="preload" href="/images/hero/bkk.webp" as="image" fetchPriority="high" />
-      {showLoader && (
-        <Preloader 
-          onExitStart={() => {
-            sessionStorage.setItem("hasLoadedBefore", "true");
-            setShowContent(true);
-          }} 
-          onComplete={() => setShowLoader(false)} 
-        />
-      )}
-
-      {showContent && (
-        <main id="homepage" className="relative min-h-screen bg-[#1DA58C] overflow-hidden">
+      <main id="homepage" className="relative min-h-screen bg-[#1DA58C] overflow-hidden">
       {/* Navbar overlay */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="w-full relative z-50"
-      >
+      <div className="w-full relative z-50">
         <Navbar />
-      </motion.div>
+      </div>
 
       {/* Hero Section Container */}
       <div className="relative w-full h-[95vh] min-h-[700px] max-h-[950px] overflow-hidden select-none bg-[#1DA58C]">
@@ -161,6 +135,7 @@ export default function HomeClient() {
           alt="Suvarnabhumi Airport Terminal BG"
           fill
           priority
+          sizes="100vw"
           className="object-cover z-0 opacity-100"
           draggable={false}
         />
@@ -172,14 +147,12 @@ export default function HomeClient() {
         {/* Bottom gradient fade blending into the page color */}
         <div className="absolute bottom-0 left-0 w-full h-[400px] xl:h-[220px] bg-gradient-to-t from-[#1DA58C] via-[#1DA58C]/50 to-transparent z-[40] pointer-events-none" />
 
-        
-
         {/* Layer 20: Title and Subtitle positioned behind foreground objects */}
         <div className={heroStyles.titleContainer}>
           <motion.h1
-            initial={{ y: 50, opacity: 0 }}
+            initial={{ y: 20, opacity: 1 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="text-white font-semibold leading-none select-none drop-shadow-[0_4px_16px_rgba(0,0,0,0.65)] flex flex-col z-30" 
           >
             <span className={heroStyles.titleText}>Taxi Saver</span>
@@ -461,7 +434,6 @@ export default function HomeClient() {
         }}
       />
         </main>
-      )}
     </>
   );
 }

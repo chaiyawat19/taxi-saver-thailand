@@ -46,6 +46,21 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
     : text;
   const ready = spacing > 0;
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { rootMargin: '100px' }
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     if (measureRef.current) setSpacing(measureRef.current.getComputedTextLength());
   }, [text, className]);
@@ -60,7 +75,7 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
   }, [spacing]);
 
   useEffect(() => {
-    if (!spacing || !ready) return;
+    if (!spacing || !ready || !isInView) return;
     let frame = 0;
     const step = () => {
       if (!dragRef.current && textPathRef.current) {
@@ -71,13 +86,12 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
         if (newOffset <= -wrapPoint) newOffset += wrapPoint;
         if (newOffset > 0) newOffset -= wrapPoint;
         textPathRef.current.setAttribute('startOffset', newOffset + 'px');
-        setOffset(newOffset);
       }
       frame = requestAnimationFrame(step);
     };
     frame = requestAnimationFrame(step);
     return () => cancelAnimationFrame(frame);
-  }, [spacing, speed, ready]);
+  }, [spacing, speed, ready, isInView]);
 
   const onPointerDown = (e: PointerEvent) => {
     if (!interactive) return;
@@ -98,7 +112,6 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
     if (newOffset <= -wrapPoint) newOffset += wrapPoint;
     if (newOffset > 0) newOffset -= wrapPoint;
     textPathRef.current.setAttribute('startOffset', newOffset + 'px');
-    setOffset(newOffset);
   };
 
   const endDrag = () => {
@@ -111,6 +124,7 @@ const CurvedLoop: FC<CurvedLoopProps> = ({
 
   return (
     <div
+      ref={containerRef}
       className={`flex items-center justify-center w-full overflow-hidden ${containerClassName}`}
       style={{ visibility: ready ? 'visible' : 'hidden', cursor: cursorStyle }}
       onPointerDown={onPointerDown}

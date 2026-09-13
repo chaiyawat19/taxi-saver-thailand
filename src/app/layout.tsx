@@ -8,7 +8,7 @@ import { LanguageProvider } from "../../public/context/LanguageContext";
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 const kanit = Kanit({
   subsets: ["thai", "latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-kanit",
   display: "swap",
 });
