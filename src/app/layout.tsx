@@ -4,7 +4,6 @@ import "./style.css";
 import { Geist, Kanit } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { LanguageProvider } from "../../public/context/LanguageContext";
-import Script from "next/script";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 const kanit = Kanit({
@@ -204,19 +203,23 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable, kanit.variable, generalSans.variable)}>
       <head>
-        <Script
+        {/* Google tag (gtag.js) */}
+        <script
+          async
           src="https://www.googletagmanager.com/gtag/js?id=AW-18298436537"
-          strategy="beforeInteractive"
         />
-        <Script id="google-tag-aw-18298436537" strategy="beforeInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+        <script
+          id="google-tag-aw-18298436537"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
 
-            gtag('config', 'AW-18298436537');
-          `}
-        </Script>
+              gtag('config', 'AW-18298436537');
+            `,
+          }}
+        />
       </head>
       <body className={generalSans.className}>
         <script
